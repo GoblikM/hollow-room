@@ -2,7 +2,16 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const SCHEMES = [
+interface ColorScheme {
+  id: string;
+  label: string;
+  accent: string;
+  bright: string;
+  dim: string;
+  border: string;
+}
+
+const SCHEMES: ColorScheme[] = [
   { id: "void",   label: "Void",   accent: "#7c3aed", bright: "#a855f7", dim: "#5b21b6", border: "#2a1f4a" },
   { id: "blood",  label: "Blood",  accent: "#9b1c1c", bright: "#dc2626", dim: "#7f1d1d", border: "#3b0a0a" },
   { id: "toxic",  label: "Toxic",  accent: "#15803d", bright: "#4ade80", dim: "#14532d", border: "#052e16" },
@@ -11,7 +20,23 @@ const SCHEMES = [
   { id: "rust",   label: "Rust",   accent: "#b45309", bright: "#fbbf24", dim: "#92400e", border: "#3d1a00" },
 ];
 
-function applyScheme(scheme: typeof SCHEMES[0]) {
+const LIGHT_MODE_COLORS = {
+  bg: "#f5f0e8",
+  surface: "#ede6d6",
+  surface2: "#e4dcc8",
+  text: "#1a0a2e",
+  textMuted: "#5a4a7a",
+};
+
+const DARK_MODE_COLORS = {
+  bg: "#050508",
+  surface: "#0d0a1a",
+  surface2: "#16102a",
+  text: "#c8b8e8",
+  textMuted: "#6b5a8a",
+};
+
+function applyScheme(scheme: ColorScheme) {
   const root = document.documentElement;
   root.style.setProperty("--color-accent", scheme.accent);
   root.style.setProperty("--color-accent-bright", scheme.bright);
@@ -22,18 +47,18 @@ function applyScheme(scheme: typeof SCHEMES[0]) {
 function applyMode(m: "dark" | "light") {
   const root = document.documentElement;
   if (m === "light") {
-    root.style.setProperty("--color-bg", "#f5f0e8");
-    root.style.setProperty("--color-surface", "#ede6d6");
-    root.style.setProperty("--color-surface-2", "#e4dcc8");
-    root.style.setProperty("--color-text", "#1a0a2e");
-    root.style.setProperty("--color-text-muted", "#5a4a7a");
+    root.style.setProperty("--color-bg", LIGHT_MODE_COLORS.bg);
+    root.style.setProperty("--color-surface", LIGHT_MODE_COLORS.surface);
+    root.style.setProperty("--color-surface-2", LIGHT_MODE_COLORS.surface2);
+    root.style.setProperty("--color-text", LIGHT_MODE_COLORS.text);
+    root.style.setProperty("--color-text-muted", LIGHT_MODE_COLORS.textMuted);
     document.body.classList.add("light-mode");
   } else {
-    root.style.setProperty("--color-bg", "#050508");
-    root.style.setProperty("--color-surface", "#0d0a1a");
-    root.style.setProperty("--color-surface-2", "#16102a");
-    root.style.setProperty("--color-text", "#c8b8e8");
-    root.style.setProperty("--color-text-muted", "#6b5a8a");
+    root.style.setProperty("--color-bg", DARK_MODE_COLORS.bg);
+    root.style.setProperty("--color-surface", DARK_MODE_COLORS.surface);
+    root.style.setProperty("--color-surface-2", DARK_MODE_COLORS.surface2);
+    root.style.setProperty("--color-text", DARK_MODE_COLORS.text);
+    root.style.setProperty("--color-text-muted", DARK_MODE_COLORS.textMuted);
     document.body.classList.remove("light-mode");
   }
 }
@@ -70,10 +95,16 @@ export default function ThemePicker() {
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, []);
 
-  function handleSwatchClick(scheme: typeof SCHEMES[0]) {
+  function handleSwatchClick(scheme: ColorScheme) {
     applyScheme(scheme);
     setActiveId(scheme.id);
     localStorage.setItem("theme-scheme", scheme.id);
+  }
+
+  function handleModeChange(m: "dark" | "light") {
+    applyMode(m);
+    setMode(m);
+    localStorage.setItem("theme-mode", m);
   }
 
   return (
@@ -88,7 +119,7 @@ export default function ThemePicker() {
               <button
                 key={m}
                 className={`mode-toggle-btn${mode === m ? " active" : ""}`}
-                onClick={() => { applyMode(m); setMode(m); localStorage.setItem("theme-mode", m); }}
+                onClick={() => handleModeChange(m)}
               >
                 {m.toUpperCase()}
               </button>

@@ -1,6 +1,32 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
+const NAV_OFFSET = "-56px 0px 0px 0px";
+
+function findMostVisibleSection(
+  sectionIds: string[],
+  ratios: Map<string, number>
+): string {
+  let maxId = sectionIds[0];
+  let maxRatio = 0;
+  sectionIds.forEach((id) => {
+    const r = ratios.get(id) ?? 0;
+    if (r > maxRatio) {
+      maxRatio = r;
+      maxId = id;
+    }
+  });
+  return maxId;
+}
+
+function updateUrlHash(id: string, firstSectionId: string): void {
+  if (id === firstSectionId) {
+    window.history.replaceState(null, "", window.location.pathname);
+  } else {
+    window.history.replaceState(null, "", `#${id}`);
+  }
+}
+
 export function useActiveSection(
   sectionIds: string[],
   options: { rootMargin?: string; threshold?: number | number[] } = {}
@@ -14,26 +40,12 @@ export function useActiveSection(
         entries.forEach((entry) => {
           ratios.current.set(entry.target.id, entry.intersectionRatio);
         });
-        // find section with highest intersection ratio
-        let maxId = sectionIds[0];
-        let maxRatio = 0;
-        sectionIds.forEach((id) => {
-          const r = ratios.current.get(id) ?? 0;
-          if (r > maxRatio) {
-            maxRatio = r;
-            maxId = id;
-          }
-        });
-        setActiveId(maxId);
-        // update URL hash
-        if (maxId === sectionIds[0]) {
-          window.history.replaceState(null, "", window.location.pathname);
-        } else {
-          window.history.replaceState(null, "", `#${maxId}`);
-        }
+        const mostVisible = findMostVisibleSection(sectionIds, ratios.current);
+        setActiveId(mostVisible);
+        updateUrlHash(mostVisible, sectionIds[0]);
       },
       {
-        rootMargin: options.rootMargin ?? "-56px 0px 0px 0px",
+        rootMargin: options.rootMargin ?? NAV_OFFSET,
         threshold: options.threshold ?? [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
       }
     );
