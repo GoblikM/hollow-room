@@ -162,7 +162,6 @@ export default function Nav() {
       {menuOpen && (
         <div
           id="nav-mobile-menu"
-          role="menu"
           style={{
             borderTop: "1px solid var(--color-border)",
             background: "rgba(26,26,26,0.97)",
@@ -183,10 +182,9 @@ export default function Nav() {
             {NAV_LINKS.map(({ href, label }) => {
               const active = isActive(href);
               return (
-                <li key={href} role="none">
+                <li key={href}>
                   <Link
                     href={href}
-                    role="menuitem"
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMenuOpen(false)}
                     style={{

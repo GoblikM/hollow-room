@@ -102,8 +102,9 @@ describe("Nav component", () => {
     expect(hamburger).toHaveAttribute("aria-expanded", "true");
 
     // Mobile menu is rendered — click a link inside it
-    const mobileMenu = screen.getByRole("menu");
-    const blogMenuLink = mobileMenu.querySelector('a[href="/blog"]');
+    const mobileMenu = document.getElementById("nav-mobile-menu");
+    expect(mobileMenu).not.toBeNull();
+    const blogMenuLink = mobileMenu!.querySelector('a[href="/blog"]');
     expect(blogMenuLink).not.toBeNull();
     fireEvent.click(blogMenuLink!);
 
