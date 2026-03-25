@@ -40,6 +40,9 @@ export default function Home() {
           <polygon points="680,160 720,100 760,160" fill="#2a1f4a" opacity="0.35" />
         </svg>
 
+        {/* Gradient fade overlay — dissolves SVG polygons into the page background */}
+        <div className="section-fade-bottom" aria-hidden="true" />
+
         {/* Hero content */}
         <div className="relative z-10 text-center">
           <h1
@@ -60,7 +63,7 @@ export default function Home() {
       {/* Blog section */}
       <section
         id="blog"
-        className="min-h-screen p-8 flex flex-col items-center justify-center"
+        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
       >
         <div style={{ maxWidth: "800px", width: "100%" }}>
           <h2
@@ -81,7 +84,7 @@ export default function Home() {
       {/* Projects section */}
       <section
         id="projects"
-        className="min-h-screen p-8 flex flex-col items-center justify-center"
+        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
       >
         <div style={{ maxWidth: "800px", width: "100%" }}>
           <h2
@@ -102,7 +105,7 @@ export default function Home() {
       {/* Games section */}
       <section
         id="games"
-        className="min-h-screen p-8 flex flex-col items-center justify-center"
+        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
       >
         <div style={{ maxWidth: "800px", width: "100%" }}>
           <h2

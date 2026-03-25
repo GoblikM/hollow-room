@@ -190,3 +190,22 @@ body::after {
 .nav-link-active {
   /* active styles are inline; this class can be targeted in tests */
 }
+
+/* ─── Section backgrounds ────────────────────────────────────────────────── */
+
+/* Gradient overlay at the bottom of the home section — fades the SVG into the page bg */
+.section-fade-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30vh;
+  background: linear-gradient(to bottom, transparent, var(--color-bg));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Plain background for content sections — prevents any bleed-through */
+.section-plain {
+  background-color: var(--color-bg);
+}
