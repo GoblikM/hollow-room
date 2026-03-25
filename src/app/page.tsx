@@ -2,7 +2,64 @@
 
 import Nav from "@/components/Nav";
 import ThemePicker from "@/components/ThemePicker";
+import BlogPostCard from "@/components/BlogPostCard";
+import GameCard from "@/components/GameCard";
+import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
+
+const PLACEHOLDER_PROJECTS = [
+  {
+    name: "this site",
+    description: "Personal portfolio and blog built as a Next.js static export. Retro pixel aesthetic, dark theme, embedded browser games.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+  },
+  {
+    name: "dungeon crawler",
+    description: "A top-down dungeon crawler prototype made in Godot. Procedural level generation, simple combat, pixel art sprites.",
+    tags: ["Godot", "GDScript", "Pixel Art"],
+  },
+  {
+    name: "type racer",
+    description: "In-browser speed-typing game with a leaderboard. Measures WPM and accuracy in real time against random quotes.",
+    tags: ["React", "TypeScript", "LocalStorage"],
+  },
+];
+
+const PLACEHOLDER_BLOG_POSTS = [
+  {
+    title: "why I picked Godot over Unity",
+    date: "2025-03-01",
+    excerpt:
+      "After a few weeks of dabbling with Unity, I switched to Godot and never looked back. The node tree model clicked instantly, GDScript feels light, and the engine ships as a single 80 MB binary. Here is what I learned in the process.",
+  },
+  {
+    title: "building a static site with Next.js App Router",
+    date: "2025-02-14",
+    excerpt:
+      "Static exports in Next.js 15 are surprisingly painless once you understand the constraints. No server-side props, no API routes — but you get full React and a great DX. This post walks through the setup I used for this very site.",
+  },
+  {
+    title: "pixel fonts and the art of retro UI",
+    date: "2025-01-28",
+    excerpt:
+      "Press Start 2P is iconic, but it is nearly unreadable at body text sizes. I spent an afternoon testing a dozen pixel and mono fonts before settling on Silkscreen for headings and Share Tech Mono for everything else.",
+  },
+];
+
+const PLACEHOLDER_GAMES = [
+  {
+    name: "speed typer",
+    description: "Test your typing speed against random quotes. Hit Enter to start a new round and track your WPM over time.",
+  },
+  {
+    name: "snake 8-bit",
+    description: "Classic snake in a 20×20 grid. Arrow keys to move, eat the dots, don't bite yourself. How long can you last?",
+  },
+  {
+    name: "memory tiles",
+    description: "Flip pairs of tiles to find matches. Six pairs, each game randomised. Finish in as few moves as possible.",
+  },
+];
 
 const SECTION_IDS = ["home", "blog", "projects", "games"];
 
@@ -73,12 +130,11 @@ export default function Home() {
           >
             blog
           </h2>
-          <p
-            className="font-mono text-base"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            // no posts yet
-          </p>
+          <div>
+            {PLACEHOLDER_BLOG_POSTS.map((post) => (
+              <BlogPostCard key={post.title} {...post} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -94,12 +150,17 @@ export default function Home() {
           >
             projects
           </h2>
-          <p
-            className="font-mono text-base"
-            style={{ color: "var(--color-text-muted)" }}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+              gap: "1.25rem",
+            }}
           >
-            // projects coming soon
-          </p>
+            {PLACEHOLDER_PROJECTS.map((project) => (
+              <ProjectCard key={project.name} {...project} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -115,12 +176,17 @@ export default function Home() {
           >
             games
           </h2>
-          <p
-            className="font-mono text-base"
-            style={{ color: "var(--color-text-muted)" }}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+              gap: "1.25rem",
+            }}
           >
-            // games coming soon
-          </p>
+            {PLACEHOLDER_GAMES.map((game) => (
+              <GameCard key={game.name} {...game} />
+            ))}
+          </div>
         </div>
       </section>
 
