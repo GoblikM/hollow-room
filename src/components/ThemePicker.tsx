@@ -19,9 +19,29 @@ function applyScheme(scheme: typeof SCHEMES[0]) {
   root.style.setProperty("--color-border", scheme.border);
 }
 
+function applyMode(m: "dark" | "light") {
+  const root = document.documentElement;
+  if (m === "light") {
+    root.style.setProperty("--color-bg", "#f5f0e8");
+    root.style.setProperty("--color-surface", "#ede6d6");
+    root.style.setProperty("--color-surface-2", "#e4dcc8");
+    root.style.setProperty("--color-text", "#1a0a2e");
+    root.style.setProperty("--color-text-muted", "#5a4a7a");
+    document.body.classList.add("light-mode");
+  } else {
+    root.style.setProperty("--color-bg", "#050508");
+    root.style.setProperty("--color-surface", "#0d0a1a");
+    root.style.setProperty("--color-surface-2", "#16102a");
+    root.style.setProperty("--color-text", "#c8b8e8");
+    root.style.setProperty("--color-text-muted", "#6b5a8a");
+    document.body.classList.remove("light-mode");
+  }
+}
+
 export default function ThemePicker() {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState("void");
+  const [mode, setMode] = useState<"dark" | "light">("dark");
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,6 +52,11 @@ export default function ThemePicker() {
         applyScheme(scheme);
         setActiveId(scheme.id);
       }
+    }
+    const savedMode = localStorage.getItem("theme-mode");
+    if (savedMode === "light" || savedMode === "dark") {
+      applyMode(savedMode);
+      setMode(savedMode);
     }
   }, []);
 
@@ -58,6 +83,17 @@ export default function ThemePicker() {
     >
       {open && (
         <div className="theme-picker-panel">
+          <div style={{ display: "flex", gap: "0.25rem", marginBottom: "0.5rem" }}>
+            {(["dark", "light"] as const).map((m) => (
+              <button
+                key={m}
+                className={`mode-toggle-btn${mode === m ? " active" : ""}`}
+                onClick={() => { applyMode(m); setMode(m); localStorage.setItem("theme-mode", m); }}
+              >
+                {m.toUpperCase()}
+              </button>
+            ))}
+          </div>
           {SCHEMES.map((scheme) => (
             <button
               key={scheme.id}

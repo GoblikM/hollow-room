@@ -76,4 +76,50 @@ describe("ThemePicker component", () => {
     expect(setPropertyMock).toHaveBeenCalledWith("--color-accent", "#1d4ed8");
     expect(setPropertyMock).toHaveBeenCalledWith("--color-accent-bright", "#60a5fa");
   });
+
+  it("clicking LIGHT button sets --color-bg to parchment", () => {
+    render(<ThemePicker />);
+    fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
+    fireEvent.click(screen.getByRole("button", { name: /light/i }));
+    expect(setPropertyMock).toHaveBeenCalledWith("--color-bg", "#f5f0e8");
+  });
+
+  it("clicking DARK button restores --color-bg to dark", () => {
+    render(<ThemePicker />);
+    fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
+    fireEvent.click(screen.getByRole("button", { name: /light/i }));
+    fireEvent.click(screen.getByRole("button", { name: /dark/i }));
+    expect(setPropertyMock).toHaveBeenCalledWith("--color-bg", "#050508");
+  });
+
+  it("clicking LIGHT adds light-mode class to document.body", () => {
+    render(<ThemePicker />);
+    fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
+    fireEvent.click(screen.getByRole("button", { name: /light/i }));
+    expect(document.body.classList.contains("light-mode")).toBe(true);
+  });
+
+  it("clicking DARK removes light-mode class from document.body", () => {
+    document.body.classList.add("light-mode");
+    render(<ThemePicker />);
+    fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
+    fireEvent.click(screen.getByRole("button", { name: /dark/i }));
+    expect(document.body.classList.contains("light-mode")).toBe(false);
+  });
+
+  it("mode toggle saves theme-mode to localStorage", () => {
+    render(<ThemePicker />);
+    fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
+    fireEvent.click(screen.getByRole("button", { name: /light/i }));
+    expect(localStorageMock.setItem).toHaveBeenCalledWith("theme-mode", "light");
+  });
+
+  it("reads theme-mode from localStorage on mount and applies light mode", () => {
+    localStorageMock.getItem.mockImplementation((key: string) => {
+      if (key === "theme-mode") return "light";
+      return null;
+    });
+    render(<ThemePicker />);
+    expect(setPropertyMock).toHaveBeenCalledWith("--color-bg", "#f5f0e8");
+  });
 });

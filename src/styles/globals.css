@@ -275,3 +275,39 @@ body::after {
 .theme-swatch-circle.active {
   border-color: var(--color-text);
 }
+
+/* ─── Mode toggle (dark / light) ─────────────────────────────────────────── */
+
+.mode-toggle-btn {
+  flex: 1;
+  padding: 0.2rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.mode-toggle-btn.active {
+  background: var(--color-accent-dim);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
+/* ─── Light mode overrides ───────────────────────────────────────────────── */
+
+body.light-mode::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+}
+
+body.light-mode::after {
+  opacity: 0.3;
+}
