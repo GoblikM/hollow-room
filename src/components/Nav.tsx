@@ -55,11 +55,11 @@ export default function Nav() {
           height: "56px",
         }}
       >
-        {/* Logo / site name — IM Fell English, chroma on hover */}
+        {/* Logo / site name — Silkscreen pixel font, chroma on hover */}
         <Link
           href="/"
           style={{
-            fontFamily: "var(--font-heading)",
+            fontFamily: "var(--font-pixel)",
             fontSize: "1.5rem",
             color: "var(--color-accent-bright)",
             textDecoration: "none",
