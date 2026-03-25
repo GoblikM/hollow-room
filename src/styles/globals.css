@@ -51,3 +51,32 @@ body::after {
 .font-terminal {
   font-family: var(--font-terminal);
 }
+
+/* Nav component — responsive */
+@media (max-width: 640px) {
+  .nav-desktop-links {
+    display: none !important;
+  }
+
+  .nav-hamburger {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 641px) {
+  .nav-mobile-menu {
+    display: none !important;
+  }
+}
+
+/* Nav hover states */
+.nav-link:hover {
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+.nav-link-active {
+  /* active styles are inline; this class can be targeted in tests */
+}
