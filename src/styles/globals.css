@@ -85,6 +85,15 @@ body::after {
   animation: glitch 2.5s infinite;
 }
 
+/* Glitch triggered on hover — wraps the element, applies animation to inner target */
+.glitch-hover {
+  position: relative;
+}
+
+.glitch-hover:hover .glitch-target {
+  animation: glitch 1s ease-in-out 1;
+}
+
 /* ─── Chromatic aberration ───────────────────────────────────────────────── */
 .chroma {
   text-shadow:
