@@ -5,13 +5,13 @@ export default function ProjectsPage() {
         className="font-pixel text-5xl mb-10"
         style={{ color: "var(--color-accent-bright)" }}
       >
-        projekty
+        projects
       </h1>
       <p
         className="font-mono text-base"
         style={{ color: "var(--color-text-muted)" }}
       >
-        // projekty brzy
+        // projects coming soon
       </p>
     </main>
   );

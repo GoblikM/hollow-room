@@ -60,7 +60,7 @@ export default function Nav() {
           href="/"
           style={{
             fontFamily: "var(--font-heading)",
-            fontSize: "1.1rem",
+            fontSize: "1.5rem",
             color: "var(--color-accent-bright)",
             textDecoration: "none",
             letterSpacing: "0.04em",
@@ -69,7 +69,7 @@ export default function Nav() {
           aria-label="goblikm home"
           className="logo-link"
         >
-          goblikm
+          GOBLIKM
         </Link>
 
         {/* Desktop links */}

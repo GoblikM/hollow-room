@@ -11,7 +11,7 @@ export default function BlogPage() {
         className="font-mono text-base"
         style={{ color: "var(--color-text-muted)" }}
       >
-        // žádné posty zatím
+        // no posts yet
       </p>
     </main>
   );

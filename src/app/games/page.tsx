@@ -5,13 +5,13 @@ export default function GamesPage() {
         className="font-pixel text-5xl mb-10"
         style={{ color: "var(--color-accent-bright)" }}
       >
-        hry
+        games
       </h1>
       <p
         className="font-mono text-base"
         style={{ color: "var(--color-text-muted)" }}
       >
-        // blbůstky brzy
+        // games coming soon
       </p>
     </main>
   );
