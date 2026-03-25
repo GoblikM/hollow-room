@@ -54,7 +54,6 @@ export default function ThemePicker() {
   return (
     <div
       ref={containerRef}
-      className="glitch-hover"
       style={{ position: "fixed", bottom: "1.5rem", right: "1.5rem", zIndex: 1000 }}
     >
       {open && (
@@ -76,7 +75,7 @@ export default function ThemePicker() {
         </div>
       )}
       <button
-        className="theme-picker-btn glitch-target"
+        className="theme-picker-btn"
         onClick={() => setOpen((v) => !v)}
         aria-label="Pick color scheme"
         aria-expanded={open}

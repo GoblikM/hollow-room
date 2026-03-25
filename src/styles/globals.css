@@ -227,27 +227,13 @@ body::after {
   transition: border-color 0.15s;
 }
 
-/* Glitch runs on ::after overlay so the button itself stays fully clickable */
-.theme-picker-btn.glitch-target {
-  animation: none !important;
-  clip-path: none !important;
-}
-
-.theme-picker-btn.glitch-target::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: inherit;
-  pointer-events: none;
-}
-
-.glitch-hover:hover .theme-picker-btn.glitch-target::after {
-  animation: glitch 0.6s steps(1) forwards;
-}
-
 .theme-picker-btn:hover {
   border-color: var(--color-accent);
+  color: var(--color-accent-bright);
+  text-shadow:
+    -2px 0 rgba(255, 0, 60, 0.6),
+     2px 0 rgba(0, 200, 255, 0.6),
+     0   0 rgba(180, 0, 255, 0.3);
 }
 
 .theme-picker-panel {
