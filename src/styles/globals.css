@@ -15,6 +15,7 @@
 
   /* Fonts — horror-appropriate */
   --font-heading: "IM Fell English", serif;
+  --font-pixel: "Silkscreen", monospace;
   --font-mono: "Share Tech Mono", monospace;
   --font-body: "Crimson Text", serif;
 }
@@ -172,8 +173,10 @@ body::after {
 /* Nav hover states */
 .nav-link:hover {
   color: var(--color-accent-bright) !important;
-  border-color: var(--color-accent-dim) !important;
-  text-shadow: 0 0 8px rgba(168, 85, 247, 0.6) !important;
+  text-shadow:
+    -2px 0 rgba(255, 0, 60, 0.6),
+     2px 0 rgba(0, 200, 255, 0.6),
+     0   0 rgba(180, 0, 255, 0.3) !important;
 }
 
 .nav-link-active {

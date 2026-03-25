@@ -14,7 +14,6 @@ const NAV_LINKS = [
 export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -87,14 +86,11 @@ export default function Nav() {
         >
           {NAV_LINKS.map(({ href, label }) => {
             const active = isActive(href);
-            const hovered = hoveredHref === href;
             return (
               <li key={href}>
                 <Link
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  onMouseEnter={() => setHoveredHref(href)}
-                  onMouseLeave={() => setHoveredHref(null)}
                   style={{
                     display: "inline-block",
                     padding: "0.35rem 0.75rem",
@@ -102,29 +98,14 @@ export default function Nav() {
                     fontSize: "0.8rem",
                     letterSpacing: "0.06em",
                     fontWeight: active ? 600 : 400,
-                    color:
-                      active || hovered
-                        ? "var(--color-accent-bright)"
-                        : "var(--color-text-muted)",
+                    color: active
+                      ? "var(--color-accent-bright)"
+                      : "var(--color-text-muted)",
                     textDecoration: "none",
                     borderRadius: "3px",
-                    border: active
-                      ? "1px solid var(--color-accent)"
-                      : "1px solid transparent",
-                    boxShadow:
-                      active
-                        ? "0 0 8px 0 rgba(124, 58, 237, 0.35), inset 0 0 6px rgba(124, 58, 237, 0.1)"
-                        : hovered
-                        ? "0 0 6px 0 rgba(168, 85, 247, 0.25)"
-                        : "none",
-                    textShadow:
-                      active || hovered
-                        ? "0 0 8px rgba(168, 85, 247, 0.6)"
-                        : "none",
-                    transition:
-                      "color 0.15s, border-color 0.15s, box-shadow 0.15s, text-shadow 0.15s",
+                    transition: "color 0.15s, text-shadow 0.15s",
                   }}
-                  className={active ? "nav-link-active" : "nav-link"}
+                  className={active ? "nav-link nav-link-active" : "nav-link"}
                 >
                   {label}
                 </Link>

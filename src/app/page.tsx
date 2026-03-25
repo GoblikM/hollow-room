@@ -27,8 +27,8 @@ export default function Home() {
       {/* Hero content */}
       <div className="relative z-10 text-center">
         <h1
-          className="font-heading text-7xl mb-6 glitch-hover"
-          style={{ color: "var(--color-accent-bright)", fontStyle: "italic", letterSpacing: "0.04em" }}
+          className="text-7xl mb-6 glitch-hover"
+          style={{ color: "var(--color-accent-bright)", fontFamily: "var(--font-pixel)", letterSpacing: "0.04em" }}
         >
           <span className="glitch-target chroma">goblikm</span>
         </h1>
