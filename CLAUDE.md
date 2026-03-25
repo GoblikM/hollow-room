@@ -4,7 +4,7 @@
 Personal blog and portfolio website for a student developer. Features a light retro aesthetic (pixel fonts, grunge textures, modern layout), a blog section, project showcase, and embedded Godot web export games playable directly in the browser. Built as a Next.js static export — no server required.
 
 ## Tech stack
-- **Framework:** Next.js 15 (App Router, static export)
+- **Framework:** Next.js 16 (App Router, static export)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS + custom CSS for retro effects
 - **Fonts:** Pixel/retro fonts (e.g. Press Start 2P, VT323 from Google Fonts)
@@ -17,11 +17,11 @@ src/
   app/              # Next.js App Router pages
     layout.tsx      # Root layout (fonts, global styles)
     page.tsx        # Home / landing page
+    globals.css     # Global CSS, retro theme variables
     blog/           # Blog listing + individual posts
     projects/       # Projects showcase
     games/          # Mini browser games (speed typing, etc.)
   components/       # Reusable UI components
-  styles/           # Global CSS, retro theme variables
 public/             # Static assets
 __tests__/          # Jest + React Testing Library tests
 ```
