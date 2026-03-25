@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 export function useActiveSection(
   sectionIds: string[],
-  options: { rootMargin?: string; threshold?: number } = {}
+  options: { rootMargin?: string; threshold?: number | number[] } = {}
 ): string {
   const [activeId, setActiveId] = useState(sectionIds[0]);
   const ratios = useRef<Map<string, number>>(new Map());
@@ -34,7 +34,7 @@ export function useActiveSection(
       },
       {
         rootMargin: options.rootMargin ?? "-56px 0px 0px 0px",
-        threshold: options.threshold ?? [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] as unknown as number,
+        threshold: options.threshold ?? [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
       }
     );
     sectionIds.forEach((id) => {
