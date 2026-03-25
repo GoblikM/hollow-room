@@ -147,6 +147,10 @@ body::after {
   font-family: var(--font-heading);
 }
 
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
 .font-mono {
   font-family: var(--font-mono);
 }

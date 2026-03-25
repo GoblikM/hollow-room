@@ -200,14 +200,7 @@ export default function Nav() {
                         ? "var(--color-accent-bright)"
                         : "var(--color-text-muted)",
                       textDecoration: "none",
-                      borderLeft: active
-                        ? "2px solid var(--color-accent)"
-                        : "2px solid var(--color-border)",
-                      borderRadius: "0 3px 3px 0",
-                      textShadow: active
-                        ? "0 0 8px rgba(168, 85, 247, 0.5)"
-                        : "none",
-                      transition: "color 0.15s, text-shadow 0.15s",
+                      transition: "color 0.15s",
                     }}
                   >
                     {label}
