@@ -1,6 +1,7 @@
 "use client";
 
 import Nav from "@/components/Nav";
+import ThemePicker from "@/components/ThemePicker";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 const SECTION_IDS = ["home", "blog", "projects", "games"];
@@ -122,6 +123,8 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      <ThemePicker />
     </>
   );
 }
