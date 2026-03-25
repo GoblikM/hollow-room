@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
-@import url("https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap");
-
 :root {
-  --color-bg: #0d0d0d;
-  --color-surface: #1a1a1a;
-  --color-border: #333;
-  --color-accent: #00ff88;
-  --color-accent-dim: #00cc6a;
-  --color-text: #e0e0e0;
-  --color-text-muted: #888;
+  /* Color palette — horror/VHS */
+  --color-bg: #050508;
+  --color-surface: #0d0a1a;
+  --color-surface-2: #16102a;
+  --color-border: #2a1f4a;
+  --color-accent: #7c3aed;
+  --color-accent-bright: #a855f7;
+  --color-accent-dim: #5b21b6;
+  --color-danger: #8b1a1a;
+  --color-text: #c8b8e8;
+  --color-text-muted: #6b5a8a;
 
-  --font-pixel: "Press Start 2P", monospace;
-  --font-terminal: "VT323", monospace;
-  --font-body: "Inter", sans-serif;
+  /* Fonts — horror-appropriate */
+  --font-heading: "IM Fell English", serif;
+  --font-mono: "Share Tech Mono", monospace;
+  --font-body: "Crimson Text", serif;
 }
 
 body {
@@ -22,8 +25,8 @@ body {
   font-family: var(--font-body);
 }
 
-/* Retro scanline overlay */
-body::after {
+/* ─── VHS scanline overlay ───────────────────────────────────────────────── */
+body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -31,28 +34,107 @@ body::after {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.03) 2px,
-    rgba(0, 0, 0, 0.03) 4px
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
   );
   pointer-events: none;
-  z-index: 9999;
+  z-index: 9998;
 }
 
-/* Retro pixel border utility */
+/* ─── Animated noise/grain overlay ──────────────────────────────────────── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.4;
+  animation: grain 0.4s steps(1) infinite;
+  pointer-events: none;
+  z-index: 9997;
+}
+
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-3%, -5%); }
+  20%  { transform: translate(4%, 2%); }
+  30%  { transform: translate(-2%, 7%); }
+  40%  { transform: translate(6%, -3%); }
+  50%  { transform: translate(-5%, 4%); }
+  60%  { transform: translate(3%, -6%); }
+  70%  { transform: translate(-4%, 1%); }
+  80%  { transform: translate(5%, 5%); }
+  90%  { transform: translate(-1%, -4%); }
+  100% { transform: translate(2%, 3%); }
+}
+
+/* ─── Glitch animation ───────────────────────────────────────────────────── */
+@keyframes glitch {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: skewX(0deg); }
+  10%       { clip-path: inset(20% 0 60% 0); transform: skewX(-2deg); }
+  20%       { clip-path: inset(50% 0 30% 0); transform: skewX(1deg); }
+  30%       { clip-path: inset(80% 0 5% 0);  transform: skewX(-1deg); }
+  40%       { clip-path: inset(0 0 100% 0); }
+}
+
+.glitch {
+  position: relative;
+  animation: glitch 2.5s infinite;
+}
+
+/* ─── Chromatic aberration ───────────────────────────────────────────────── */
+.chroma {
+  text-shadow:
+    -2px 0 rgba(255, 0, 60, 0.6),
+     2px 0 rgba(0, 200, 255, 0.6),
+     0   0 rgba(180, 0, 255, 0.3);
+}
+
+/* ─── VHS-style border ───────────────────────────────────────────────────── */
+.vhs-border {
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 0 0 1px var(--color-accent-dim),
+    inset 0 0 8px rgba(124, 58, 237, 0.15),
+    2px 0 rgba(255, 0, 60, 0.25),
+    -2px 0 rgba(0, 200, 255, 0.2);
+  outline: 1px solid rgba(124, 58, 237, 0.3);
+  outline-offset: 2px;
+}
+
+/* ─── Low-poly clip-path utility ─────────────────────────────────────────── */
+.polygon-clip {
+  clip-path: polygon(
+    0% 8%,
+    8% 0%,
+    92% 0%,
+    100% 8%,
+    100% 92%,
+    92% 100%,
+    8% 100%,
+    0% 92%
+  );
+}
+
+/* ─── Pixel border utility (updated to accent color) ────────────────────── */
 .pixel-border {
   border: 2px solid var(--color-accent);
   box-shadow: 4px 4px 0px var(--color-accent-dim);
 }
 
-.font-pixel {
-  font-family: var(--font-pixel);
+/* ─── Font utility classes ───────────────────────────────────────────────── */
+.font-heading {
+  font-family: var(--font-heading);
 }
 
-.font-terminal {
-  font-family: var(--font-terminal);
+.font-mono {
+  font-family: var(--font-mono);
 }
 
-/* Nav component — responsive */
+/* ─── Nav component — responsive ─────────────────────────────────────────── */
 @media (max-width: 640px) {
   .nav-desktop-links {
     display: none !important;
