@@ -14,32 +14,34 @@ const NAV_LINKS = [
 export default function Nav() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <nav
-      className="nav-root"
+      className="nav-root vhs-border"
       style={{
         position: "sticky",
         top: 0,
         zIndex: 100,
-        background: "rgba(13, 13, 13, 0.85)",
+        background: "rgba(13, 10, 26, 0.88)",
         backdropFilter: "blur(8px)",
         WebkitBackdropFilter: "blur(8px)",
         borderBottom: "1px solid var(--color-border)",
-        boxShadow: "0 0 16px 0 rgba(0,255,136,0.08)",
+        boxShadow:
+          "0 0 20px 0 rgba(124, 58, 237, 0.12), 0 2px 8px 0 rgba(0,0,0,0.6)",
       }}
     >
-      {/* Scanline accent strip */}
+      {/* Top gradient strip — violet/purple */}
       <div
         aria-hidden="true"
         style={{
           height: "2px",
           background:
-            "linear-gradient(90deg, transparent, var(--color-accent), transparent)",
-          opacity: 0.4,
+            "linear-gradient(90deg, transparent, var(--color-accent-bright), var(--color-accent), transparent)",
+          opacity: 0.55,
         }}
       />
 
@@ -54,18 +56,19 @@ export default function Nav() {
           height: "56px",
         }}
       >
-        {/* Logo / site name */}
+        {/* Logo / site name — IM Fell English, chroma on hover */}
         <Link
           href="/"
           style={{
-            fontFamily: "var(--font-pixel)",
-            fontSize: "0.65rem",
-            color: "var(--color-accent)",
+            fontFamily: "var(--font-heading)",
+            fontSize: "1.1rem",
+            color: "var(--color-accent-bright)",
             textDecoration: "none",
-            letterSpacing: "0.05em",
-            textShadow: "0 0 8px var(--color-accent)",
+            letterSpacing: "0.04em",
+            transition: "color 0.15s",
           }}
           aria-label="goblikm home"
+          className="logo-link chroma"
         >
           goblikm
         </Link>
@@ -84,29 +87,42 @@ export default function Nav() {
         >
           {NAV_LINKS.map(({ href, label }) => {
             const active = isActive(href);
+            const hovered = hoveredHref === href;
             return (
               <li key={href}>
                 <Link
                   href={href}
                   aria-current={active ? "page" : undefined}
+                  onMouseEnter={() => setHoveredHref(href)}
+                  onMouseLeave={() => setHoveredHref(null)}
                   style={{
                     display: "inline-block",
                     padding: "0.35rem 0.75rem",
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.8rem",
+                    letterSpacing: "0.06em",
                     fontWeight: active ? 600 : 400,
-                    color: active
-                      ? "var(--color-accent)"
-                      : "var(--color-text-muted)",
+                    color:
+                      active || hovered
+                        ? "var(--color-accent-bright)"
+                        : "var(--color-text-muted)",
                     textDecoration: "none",
-                    borderRadius: "4px",
+                    borderRadius: "3px",
                     border: active
                       ? "1px solid var(--color-accent)"
                       : "1px solid transparent",
-                    boxShadow: active
-                      ? "0 0 6px 0 rgba(0,255,136,0.25)"
-                      : "none",
-                    transition: "color 0.15s, border-color 0.15s, box-shadow 0.15s",
+                    boxShadow:
+                      active
+                        ? "0 0 8px 0 rgba(124, 58, 237, 0.35), inset 0 0 6px rgba(124, 58, 237, 0.1)"
+                        : hovered
+                        ? "0 0 6px 0 rgba(168, 85, 247, 0.25)"
+                        : "none",
+                    textShadow:
+                      active || hovered
+                        ? "0 0 8px rgba(168, 85, 247, 0.6)"
+                        : "none",
+                    transition:
+                      "color 0.15s, border-color 0.15s, box-shadow 0.15s, text-shadow 0.15s",
                   }}
                   className={active ? "nav-link-active" : "nav-link"}
                 >
@@ -127,10 +143,14 @@ export default function Nav() {
             display: "none",
             background: "none",
             border: "1px solid var(--color-border)",
-            borderRadius: "4px",
+            borderRadius: "3px",
             padding: "6px 8px",
             cursor: "pointer",
-            color: "var(--color-text)",
+            color: "var(--color-text-muted)",
+            boxShadow: menuOpen
+              ? "0 0 8px 0 rgba(124, 58, 237, 0.3)"
+              : "none",
+            transition: "color 0.15s, box-shadow 0.15s",
           }}
           className="nav-hamburger"
         >
@@ -139,7 +159,7 @@ export default function Nav() {
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path
                 d="M5 5L15 15M15 5L5 15"
-                stroke="currentColor"
+                stroke="var(--color-accent-bright)"
                 strokeWidth="1.5"
                 strokeLinecap="round"
               />
@@ -164,7 +184,8 @@ export default function Nav() {
           id="nav-mobile-menu"
           style={{
             borderTop: "1px solid var(--color-border)",
-            background: "rgba(26,26,26,0.97)",
+            background: "rgba(13, 10, 26, 0.97)",
+            boxShadow: "inset 0 1px 0 rgba(124, 58, 237, 0.15)",
           }}
           className="nav-mobile-menu"
         >
@@ -190,17 +211,22 @@ export default function Nav() {
                     style={{
                       display: "block",
                       padding: "0.6rem 0.75rem",
-                      fontFamily: "var(--font-body)",
-                      fontSize: "0.9rem",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.85rem",
+                      letterSpacing: "0.05em",
                       fontWeight: active ? 600 : 400,
                       color: active
-                        ? "var(--color-accent)"
-                        : "var(--color-text)",
+                        ? "var(--color-accent-bright)"
+                        : "var(--color-text-muted)",
                       textDecoration: "none",
                       borderLeft: active
                         ? "2px solid var(--color-accent)"
-                        : "2px solid transparent",
-                      borderRadius: "0 4px 4px 0",
+                        : "2px solid var(--color-border)",
+                      borderRadius: "0 3px 3px 0",
+                      textShadow: active
+                        ? "0 0 8px rgba(168, 85, 247, 0.5)"
+                        : "none",
+                      transition: "color 0.15s, text-shadow 0.15s",
                     }}
                   >
                     {label}

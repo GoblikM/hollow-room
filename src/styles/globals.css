@@ -155,8 +155,9 @@ body::after {
 
 /* Nav hover states */
 .nav-link:hover {
-  color: var(--color-text) !important;
-  border-color: var(--color-border) !important;
+  color: var(--color-accent-bright) !important;
+  border-color: var(--color-accent-dim) !important;
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.6) !important;
 }
 
 .nav-link-active {
