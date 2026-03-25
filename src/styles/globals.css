@@ -213,6 +213,7 @@ body::after {
 /* ─── Theme picker ────────────────────────────────────────────────────────── */
 
 .theme-picker-btn {
+  position: relative;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -224,6 +225,25 @@ body::after {
   align-items: center;
   justify-content: center;
   transition: border-color 0.15s;
+}
+
+/* Glitch runs on ::after overlay so the button itself stays fully clickable */
+.theme-picker-btn.glitch-target {
+  animation: none !important;
+  clip-path: none !important;
+}
+
+.theme-picker-btn.glitch-target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: inherit;
+  pointer-events: none;
+}
+
+.glitch-hover:hover .theme-picker-btn.glitch-target::after {
+  animation: glitch 0.6s steps(1) forwards;
 }
 
 .theme-picker-btn:hover {
