@@ -21,7 +21,7 @@ export default function Nav() {
 
   return (
     <nav
-      className="nav-root vhs-border"
+      className="nav-root"
       style={{
         position: "sticky",
         top: 0,
@@ -31,7 +31,7 @@ export default function Nav() {
         WebkitBackdropFilter: "blur(8px)",
         borderBottom: "1px solid var(--color-border)",
         boxShadow:
-          "0 0 20px 0 rgba(124, 58, 237, 0.12), 0 2px 8px 0 rgba(0,0,0,0.6)",
+          "0 0 20px 0 rgba(124, 58, 237, 0.12), 0 2px 8px 0 rgba(0,0,0,0.6), 0 0 0 1px var(--color-accent-dim), inset 0 0 8px rgba(124, 58, 237, 0.15), 2px 0 rgba(255, 0, 60, 0.25), -2px 0 rgba(0, 200, 255, 0.2)",
       }}
     >
       {/* Top gradient strip — violet/purple */}
@@ -68,7 +68,7 @@ export default function Nav() {
             transition: "color 0.15s",
           }}
           aria-label="goblikm home"
-          className="logo-link chroma"
+          className="logo-link"
         >
           goblikm
         </Link>
