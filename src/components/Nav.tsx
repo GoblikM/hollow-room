@@ -1,22 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
-  { href: "/projects", label: "Projects" },
-  { href: "/games", label: "Games" },
+  { href: "#home", label: "Home" },
+  { href: "#blog", label: "Blog" },
+  { href: "#projects", label: "Projects" },
+  { href: "#games", label: "Games" },
 ];
 
-export default function Nav() {
-  const pathname = usePathname();
+interface NavProps {
+  activeSection?: string;
+}
+
+export default function Nav({ activeSection = "home" }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => href.replace("#", "") === activeSection;
 
   return (
     <nav
