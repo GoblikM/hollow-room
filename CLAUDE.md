@@ -21,6 +21,7 @@ src/
     blog/           # Blog listing + individual posts
     projects/       # Projects showcase
     games/          # Mini browser games (speed typing, etc.)
+    plugins/        # Local Tailwind CSS v4 plugins
   components/       # Reusable UI components
 public/             # Static assets
 __tests__/          # Jest + React Testing Library tests
