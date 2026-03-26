@@ -1,4 +1,4 @@
-# hollow-room
+# Hollow-room
 
 > A personal blog, portfolio, and retro arcade — built with pixels and passion.
 
