@@ -33,7 +33,7 @@ jest.mock("next/link", () => {
 describe("Home page", () => {
   it("renders the site title", () => {
     render(<Home />);
-    expect(screen.getByText("goblikm")).toBeInTheDocument();
+    expect(screen.getByText("hollow-room")).toBeInTheDocument();
   });
 
   it("renders the home section", () => {
