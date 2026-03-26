@@ -344,8 +344,26 @@ body::after {
 
 /* ─── Section backgrounds ────────────────────────────────────────────────── */
 
-/* Plain background for content sections — prevents any bleed-through */
-.section-plain {
+/* Shared section base */
+.section {
+  background-color: var(--color-bg);
+  min-height: 70vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section.section-last {
+  padding-bottom: 11rem;
+}
+
+
+
+
+
+.footer-section {
   background-color: var(--color-bg);
 }
 
@@ -513,6 +531,26 @@ body.light-mode .hero-title-glow {
   text-shadow: 0 0 18px color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 
+.section-reveal {
+  --reveal-opacity: 0.28;
+  --reveal-translate-y: 72px;
+  --reveal-scale: 0.96;
+  --reveal-blur: 10px;
+  --reveal-brightness: 0.82;
+  opacity: var(--reveal-opacity);
+  transform: translate3d(0, var(--reveal-translate-y), 0) scale(var(--reveal-scale));
+  filter: blur(var(--reveal-blur)) brightness(var(--reveal-brightness));
+  transition:
+    opacity 0.24s ease-out,
+    transform 0.24s ease-out,
+    filter 0.24s ease-out;
+  will-change: opacity, transform, filter;
+}
+
+body.light-mode .section-reveal {
+  filter: blur(var(--reveal-blur));
+}
+
 @media (max-width: 640px) {
   .hero-title-shell {
     padding: 0.9rem 0.75rem;
@@ -526,6 +564,19 @@ body.light-mode .hero-title-glow {
     width: 115vw;
     height: 52vh;
     filter: blur(56px);
+  }
+
+  .section-reveal {
+    transform: translate3d(0, var(--reveal-translate-y), 0) scale(var(--reveal-scale));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
   }
 }
 

@@ -6,6 +6,7 @@ import BlogPostCard from "@/components/BlogPostCard";
 import GameCard from "@/components/GameCard";
 import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { Parallax } from "react-scroll-parallax";
 
 const PLACEHOLDER_PROJECTS = [
@@ -72,6 +73,7 @@ const SECTION_IDS = ["home", "about", "games", "projects", "blog"];
 
 export default function Home() {
   const activeSection = useActiveSection(SECTION_IDS);
+  useRevealOnScroll();
 
   return (
     <>
@@ -109,11 +111,11 @@ export default function Home() {
       </main>
 
       {/* About section */}
-      <section
-        id="about"
-        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
-      >
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+      <section id="about" className="section">
+        <div
+          className="section-reveal"
+          style={{ maxWidth: "800px", width: "100%" }}
+        >
           <h2
             className="font-pixel text-5xl mb-10"
             style={{ color: "var(--color-accent-bright)" }}
@@ -133,11 +135,11 @@ export default function Home() {
       </section>
 
       {/* Games section */}
-      <section
-        id="games"
-        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
-      >
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+      <section id="games" className="section">
+        <div
+          className="section-reveal"
+          style={{ maxWidth: "800px", width: "100%" }}
+        >
           <h2
             className="font-pixel text-5xl mb-10"
             style={{ color: "var(--color-accent-bright)" }}
@@ -159,11 +161,11 @@ export default function Home() {
       </section>
 
       {/* Projects section */}
-      <section
-        id="projects"
-        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
-      >
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+      <section id="projects" className="section">
+        <div
+          className="section-reveal"
+          style={{ maxWidth: "800px", width: "100%" }}
+        >
           <h2
             className="font-pixel text-5xl mb-10"
             style={{ color: "var(--color-accent-bright)" }}
@@ -185,11 +187,11 @@ export default function Home() {
       </section>
 
       {/* Blog section */}
-      <section
-        id="blog"
-        className="section-plain min-h-screen p-8 flex flex-col items-center justify-center"
-      >
-        <div style={{ maxWidth: "800px", width: "100%" }}>
+      <section id="blog" className="section section-last">
+        <div
+          className="section-reveal"
+          style={{ maxWidth: "800px", width: "100%" }}
+        >
           <h2
             className="font-pixel text-5xl mb-10"
             style={{ color: "var(--color-accent-bright)" }}
@@ -205,7 +207,7 @@ export default function Home() {
       </section>
 
       <footer
-        className="section-plain p-4 text-center font-pixel"
+        className="footer-section p-4 text-center font-pixel"
         style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
       >
         &copy; 2026 hollow-room. All rights reserved.
