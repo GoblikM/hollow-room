@@ -3,7 +3,7 @@ import "@/app/globals.css";
 import ParallaxProviderWrapper from "@/components/ParallaxProviderWrapper";
 
 export const metadata: Metadata = {
-  title: "hollow-room",
+  title: "Hollow-room",
   description: "Personal blog and portfolio",
 };
 
