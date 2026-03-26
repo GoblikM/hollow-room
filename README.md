@@ -1,8 +1,8 @@
-# goblikm
+# hollow-room
 
 > A personal blog, portfolio, and retro arcade — built with pixels and passion.
 
-<!-- ![Build Status](https://github.com/goblikm/goblikm/actions/workflows/ci.yml/badge.svg) -->
+<!-- ![Build Status](https://github.com/GoblikM/hollow-room/actions/workflows/ci.yml/badge.svg) -->
 
 ---
 
@@ -38,8 +38,8 @@ The aesthetic is deliberate: pixel fonts, grunge textures, dark backgrounds, sca
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/goblikm/goblikm.git
-cd goblikm
+git clone https://github.com/GoblikM/hollow-room.git
+cd hollow-room
 
 # 2. Install dependencies
 npm install
