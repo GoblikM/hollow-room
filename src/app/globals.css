@@ -99,6 +99,34 @@ body::after {
   animation: glitch 1s ease-in-out 1;
 }
 
+/* ─── Glitch text component (auto-fire + shake) ─────────────────────────── */
+@keyframes glitch-shake {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-1px, 1px); }
+  20%  { transform: translate(2px, -1px); }
+  30%  { transform: translate(-2px, 0px); }
+  40%  { transform: translate(1px, 1px); }
+  50%  { transform: translate(-1px, -2px); }
+  60%  { transform: translate(2px, 1px); }
+  70%  { transform: translate(-1px, -1px); }
+  80%  { transform: translate(1px, 2px); }
+  90%  { transform: translate(-2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-active {
+  animation: glitch-shake 1s ease-in-out 1;
+}
+
+.glitch-active .glitch-target {
+  animation: glitch 1s ease-in-out 1;
+}
+
 /* ─── Chromatic aberration ───────────────────────────────────────────────── */
 .chroma {
   text-shadow:
