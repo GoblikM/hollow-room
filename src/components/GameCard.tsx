@@ -17,7 +17,7 @@ export default function GameCard({ name, description }: GameCardProps) {
       </h3>
       <p
         className="font-mono"
-        style={{ color: "var(--color-text-muted)", fontSize: "0.8rem", lineHeight: 1.6 }}
+        style={{ color: "var(--color-text)", fontSize: "0.8rem", lineHeight: 1.6 }}
       >
         {description}
       </p>

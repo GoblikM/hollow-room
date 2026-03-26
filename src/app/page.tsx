@@ -113,7 +113,7 @@ export default function Home() {
             className="font-mono text-lg tracking-widest uppercase"
             style={{ color: "var(--color-text-muted)" }}
           >
-            blog &amp; portfolio &mdash; coming soon
+            blog &amp; portfolio &mdash; coming soon here
           </p>
         </div>
       </main>
@@ -189,6 +189,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer
+        className="section-plain p-4 text-center font-pixel"
+        style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
+      >
+        &copy; 2026 goblikm. All rights reserved.
+      </footer>
 
       <ThemePicker />
     </>
