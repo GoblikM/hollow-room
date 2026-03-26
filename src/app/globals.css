@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@designbycode/tailwindcss-text-glitch";
 
 html {
   scroll-behavior: smooth;
@@ -76,70 +77,11 @@ body::after {
   100% { transform: translate(2%, 3%); }
 }
 
-/* ─── Glitch animation ───────────────────────────────────────────────────── */
-@keyframes glitch {
-  0%, 100% { clip-path: inset(0 0 100% 0); transform: skewX(0deg); }
-  10%       { clip-path: inset(20% 0 60% 0); transform: skewX(-2deg); }
-  20%       { clip-path: inset(50% 0 30% 0); transform: skewX(1deg); }
-  30%       { clip-path: inset(80% 0 5% 0);  transform: skewX(-1deg); }
-  40%       { clip-path: inset(0 0 100% 0); }
-}
-
-.glitch {
-  position: relative;
-  animation: glitch 2.5s infinite;
-}
-
-/* Glitch triggered on hover — wraps the element, applies animation to inner target */
-.glitch-hover {
-  position: relative;
-}
-
-.glitch-hover:hover .glitch-target {
-  animation: glitch 1s ease-in-out 1;
-}
-
-/* ─── Glitch text component (auto-fire + shake) ─────────────────────────── */
-@keyframes glitch-shake {
-  0%   { transform: translate(0, 0); }
-  10%  { transform: translate(-1px, 1px); }
-  20%  { transform: translate(2px, -1px); }
-  30%  { transform: translate(-2px, 0px); }
-  40%  { transform: translate(1px, 1px); }
-  50%  { transform: translate(-1px, -2px); }
-  60%  { transform: translate(2px, 1px); }
-  70%  { transform: translate(-1px, -1px); }
-  80%  { transform: translate(1px, 2px); }
-  90%  { transform: translate(-2px, -1px); }
-  100% { transform: translate(0, 0); }
-}
-
-.glitch-text {
-  position: relative;
-  display: inline-block;
-}
-
-.glitch-active {
-  animation: glitch-shake 1s ease-in-out 1;
-}
-
-.glitch-active .glitch-target {
-  animation: glitch 1s ease-in-out 1;
-}
-
-/* ─── Chromatic aberration ───────────────────────────────────────────────── */
-.chroma {
-  text-shadow:
-    -2px 0 rgba(255, 0, 60, 0.6),
-     2px 0 rgba(0, 200, 255, 0.6),
-     0   0 rgba(180, 0, 255, 0.3);
-}
-
+/* ─── Hover glitch for logo link ──────────────────────────────────────── */
 .logo-link:hover {
-  text-shadow:
-    -2px 0 rgba(255, 0, 60, 0.6),
-     2px 0 rgba(0, 200, 255, 0.6),
-     0   0 rgba(180, 0, 255, 0.3);
+  animation: glitch 1s steps(100) infinite;
+  --tg-rgb-r: rgba(255, 0, 60, 0.6);
+  --tg-rgb-b: rgba(0, 200, 255, 0.6);
 }
 
 /* ─── VHS-style border ───────────────────────────────────────────────────── */
@@ -258,10 +200,9 @@ body::after {
 
 .nav-link:hover {
   color: var(--color-accent-bright) !important;
-  text-shadow:
-    -2px 0 rgba(255, 0, 60, 0.6),
-     2px 0 rgba(0, 200, 255, 0.6),
-     0   0 rgba(180, 0, 255, 0.3) !important;
+  animation: glitch 1s steps(100) infinite;
+  --tg-rgb-r: rgba(255, 0, 60, 0.6);
+  --tg-rgb-b: rgba(0, 200, 255, 0.6);
 }
 
 .nav-hamburger {

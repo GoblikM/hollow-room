@@ -5,7 +5,6 @@ import ThemePicker from "@/components/ThemePicker";
 import BlogPostCard from "@/components/BlogPostCard";
 import GameCard from "@/components/GameCard";
 import ProjectCard from "@/components/ProjectCard";
-import GlitchText from "@/components/GlitchText";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 const PLACEHOLDER_PROJECTS = [
@@ -104,13 +103,12 @@ export default function Home() {
 
         {/* Hero content */}
         <div className="relative z-10 text-center">
-          <GlitchText
-            as="h1"
-            className="text-7xl mb-6"
+          <h1
+            className="text-7xl mb-6 text-glitch"
             style={{ color: "var(--color-accent-bright)", fontFamily: "var(--font-pixel)", letterSpacing: "0.04em" }}
           >
             hollow-room
-          </GlitchText>
+          </h1>
           <p
             className="font-mono text-lg tracking-widest uppercase"
             style={{ color: "var(--color-text-muted)" }}
