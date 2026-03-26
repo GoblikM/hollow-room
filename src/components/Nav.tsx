@@ -5,9 +5,10 @@ import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "#home", label: "Home" },
-  { href: "#blog", label: "Blog" },
-  { href: "#projects", label: "Projects" },
+  { href: "#about", label: "About" },
   { href: "#games", label: "Games" },
+  { href: "#projects", label: "Projects" },
+  { href: "#blog", label: "Blog" },
 ];
 
 interface NavProps {
@@ -22,14 +23,22 @@ interface NavLinkProps {
   onClick?: () => void;
 }
 
-function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps) {
+function NavLink({
+  href,
+  label,
+  active,
+  mobile = false,
+  onClick,
+}: NavLinkProps) {
   if (mobile) {
     return (
       <Link
         href={href}
         aria-current={active ? "page" : undefined}
         onClick={onClick}
-        className={active ? "nav-mobile-link nav-mobile-link-active" : "nav-mobile-link"}
+        className={
+          active ? "nav-mobile-link nav-mobile-link-active" : "nav-mobile-link"
+        }
       >
         {label}
       </Link>
@@ -59,7 +68,11 @@ export default function Nav({ activeSection = "home" }: NavProps) {
 
       <div className="nav-inner">
         {/* Logo / site name — Silkscreen pixel font, chroma on hover */}
-        <Link href="/" aria-label="hollow-room home" className="nav-logo logo-link">
+        <Link
+          href="/"
+          aria-label="hollow-room home"
+          className="nav-logo logo-link"
+        >
           HOLLOW-ROOM
         </Link>
 
@@ -78,11 +91,19 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           aria-expanded={menuOpen}
           aria-controls="nav-mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
-          className={menuOpen ? "nav-hamburger nav-hamburger-open" : "nav-hamburger"}
+          className={
+            menuOpen ? "nav-hamburger nav-hamburger-open" : "nav-hamburger"
+          }
         >
           {menuOpen ? (
             // X icon
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
               <path
                 d="M5 5L15 15M15 5L5 15"
                 stroke="var(--color-accent-bright)"
@@ -92,7 +113,13 @@ export default function Nav({ activeSection = "home" }: NavProps) {
             </svg>
           ) : (
             // Hamburger icon
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
               <path
                 d="M3 6h14M3 10h14M3 14h14"
                 stroke="currentColor"
