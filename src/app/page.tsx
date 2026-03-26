@@ -104,10 +104,10 @@ export default function Home() {
         {/* Hero content */}
         <div className="relative z-10 text-center">
           <h1
-            className="text-7xl mb-6 glitch-hover"
+            className="text-7xl mb-6 text-glitch"
             style={{ color: "var(--color-accent-bright)", fontFamily: "var(--font-pixel)", letterSpacing: "0.04em" }}
           >
-            <span className="glitch-target chroma">hollow-room</span>
+            hollow-room
           </h1>
           <p
             className="font-mono text-lg tracking-widest uppercase"
