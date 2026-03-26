@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin "@designbycode/tailwindcss-text-glitch";
+@plugin "./plugins/text-glitch-plugin.ts";
 
 html {
   scroll-behavior: smooth;
