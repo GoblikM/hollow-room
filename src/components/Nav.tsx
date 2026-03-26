@@ -59,8 +59,8 @@ export default function Nav({ activeSection = "home" }: NavProps) {
 
       <div className="nav-inner">
         {/* Logo / site name — Silkscreen pixel font, chroma on hover */}
-        <Link href="/" aria-label="goblikm home" className="nav-logo logo-link">
-          GOBLIKM
+        <Link href="/" aria-label="hollow-room home" className="nav-logo logo-link">
+          HOLLOW-ROOM
         </Link>
 
         {/* Desktop links */}

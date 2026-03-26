@@ -107,7 +107,7 @@ export default function Home() {
             className="text-7xl mb-6 glitch-hover"
             style={{ color: "var(--color-accent-bright)", fontFamily: "var(--font-pixel)", letterSpacing: "0.04em" }}
           >
-            <span className="glitch-target chroma">goblikm</span>
+            <span className="glitch-target chroma">hollow-room</span>
           </h1>
           <p
             className="font-mono text-lg tracking-widest uppercase"
@@ -194,7 +194,7 @@ export default function Home() {
         className="section-plain p-4 text-center font-pixel"
         style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
       >
-        &copy; 2026 goblikm. All rights reserved.
+        &copy; 2026 hollow-room. All rights reserved.
       </footer>
 
       <ThemePicker />

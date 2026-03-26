@@ -1,4 +1,4 @@
-# goblikm
+# hollow-room
 
 ## Overview
 Personal blog and portfolio website for a student developer. Features a light retro aesthetic (pixel fonts, grunge textures, modern layout), a blog section, project showcase, and embedded Godot web export games playable directly in the browser. Built as a Next.js static export — no server required.
