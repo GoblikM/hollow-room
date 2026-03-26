@@ -144,5 +144,29 @@ export default plugin(function textGlitchPlugin({ addBase, addUtilities }) {
     ".text-glitch": {
       animation: "glitch var(--tg-rgb-duration) steps(100) infinite",
     },
+    ".hover-text-glitch:hover": {
+      animation: "glitch var(--tg-rgb-duration) steps(100) infinite",
+    },
+    ".text-glitch-soft": {
+      "--tg-rgb-blur": "0.2px",
+      "--tg-rgb-duration": "5.6s",
+      "--tg-rgb-r": "rgba(255, 0, 60, 0.38)",
+      "--tg-rgb-g": "rgba(80, 255, 120, 0.2)",
+      "--tg-rgb-b": "rgba(0, 180, 255, 0.28)",
+    },
+    ".text-glitch-balanced": {
+      "--tg-rgb-blur": "1px",
+      "--tg-rgb-duration": "3s",
+      "--tg-rgb-r": "red",
+      "--tg-rgb-g": "limegreen",
+      "--tg-rgb-b": "blue",
+    },
+    ".text-glitch-strong": {
+      "--tg-rgb-blur": "2px",
+      "--tg-rgb-duration": "1.6s",
+      "--tg-rgb-r": "rgba(255, 0, 60, 0.9)",
+      "--tg-rgb-g": "rgba(110, 255, 0, 0.85)",
+      "--tg-rgb-b": "rgba(0, 200, 255, 0.9)",
+    },
   });
 });

@@ -6,6 +6,7 @@ import BlogPostCard from "@/components/BlogPostCard";
 import GameCard from "@/components/GameCard";
 import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { Parallax } from "react-scroll-parallax";
 
 const PLACEHOLDER_PROJECTS = [
   {
@@ -39,7 +40,7 @@ const PLACEHOLDER_BLOG_POSTS = [
     title: "building a static site with Next.js App Router",
     date: "2025-02-14",
     excerpt:
-      "Static exports in Next.js 15 are surprisingly painless once you understand the constraints. No server-side props, no API routes — but you get full React and a great DX. This post walks through the setup I used for this very site.",
+      "Static exports in Next.js 15 are surprisingly painless once you understand the constraints. No server-side props, no API routes — but you get full React and a great DX. This post walks through the setup I used for this very srqaite.",
   },
   {
     title: "pixel fonts and the art of retro UI",
@@ -58,7 +59,7 @@ const PLACEHOLDER_GAMES = [
   {
     name: "snake 8-bit",
     description:
-      "Classic snake in a 20×20 grid. Arrow keys to move, eat the dots, don't bite yourself. How long can you last?",
+      "Classic snake in a 20×20 grid. Arrow keys to move, eat the dots, don&apos;t bite yourself. How long can you last?",
   },
   {
     name: "memory tiles",
@@ -81,90 +82,25 @@ export default function Home() {
         id="home"
         className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden"
       >
-        {/* Low-poly geometric background */}
-        <svg
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-          viewBox="0 0 800 600"
-        >
-          {/* Fragmented terrain silhouette — dark violet polygons */}
-          <polygon
-            points="0,600 120,380 200,460 320,300 420,420 500,260 600,380 700,280 800,350 800,600"
-            fill="#0d0a1a"
-            opacity="0.9"
-          />
-          <polygon
-            points="0,600 80,450 180,520 260,380 360,480 440,340 540,440 620,360 720,420 800,370 800,600"
-            fill="#16102a"
-            opacity="0.7"
-          />
-          <polygon
-            points="120,380 200,460 280,350 200,300"
-            fill="#1e1538"
-            opacity="0.6"
-          />
-          <polygon
-            points="420,420 500,260 580,340 500,420"
-            fill="#1e1538"
-            opacity="0.5"
-          />
-          <polygon
-            points="620,360 700,280 760,320 700,380"
-            fill="#1e1538"
-            opacity="0.5"
-          />
-          <polygon
-            points="0,200 100,320 60,420 0,380"
-            fill="#16102a"
-            opacity="0.4"
-          />
-          <polygon
-            points="700,0 800,100 780,220 680,160"
-            fill="#16102a"
-            opacity="0.35"
-          />
-          <polygon
-            points="300,0 420,80 360,180 260,100"
-            fill="#1e1538"
-            opacity="0.3"
-          />
-          {/* Faint violet accent triangles */}
-          <polygon
-            points="500,260 560,180 620,260"
-            fill="#2a1f4a"
-            opacity="0.5"
-          />
-          <polygon
-            points="200,300 260,220 320,300"
-            fill="#2a1f4a"
-            opacity="0.4"
-          />
-          <polygon
-            points="680,160 720,100 760,160"
-            fill="#2a1f4a"
-            opacity="0.35"
-          />
-        </svg>
-
-        {/* Gradient fade overlay — dissolves SVG polygons into the page background */}
-        <div className="section-fade-bottom" aria-hidden="true" />
-
         {/* Hero content */}
         <div className="relative z-10 text-center">
-          <h1
-            className="text-7xl mb-6 text-glitch"
-            style={{
-              color: "var(--color-accent-bright)",
-              fontFamily: "var(--font-pixel)",
-              letterSpacing: "0.04em",
-            }}
-          >
-            hollow-room
-          </h1>
+          <Parallax translateY={[-14, 18]} easing="easeOutQuad">
+            <div className="hero-title-shell">
+              <div className="hero-title-glow" aria-hidden="true" />
+              <h1
+                className="hero-title text-7xl mb-6 text-glitch text-glitch-soft"
+                style={{
+                  color: "var(--color-accent-bright)",
+                  fontFamily: "var(--font-pixel)",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                hollow-room
+              </h1>
+            </div>
+          </Parallax>
           <p
-            className="font-mono text-lg tracking-widest uppercase"
+            className="hero-subtitle font-mono text-lg tracking-widest uppercase"
             style={{ color: "var(--color-text-muted)" }}
           >
             blog &amp; portfolio &mdash; coming soon here
@@ -188,10 +124,10 @@ export default function Home() {
             className="font-mono text-lg leading-relaxed"
             style={{ color: "var(--color-text-muted)" }}
           >
-            I'm a hobbyist game developer and web tinkerer. I built this site to
-            share my projects, write about what I'm learning, and experiment
-            with retro aesthetics. If you like pixel art, procedural generation,
-            or just want to say hi, feel free to reach out!
+            I&apos;m a hobbyist game developer and web tinkerer. I built this
+            site to share my projects, write about what I&apos;m learning, and
+            experiment with retro aesthetics. If you like pixel art, procedural
+            generation, or just want to say hi, feel free to reach out!
           </p>
         </div>
       </section>

@@ -30,15 +30,17 @@ function NavLink({
   mobile = false,
   onClick,
 }: NavLinkProps) {
+  const baseClassName = mobile ? "nav-mobile-link" : "nav-link";
+  const activeClassName = mobile ? "nav-mobile-link-active" : "nav-link-active";
+  const className = `${baseClassName}${active ? ` ${activeClassName}` : ""} hover-text-glitch text-glitch-soft`;
+
   if (mobile) {
     return (
       <Link
         href={href}
         aria-current={active ? "page" : undefined}
         onClick={onClick}
-        className={
-          active ? "nav-mobile-link nav-mobile-link-active" : "nav-mobile-link"
-        }
+        className={className}
       >
         {label}
       </Link>
@@ -49,7 +51,7 @@ function NavLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={active ? "nav-link nav-link-active" : "nav-link"}
+      className={className}
     >
       {label}
     </Link>
@@ -63,6 +65,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
 
   return (
     <nav className="nav-root">
+      <div aria-hidden="true" className="nav-ambient-glow" />
       {/* Top gradient strip — violet/purple */}
       <div aria-hidden="true" className="nav-gradient-strip" />
 
