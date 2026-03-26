@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
+import ParallaxProviderWrapper from "@/components/ParallaxProviderWrapper";
 
 export const metadata: Metadata = {
   title: "hollow-room",
@@ -15,7 +16,11 @@ export default function RootLayout({
     <html lang="cs">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
           rel="stylesheet"
@@ -26,7 +31,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <ParallaxProviderWrapper>{children}</ParallaxProviderWrapper>
       </body>
     </html>
   );
