@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { version } = require("./package.json") as { version: string };
+import packageJson from "./package.json";
 
+const { version } = packageJson as { version: string };
 const repoName = "hollow-room";
 const useSubpathDeployment = process.env.SITE_BASE_PATH === repoName;
 
