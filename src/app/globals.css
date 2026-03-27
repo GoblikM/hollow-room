@@ -129,6 +129,73 @@ body::after {
   font-family: var(--font-mono);
 }
 
+/* ─── Scroll rail ───────────────────────────────────────────────────────── */
+
+.scroll-rail {
+  position: fixed;
+  right: clamp(4.25rem, 10vw, 9rem);
+  top: 50%;
+  width: 16px;
+  height: min(58vh, 460px);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 90;
+  opacity: var(--scroll-rail-opacity, 0);
+  transition: opacity 0.2s ease-out;
+}
+
+.scroll-rail-track,
+.scroll-rail-fill {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+}
+
+.scroll-rail-track {
+  background: color-mix(in srgb, var(--color-border) 82%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-surface) 26%, transparent),
+    0 0 16px color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.scroll-rail-fill {
+  height: calc(var(--scroll-progress, 0) * 100%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-accent-bright) 92%, white),
+    color-mix(in srgb, var(--color-accent) 88%, transparent)
+  );
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--color-accent-bright) 26%, transparent),
+    0 0 22px color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
+.scroll-rail-ball {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--scroll-progress, 0) * (100% - 14px));
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-accent-bright) 88%, white);
+  background:
+    radial-gradient(
+      circle at 35% 35%,
+      color-mix(in srgb, white 92%, var(--color-accent-bright)) 0%,
+      color-mix(in srgb, var(--color-accent-bright) 88%, white) 32%,
+      var(--color-accent) 70%,
+      color-mix(in srgb, var(--color-accent-dim) 92%, black) 100%
+    );
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--color-accent-bright) 42%, transparent),
+    0 0 24px color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+
 /* ─── Nav component ──────────────────────────────────────────────────────── */
 
 .nav-root {
@@ -315,6 +382,10 @@ body::after {
 
 /* Nav responsive visibility */
 @media (max-width: 640px) {
+  .scroll-rail {
+    display: none;
+  }
+
   .nav-inner {
     height: 60px;
     padding: 0 1rem;
@@ -346,7 +417,7 @@ body::after {
 
 /* Shared section base */
 .section {
-  background-color: var(--color-bg);
+  background-color: transparent;
   min-height: 70vh;
   padding: 2rem;
   display: flex;
@@ -360,7 +431,7 @@ body::after {
 }
 
 .footer-section {
-  background-color: var(--color-bg);
+  background-color: transparent;
 }
 
 /* ─── Theme picker ────────────────────────────────────────────────────────── */
@@ -474,11 +545,12 @@ body.light-mode .hero-title {
   text-shadow: none;
 }
 
-body.light-mode .hero-title-glow {
-  display: none;
-}
-
 /* ─── Home hero ──────────────────────────────────────────────────────────── */
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
 
 .hero-title-shell {
   position: relative;
@@ -498,29 +570,6 @@ body.light-mode .hero-title-glow {
     0 0 40px color-mix(in srgb, var(--color-accent) 32%, transparent),
     0 0 84px color-mix(in srgb, var(--color-accent-dim) 22%, transparent);
   will-change: transform;
-}
-
-.hero-title-glow {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(1100px, 92vw);
-  height: min(700px, 68vh);
-  transform: translate(-50%, -52%);
-  z-index: -1;
-  border-radius: 999px;
-  background:
-    radial-gradient(
-      circle at center,
-      color-mix(in srgb, var(--color-accent-bright) 24%, transparent) 0%,
-      color-mix(in srgb, var(--color-accent) 18%, transparent) 28%,
-      color-mix(in srgb, var(--color-accent-dim) 12%, transparent) 56%,
-      transparent 88%
-    );
-  filter: blur(72px);
-  opacity: 0.76;
-  pointer-events: none;
-  animation: hero-glow-flicker 7.3s linear infinite;
 }
 
 .hero-subtitle {
@@ -587,12 +636,6 @@ body.light-mode .section-reveal {
 
   .hero-title {
     font-size: clamp(2.6rem, 14vw, 4.5rem);
-  }
-
-  .hero-title-glow {
-    width: 115vw;
-    height: 52vh;
-    filter: blur(56px);
   }
 
   .section-reveal {

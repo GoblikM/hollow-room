@@ -1,6 +1,7 @@
 "use client";
 
 import Nav from "@/components/Nav";
+import ScrollRail from "@/components/ScrollRail";
 import ThemePicker from "@/components/ThemePicker";
 import BlogPostCard from "@/components/BlogPostCard";
 import GameCard from "@/components/GameCard";
@@ -79,153 +80,155 @@ export default function Home() {
   return (
     <>
       <Nav activeSection={activeSection} />
+      <ScrollRail />
 
-      {/* Home section */}
-      <main
-        id="home"
-        className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden"
-      >
-        {/* Hero content */}
-        <div className="relative z-10 text-center">
-          <Parallax translateY={[-14, 18]} easing="easeOutQuad">
-            <div className="hero-title-shell">
-              <div className="hero-title-glow" aria-hidden="true" />
-              <h1
-                className="hero-title text-7xl mb-6 text-glitch text-glitch-soft"
-                style={{
-                  color: "var(--color-accent-bright)",
-                  fontFamily: "var(--font-pixel)",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                hollow-room
-              </h1>
-            </div>
-          </Parallax>
-          <p
-            className="hero-subtitle font-mono text-lg tracking-widest uppercase"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            blog &amp; portfolio &mdash; coming soon here
-          </p>
-        </div>
-      </main>
-
-      {/* About section */}
-      <section id="about" className="section">
-        <div
-          className="section-reveal"
-          style={{ maxWidth: "800px", width: "100%" }}
+      <main className="page-content">
+        {/* Home section */}
+        <section
+          id="home"
+          className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-visible"
         >
-          <h2
-            className="font-pixel text-5xl mb-10"
-            style={{ color: "var(--color-accent-bright)" }}
-          >
-            about
-          </h2>
-          <div className="about-layout">
-            <div className="about-avatar-frame vhs-border">
-              <Image
-                src="/avatar.png"
-                width={500}
-                height={500}
-                alt="Portrait avatar"
-                className="about-avatar-image"
-                priority
-              />
+          {/* Hero content */}
+          <div className="relative z-10 text-center">
+            <div className="hero-title-shell">
+              <Parallax translateY={[-14, 18]} easing="easeOutQuad">
+                <h1
+                  className="hero-title text-7xl mb-6 text-glitch text-glitch-soft"
+                  style={{
+                    color: "var(--color-accent-bright)",
+                    fontFamily: "var(--font-pixel)",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  hollow-room
+                </h1>
+              </Parallax>
             </div>
             <p
-              className="font-mono text-lg leading-relaxed"
-              style={{ color: "var(--color-text)" }}
+              className="hero-subtitle font-mono text-lg tracking-widest uppercase"
+              style={{ color: "var(--color-text-muted)" }}
             >
-              I&apos;m a hobbyist game developer and web tinkerer. I built this
-              site to share my projects, write about what I&apos;m learning, and
-              experiment with retro aesthetics. If you like pixel art,
-              procedural generation, or just want to say hi, feel free to reach
-              out!
+              blog &amp; portfolio &mdash; coming soon here
             </p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Games section */}
-      <section id="games" className="section">
-        <div
-          className="section-reveal"
-          style={{ maxWidth: "800px", width: "100%" }}
-        >
-          <h2
-            className="font-pixel text-5xl mb-10"
-            style={{ color: "var(--color-accent-bright)" }}
-          >
-            games
-          </h2>
+        {/* About section */}
+        <section id="about" className="section">
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: "1.25rem",
-            }}
+            className="section-reveal"
+            style={{ maxWidth: "800px", width: "100%" }}
           >
-            {PLACEHOLDER_GAMES.map((game) => (
-              <GameCard key={game.name} {...game} />
-            ))}
+            <h2
+              className="font-pixel text-5xl mb-10"
+              style={{ color: "var(--color-accent-bright)" }}
+            >
+              about
+            </h2>
+            <div className="about-layout">
+              <div className="about-avatar-frame vhs-border">
+                <Image
+                  src="/avatar.png"
+                  width={500}
+                  height={500}
+                  alt="Portrait avatar"
+                  className="about-avatar-image"
+                  priority
+                />
+              </div>
+              <p
+                className="font-mono text-lg leading-relaxed"
+                style={{ color: "var(--color-text)" }}
+              >
+                I&apos;m a hobbyist game developer and web tinkerer. I built this
+                site to share my projects, write about what I&apos;m learning, and
+                experiment with retro aesthetics. If you like pixel art,
+                procedural generation, or just want to say hi, feel free to reach
+                out!
+              </p>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Projects section */}
-      <section id="projects" className="section">
-        <div
-          className="section-reveal"
-          style={{ maxWidth: "800px", width: "100%" }}
-        >
-          <h2
-            className="font-pixel text-5xl mb-10"
-            style={{ color: "var(--color-accent-bright)" }}
-          >
-            projects
-          </h2>
+        {/* Games section */}
+        <section id="games" className="section">
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: "1.25rem",
-            }}
+            className="section-reveal"
+            style={{ maxWidth: "800px", width: "100%" }}
           >
-            {PLACEHOLDER_PROJECTS.map((project) => (
-              <ProjectCard key={project.name} {...project} />
-            ))}
+            <h2
+              className="font-pixel text-5xl mb-10"
+              style={{ color: "var(--color-accent-bright)" }}
+            >
+              games
+            </h2>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                gap: "1.25rem",
+              }}
+            >
+              {PLACEHOLDER_GAMES.map((game) => (
+                <GameCard key={game.name} {...game} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Blog section */}
-      <section id="blog" className="section section-last">
-        <div
-          className="section-reveal"
-          style={{ maxWidth: "800px", width: "100%" }}
+        {/* Projects section */}
+        <section id="projects" className="section">
+          <div
+            className="section-reveal"
+            style={{ maxWidth: "800px", width: "100%" }}
+          >
+            <h2
+              className="font-pixel text-5xl mb-10"
+              style={{ color: "var(--color-accent-bright)" }}
+            >
+              projects
+            </h2>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                gap: "1.25rem",
+              }}
+            >
+              {PLACEHOLDER_PROJECTS.map((project) => (
+                <ProjectCard key={project.name} {...project} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Blog section */}
+        <section id="blog" className="section section-last">
+          <div
+            className="section-reveal"
+            style={{ maxWidth: "800px", width: "100%" }}
+          >
+            <h2
+              className="font-pixel text-5xl mb-10"
+              style={{ color: "var(--color-accent-bright)" }}
+            >
+              blog
+            </h2>
+            <div>
+              {PLACEHOLDER_BLOG_POSTS.map((post) => (
+                <BlogPostCard key={post.title} {...post} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <footer
+          className="footer-section p-4 text-center font-pixel"
+          style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
         >
-          <h2
-            className="font-pixel text-5xl mb-10"
-            style={{ color: "var(--color-accent-bright)" }}
-          >
-            blog
-          </h2>
-          <div>
-            {PLACEHOLDER_BLOG_POSTS.map((post) => (
-              <BlogPostCard key={post.title} {...post} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <footer
-        className="footer-section p-4 text-center font-pixel"
-        style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
-      >
-        &copy; 2026 hollow-room. All rights reserved.
-      </footer>
+          &copy; 2026 hollow-room. All rights reserved.
+        </footer>
+      </main>
 
       <ThemePicker />
     </>
