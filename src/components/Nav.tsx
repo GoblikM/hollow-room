@@ -1,17 +1,12 @@
 "use client";
 
-import { useLocomotiveScroll } from "@/components/LocomotiveScrollProvider";
+import { useScroll } from "@/components/ScrollProvider";
+import { NAV_LINKS } from "@/constants/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import type { MouseEvent } from "react";
 
-const NAV_LINKS = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#games", label: "Games" },
-  { href: "#projects", label: "Projects" },
-  { href: "#blog", label: "Blog" },
-];
+export const NAV_HEIGHT = 56;
 
 interface NavProps {
   activeSection?: string;
@@ -25,6 +20,10 @@ interface NavLinkProps {
   onClick?: () => void;
 }
 
+function isModifiedClick(e: MouseEvent<HTMLAnchorElement>): boolean {
+  return e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;
+}
+
 function NavLink({
   href,
   label,
@@ -32,7 +31,7 @@ function NavLink({
   mobile = false,
   onClick,
 }: NavLinkProps) {
-  const scrollController = useLocomotiveScroll();
+  const scrollController = useScroll();
   const baseClassName = mobile ? "nav-mobile-link" : "nav-link";
   const activeClassName = mobile ? "nav-mobile-link-active" : "nav-link-active";
   const className = `${baseClassName}${active ? ` ${activeClassName}` : ""} hover-text-glitch text-glitch-soft`;
@@ -41,41 +40,16 @@ function NavLink({
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     onClick?.();
 
-    if (
-      !isHashLink ||
-      !scrollController ||
-      event.defaultPrevented ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
+    if (!isHashLink || !scrollController || isModifiedClick(event)) return;
 
     const targetElement = document.querySelector<HTMLElement>(href);
-    if (!targetElement) {
-      return;
-    }
+    if (!targetElement) return;
 
     event.preventDefault();
     scrollController.scrollTo(targetElement, {
-      offset: href === "#home" ? 0 : -56,
+      offset: href === "#home" ? 0 : -NAV_HEIGHT,
       duration: 0.9,
     });
-  }
-
-  if (mobile) {
-    return (
-      <Link
-        href={href}
-        aria-current={active ? "page" : undefined}
-        onClick={handleClick}
-        className={className}
-      >
-        {label}
-      </Link>
-    );
   }
 
   return (
@@ -92,22 +66,12 @@ function NavLink({
 
 export default function Nav({ activeSection = "home" }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const scrollController = useLocomotiveScroll();
+  const scrollController = useScroll();
 
   const isActive = (href: string) => href.replace("#", "") === activeSection;
 
   function handleLogoClick(event: MouseEvent<HTMLAnchorElement>) {
-    if (
-      !scrollController ||
-      event.defaultPrevented ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-
+    if (!scrollController || isModifiedClick(event)) return;
     event.preventDefault();
     scrollController.scrollTo(0, { immediate: false, duration: 1 });
   }
@@ -115,11 +79,9 @@ export default function Nav({ activeSection = "home" }: NavProps) {
   return (
     <nav className="nav-root">
       <div aria-hidden="true" className="nav-ambient-glow" />
-      {/* Top gradient strip — violet/purple */}
       <div aria-hidden="true" className="nav-gradient-strip" />
 
       <div className="nav-inner">
-        {/* Logo / site name — Silkscreen pixel font, chroma on hover */}
         <Link
           href="/"
           aria-label="hollow-room home"
@@ -129,7 +91,6 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           HOLLOW-ROOM
         </Link>
 
-        {/* Desktop links */}
         <ul role="list" className="nav-desktop-links">
           {NAV_LINKS.map(({ href, label }) => (
             <li key={href}>
@@ -138,7 +99,6 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           ))}
         </ul>
 
-        {/* Hamburger button — mobile only */}
         <button
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
@@ -149,14 +109,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           }
         >
           {menuOpen ? (
-            // X icon
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              aria-hidden="true"
-            >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path
                 d="M5 5L15 15M15 5L5 15"
                 stroke="var(--color-accent-bright)"
@@ -165,14 +118,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
               />
             </svg>
           ) : (
-            // Hamburger icon
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              aria-hidden="true"
-            >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path
                 d="M3 6h14M3 10h14M3 14h14"
                 stroke="currentColor"
@@ -184,7 +130,6 @@ export default function Nav({ activeSection = "home" }: NavProps) {
         </button>
       </div>
 
-      {/* Mobile dropdown menu */}
       {menuOpen && (
         <div id="nav-mobile-menu" className="nav-mobile-menu">
           <ul role="list" className="nav-mobile-links">

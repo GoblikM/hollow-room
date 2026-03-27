@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import LocomotiveScrollProvider from "@/components/LocomotiveScrollProvider";
+import SiteShell from "@/components/SiteShell";
+import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Hollow-room",
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="cs">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -32,7 +33,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <LocomotiveScrollProvider>{children}</LocomotiveScrollProvider>
+        <CustomCursor />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );
