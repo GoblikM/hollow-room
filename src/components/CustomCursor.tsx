@@ -15,7 +15,7 @@ export default function CustomCursor() {
   useEffect(() => {
     // Enable only when the primary input supports precise hover.
     const supportsCustomCursor = window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
+      "(hover: hover) and (pointer: fine)",
     ).matches;
 
     if (!supportsCustomCursor) return;
