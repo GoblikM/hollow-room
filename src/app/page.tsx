@@ -9,6 +9,7 @@ import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import Image from "next/image";
+import avatar from "../../public/avatar.png";
 
 const PLACEHOLDER_PROJECTS = [
   {
@@ -125,9 +126,7 @@ export default function Home() {
             <div className="about-layout">
               <div className="about-avatar-frame vhs-border">
                 <Image
-                  src="/avatar.png"
-                  width={500}
-                  height={500}
+                  src={avatar}
                   alt="Portrait avatar"
                   className="about-avatar-image"
                   priority

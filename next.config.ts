@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === "production";
 const repoName = "hollow-room";
+const useSubpathDeployment = process.env.SITE_BASE_PATH === repoName;
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: isProd ? `/${repoName}` : "",
-  assetPrefix: isProd ? `/${repoName}` : "",
+  basePath: useSubpathDeployment ? `/${repoName}` : "",
+  assetPrefix: useSubpathDeployment ? `/${repoName}` : "",
   images: {
     unoptimized: true,
   },

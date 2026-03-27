@@ -79,7 +79,19 @@ The `out/` directory can be dropped onto:
 - **GitHub Pages** — push and go
 - **Vercel** — connect the repo and it handles the rest
 
-Both are fully compatible with static exports. The hosting choice is TBD — either works without any code changes.
+Both are fully compatible with static exports, but they do not always use the same URL shape.
+
+For a root deployment like Vercel, build normally:
+
+```bash
+npm run build
+```
+
+For a subpath deployment like GitHub Pages at `/hollow-room`, set the base path for that build:
+
+```bash
+SITE_BASE_PATH=hollow-room npm run build
+```
 
 > Note: this project uses `output: 'export'` in `next.config.ts`. There are no API routes or server-side features — everything is static.
 
