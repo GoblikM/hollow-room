@@ -78,6 +78,24 @@ const DARK_MODE_COLORS = {
   textMuted: "#6b5a8a",
 };
 
+function getInitialSchemeId(): string {
+  if (typeof window === "undefined") {
+    return "void";
+  }
+  const saved = localStorage.getItem("theme-scheme");
+  return saved !== null && SCHEMES.some((scheme) => scheme.id === saved)
+    ? saved
+    : "void";
+}
+
+function getInitialMode(): "dark" | "light" {
+  if (typeof window === "undefined") {
+    return "dark";
+  }
+  const savedMode = localStorage.getItem("theme-mode");
+  return savedMode === "light" || savedMode === "dark" ? savedMode : "dark";
+}
+
 function applyScheme(scheme: ColorScheme) {
   const root = document.documentElement;
   root.style.setProperty("--color-accent", scheme.accent);
@@ -107,25 +125,15 @@ function applyMode(m: "dark" | "light") {
 
 export default function ThemePicker() {
   const [open, setOpen] = useState(false);
-  const [activeId, setActiveId] = useState("void");
-  const [mode, setMode] = useState<"dark" | "light">("dark");
+  const [activeId, setActiveId] = useState(getInitialSchemeId);
+  const [mode, setMode] = useState<"dark" | "light">(getInitialMode);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("theme-scheme");
-    if (saved) {
-      const scheme = SCHEMES.find((s) => s.id === saved);
-      if (scheme) {
-        applyScheme(scheme);
-        setActiveId(scheme.id);
-      }
-    }
-    const savedMode = localStorage.getItem("theme-mode");
-    if (savedMode === "light" || savedMode === "dark") {
-      applyMode(savedMode);
-      setMode(savedMode);
-    }
-  }, []);
+    const scheme = SCHEMES.find((item) => item.id === activeId) ?? SCHEMES[0];
+    applyScheme(scheme);
+    applyMode(mode);
+  }, [activeId, mode]);
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {

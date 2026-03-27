@@ -9,19 +9,36 @@ beforeEach(() => {
   jest.clearAllMocks();
   observerCallback = undefined as unknown as IntersectionObserverCallback;
 
-  global.IntersectionObserver = jest.fn().mockImplementation((cb) => {
+  global.IntersectionObserver = jest
+    .fn()
+    .mockImplementation((cb: IntersectionObserverCallback) => {
     observerCallback = cb;
     return {
       observe: mockObserve,
       unobserve: jest.fn(),
       disconnect: mockDisconnect,
     };
-  });
+    });
 
   window.history.replaceState = jest.fn();
 });
 
 const SECTION_IDS = ["home", "about", "blog"];
+
+function makeEntry(
+  id: string,
+  intersectionRatio: number
+): IntersectionObserverEntry {
+  return {
+    target: { id } as Element,
+    intersectionRatio,
+    isIntersecting: intersectionRatio > 0,
+  } as IntersectionObserverEntry;
+}
+
+function makeObserver(): IntersectionObserver {
+  return {} as IntersectionObserver;
+}
 
 describe("useActiveSection", () => {
   it("returns first section id as default active section", () => {
@@ -34,14 +51,8 @@ describe("useActiveSection", () => {
 
     act(() => {
       observerCallback(
-        [
-          {
-            target: { id: "blog" },
-            intersectionRatio: 0.5,
-            isIntersecting: true,
-          } as any,
-        ],
-        {} as any
+        [makeEntry("blog", 0.5)],
+        makeObserver()
       );
     });
 
@@ -55,14 +66,8 @@ describe("useActiveSection", () => {
     // First make blog active
     act(() => {
       observerCallback(
-        [
-          {
-            target: { id: "blog" },
-            intersectionRatio: 0.5,
-            isIntersecting: true,
-          } as any,
-        ],
-        {} as any
+        [makeEntry("blog", 0.5)],
+        makeObserver()
       );
     });
 
@@ -71,19 +76,8 @@ describe("useActiveSection", () => {
     // Now make home the most visible
     act(() => {
       observerCallback(
-        [
-          {
-            target: { id: "home" },
-            intersectionRatio: 0.8,
-            isIntersecting: true,
-          } as any,
-          {
-            target: { id: "blog" },
-            intersectionRatio: 0.1,
-            isIntersecting: true,
-          } as any,
-        ],
-        {} as any
+        [makeEntry("home", 0.8), makeEntry("blog", 0.1)],
+        makeObserver()
       );
     });
 

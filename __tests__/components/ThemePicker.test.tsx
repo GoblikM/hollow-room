@@ -4,7 +4,7 @@ import ThemePicker from "@/components/ThemePicker";
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {
-    getItem: jest.fn((key: string) => store[key] ?? null),
+    getItem: jest.fn((key: string): string | null => store[key] ?? null),
     setItem: jest.fn((key: string, value: string) => { store[key] = value; }),
     clear: jest.fn(() => { store = {}; }),
   };

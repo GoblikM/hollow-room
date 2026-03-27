@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const NAV_OFFSET = "-56px 0px 0px 0px";
+const DEFAULT_THRESHOLDS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
 
 function findMostVisibleSection(
   sectionIds: string[],
@@ -33,6 +34,8 @@ export function useActiveSection(
 ): string {
   const [activeId, setActiveId] = useState(sectionIds[0]);
   const ratios = useRef<Map<string, number>>(new Map());
+  const rootMargin = options.rootMargin ?? NAV_OFFSET;
+  const threshold = options.threshold ?? DEFAULT_THRESHOLDS;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,8 +48,8 @@ export function useActiveSection(
         updateUrlHash(mostVisible, sectionIds[0]);
       },
       {
-        rootMargin: options.rootMargin ?? NAV_OFFSET,
-        threshold: options.threshold ?? [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        rootMargin,
+        threshold,
       }
     );
     sectionIds.forEach((id) => {
@@ -54,7 +57,7 @@ export function useActiveSection(
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, [sectionIds.join(",")]);
+  }, [rootMargin, sectionIds, threshold]);
 
   return activeId;
 }
