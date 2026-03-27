@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   output: "export",
   basePath: useSubpathDeployment ? `/${repoName}` : "",
   assetPrefix: useSubpathDeployment ? `/${repoName}` : "",
+  env: {
+    NEXT_PUBLIC_APP_VERSION: process.env.npm_package_version ?? "0.0.0",
+  },
   images: {
     unoptimized: true,
   },

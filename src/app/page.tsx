@@ -72,6 +72,7 @@ const PLACEHOLDER_GAMES = [
 ];
 
 const SECTION_IDS = ["home", "about", "games", "projects", "blog"];
+const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 
 export default function Home() {
   const activeSection = useActiveSection(SECTION_IDS);
@@ -222,7 +223,16 @@ export default function Home() {
           className="footer-section p-4 text-center font-pixel"
           style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
         >
-          &copy; 2026 hollow-room. All rights reserved.
+          &copy; 2026 hollow-room. All rights reserved.{" "}
+          <span
+            style={{
+              color: "var(--color-text-muted)",
+              fontSize: "0.65rem",
+              letterSpacing: "0.08em",
+            }}
+          >
+            v{appVersion}
+          </span>
         </footer>
       </main>
 
