@@ -113,8 +113,8 @@ body {
   opacity: 0;
 }
 
-/* Disable custom cursor on touch devices (pointer: coarse) */
-@media (pointer: coarse) {
+/* Disable custom cursor when precise hover is unavailable */
+@media (hover: none), (pointer: coarse) {
   body,
   a, button, [data-cursor-hover] {
     cursor: auto;

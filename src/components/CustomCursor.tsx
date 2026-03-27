@@ -13,8 +13,12 @@ export default function CustomCursor() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Hide on touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Enable only when the primary input supports precise hover.
+    const supportsCustomCursor = window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    ).matches;
+
+    if (!supportsCustomCursor) return;
 
     document.documentElement.classList.add("cursor-custom");
 
