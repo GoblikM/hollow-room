@@ -18,11 +18,30 @@ npm run test:watch # Jest watch mode
 npx jest __tests__/components/Nav.test.tsx
 ```
 
+## Releasing
+
+```bash
+npm version patch   # 0.1.7 → 0.1.8
+npm version minor   # 0.1.7 → 0.2.0
+npm version major   # 0.1.7 → 1.0.0
+
+git push && git push --tags
+```
+
+The `version` npm lifecycle hook runs `git-cliff` automatically — it regenerates `CHANGELOG.md` from conventional commits and stages it before npm creates the version commit and tag. No manual changelog edits needed.
+
+Conventional commit prefixes and how they map to changelog sections:
+- `feat:` → Added
+- `fix:` → Fixed
+- `refactor:`, `perf:` → Changed
+- `chore(deps):` → Changed
+- `docs:`, `chore:`, `test:`, `ci:`, `style:` → skipped (not shown in changelog)
+
 ## Architecture
 
 The site is currently a **single-page app** — all sections (home, about, games, projects, blog) live in `src/app/page.tsx` as `<section id="...">` elements with in-page hash navigation. There are no sub-routes yet; blog/projects/games show placeholder data arrays defined at the top of `page.tsx`.
 
-**Scroll system** — `LocomotiveScrollProvider` (wraps the entire app in `layout.tsx`) initialises Lenis smooth scroll and exposes a React context (`ScrollContext`) with `scrollTo`, `subscribe`, `resize`, and `getScrollValues`. Components that need to programmatically scroll (Nav, etc.) call `useLocomotiveScroll()` to get the controller. Respects `prefers-reduced-motion`.
+**Scroll system** — `ScrollProvider` (via `SiteShell` in `layout.tsx`) initialises GSAP ScrollSmoother and exposes a React context with `scrollTo`, `subscribe`, `resize`, and `getScrollValues`. Components that need to programmatically scroll call `useScroll()` to get the controller. Respects `prefers-reduced-motion`. Fixed UI elements (Nav, ScrollRail, ThemePicker) are rendered as `fixedChildren` outside `#smooth-content` to avoid `position: fixed` breaking inside ScrollSmoother's CSS transform. `LocomotiveScrollProvider.tsx` is a backward-compat re-export shim.
 
 **Active section tracking** — `useActiveSection` hook uses `IntersectionObserver` on section elements and updates the URL hash via `window.history.replaceState` (no router push, so no full re-render).
 
