@@ -5,29 +5,13 @@ html {
   scroll-behavior: auto;
 }
 
-html.lenis,
-html.lenis body {
-  height: auto;
+/* ─── GSAP ScrollSmoother wrapper ───────────────────────────────────────── */
+#smooth-wrapper {
+  overflow: hidden;
 }
 
-.lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
-}
-
-.lenis [data-lenis-prevent-touch],
-.lenis [data-lenis-prevent-wheel],
-.lenis [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-smooth iframe {
-  pointer-events: none;
-}
-
-.lenis.lenis-autoToggle {
-  transition-property: overflow;
-  transition-duration: 1ms;
-  transition-behavior: allow-discrete;
+#smooth-content {
+  will-change: transform;
 }
 
 :root {
@@ -54,6 +38,92 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+}
+
+.cursor-custom,
+.cursor-custom a,
+.cursor-custom button,
+.cursor-custom [data-cursor-hover] {
+  cursor: none;
+}
+
+/* ─── Custom cursor ──────────────────────────────────────────────────────── */
+.cursor-dot,
+.cursor-ring {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  border-radius: 50%;
+  will-change: transform;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--color-accent-bright);
+  box-shadow: 0 0 6px var(--color-accent-bright);
+  transition:
+    opacity 0.2s ease,
+    width 0.15s ease,
+    height 0.15s ease,
+    margin 0.15s ease,
+    background 0.15s ease;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border: 1px solid var(--color-accent);
+  opacity: 0.6;
+  transition:
+    opacity 0.2s ease,
+    width 0.2s ease,
+    height 0.2s ease,
+    margin 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+/* Hover state */
+.cursor-dot[data-hovered="true"] {
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  background: var(--color-accent-bright);
+  box-shadow: 0 0 12px var(--color-accent-bright);
+}
+
+.cursor-ring[data-hovered="true"] {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border-color: var(--color-accent-bright);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  opacity: 0.8;
+}
+
+/* Hidden when mouse left the window */
+.cursor-dot[data-visible="false"],
+.cursor-ring[data-visible="false"] {
+  opacity: 0;
+}
+
+/* Disable custom cursor on touch devices (pointer: coarse) */
+@media (pointer: coarse) {
+  body,
+  a, button, [data-cursor-hover] {
+    cursor: auto;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
 }
 
 /* ─── VHS scanline overlay ───────────────────────────────────────────────── */
