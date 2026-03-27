@@ -9,7 +9,7 @@ import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import Image from "next/image";
-import avatar from "../../public/avatar.png";
+import avatar from "@/assets/avatar.png";
 
 const PLACEHOLDER_PROJECTS = [
   {
