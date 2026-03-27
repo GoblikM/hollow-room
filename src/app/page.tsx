@@ -8,6 +8,7 @@ import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { Parallax } from "react-scroll-parallax";
+import Image from "next/image";
 
 const PLACEHOLDER_PROJECTS = [
   {
@@ -122,15 +123,28 @@ export default function Home() {
           >
             about
           </h2>
-          <p
-            className="font-mono text-lg leading-relaxed"
-            style={{ color: "var(--color-text-muted)" }}
-          >
-            I&apos;m a hobbyist game developer and web tinkerer. I built this
-            site to share my projects, write about what I&apos;m learning, and
-            experiment with retro aesthetics. If you like pixel art, procedural
-            generation, or just want to say hi, feel free to reach out!
-          </p>
+          <div className="about-layout">
+            <div className="about-avatar-frame vhs-border">
+              <Image
+                src="/avatar.png"
+                width={500}
+                height={500}
+                alt="Portrait avatar"
+                className="about-avatar-image"
+                priority
+              />
+            </div>
+            <p
+              className="font-mono text-lg leading-relaxed"
+              style={{ color: "var(--color-text)" }}
+            >
+              I&apos;m a hobbyist game developer and web tinkerer. I built this
+              site to share my projects, write about what I&apos;m learning, and
+              experiment with retro aesthetics. If you like pixel art,
+              procedural generation, or just want to say hi, feel free to reach
+              out!
+            </p>
+          </div>
         </div>
       </section>
 
