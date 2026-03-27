@@ -38,10 +38,12 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  cursor: none;
 }
 
-a, button, [data-cursor-hover] {
+.cursor-custom,
+.cursor-custom a,
+.cursor-custom button,
+.cursor-custom [data-cursor-hover] {
   cursor: none;
 }
 

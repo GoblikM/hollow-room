@@ -16,6 +16,8 @@ export default function CustomCursor() {
     // Hide on touch devices
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
+    document.documentElement.classList.add("cursor-custom");
+
     const onMove = (e: MouseEvent) => {
       posRef.current = { x: e.clientX, y: e.clientY };
       if (!visibleRef.current) {
@@ -24,18 +26,20 @@ export default function CustomCursor() {
       }
     };
 
-    const onEnter = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [data-cursor-hover]")) {
-        setHovered(true);
-      }
+    const INTERACTIVE = "a, button, [data-cursor-hover]";
+
+    const onEnter = (e: PointerEvent) => {
+      const interactive = (e.target as HTMLElement).closest(INTERACTIVE);
+      if (!interactive) return;
+      const from = e.relatedTarget as HTMLElement | null;
+      if (!from || !interactive.contains(from)) setHovered(true);
     };
 
-    const onLeave = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest("a, button, [data-cursor-hover]")) {
-        setHovered(false);
-      }
+    const onLeave = (e: PointerEvent) => {
+      const interactive = (e.target as HTMLElement).closest(INTERACTIVE);
+      if (!interactive) return;
+      const to = e.relatedTarget as HTMLElement | null;
+      if (!to || !interactive.contains(to)) setHovered(false);
     };
 
     const onMouseLeave = () => {
@@ -49,8 +53,8 @@ export default function CustomCursor() {
     };
 
     document.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseover", onEnter, { passive: true });
-    document.addEventListener("mouseout", onLeave, { passive: true });
+    document.addEventListener("pointerover", onEnter, { passive: true });
+    document.addEventListener("pointerout", onLeave, { passive: true });
     document.documentElement.addEventListener("mouseleave", onMouseLeave);
     document.documentElement.addEventListener("mouseenter", onMouseEnter);
 
@@ -78,9 +82,10 @@ export default function CustomCursor() {
     rafRef.current = requestAnimationFrame(tick);
 
     return () => {
+      document.documentElement.classList.remove("cursor-custom");
       document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseover", onEnter);
-      document.removeEventListener("mouseout", onLeave);
+      document.removeEventListener("pointerover", onEnter);
+      document.removeEventListener("pointerout", onLeave);
       document.documentElement.removeEventListener("mouseleave", onMouseLeave);
       document.documentElement.removeEventListener("mouseenter", onMouseEnter);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
