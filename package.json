@@ -9,7 +9,7 @@
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "version": "git-cliff --tag v$npm_package_version --output CHANGELOG.md && git add CHANGELOG.md"
+    "version": "git-cliff --tag v$npm_package_version --output CHANGELOG.md && git add CHANGELOG.md && git commit --amend --no-edit"
   },
   "dependencies": {
     "gsap": "^3.14.2",
