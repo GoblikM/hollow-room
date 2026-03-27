@@ -8,7 +8,6 @@ import GameCard from "@/components/GameCard";
 import ProjectCard from "@/components/ProjectCard";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
-import { Parallax } from "react-scroll-parallax";
 import Image from "next/image";
 
 const PLACEHOLDER_PROJECTS = [
@@ -91,18 +90,16 @@ export default function Home() {
           {/* Hero content */}
           <div className="relative z-10 text-center">
             <div className="hero-title-shell">
-              <Parallax translateY={[-14, 18]} easing="easeOutQuad">
-                <h1
-                  className="hero-title text-7xl mb-6 text-glitch text-glitch-soft"
-                  style={{
-                    color: "var(--color-accent-bright)",
-                    fontFamily: "var(--font-pixel)",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  hollow-room
-                </h1>
-              </Parallax>
+              <h1
+                className="hero-title text-7xl mb-6 text-glitch text-glitch-soft"
+                style={{
+                  color: "var(--color-accent-bright)",
+                  fontFamily: "var(--font-pixel)",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                hollow-room
+              </h1>
             </div>
             <p
               className="hero-subtitle font-mono text-lg tracking-widest uppercase"
