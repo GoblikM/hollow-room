@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import ParallaxProviderWrapper from "@/components/ParallaxProviderWrapper";
+import LocomotiveScrollProvider from "@/components/LocomotiveScrollProvider";
 
 export const metadata: Metadata = {
   title: "Hollow-room",
@@ -31,7 +32,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ParallaxProviderWrapper>{children}</ParallaxProviderWrapper>
+        <LocomotiveScrollProvider>{children}</LocomotiveScrollProvider>
       </body>
     </html>
   );

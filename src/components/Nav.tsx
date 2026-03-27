@@ -1,7 +1,9 @@
 "use client";
 
+import { useLocomotiveScroll } from "@/components/LocomotiveScrollProvider";
 import Link from "next/link";
 import { useState } from "react";
+import type { MouseEvent } from "react";
 
 const NAV_LINKS = [
   { href: "#home", label: "Home" },
@@ -30,16 +32,45 @@ function NavLink({
   mobile = false,
   onClick,
 }: NavLinkProps) {
+  const scrollController = useLocomotiveScroll();
   const baseClassName = mobile ? "nav-mobile-link" : "nav-link";
   const activeClassName = mobile ? "nav-mobile-link-active" : "nav-link-active";
   const className = `${baseClassName}${active ? ` ${activeClassName}` : ""} hover-text-glitch text-glitch-soft`;
+  const isHashLink = href.startsWith("#");
+
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    onClick?.();
+
+    if (
+      !isHashLink ||
+      !scrollController ||
+      event.defaultPrevented ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    const targetElement = document.querySelector<HTMLElement>(href);
+    if (!targetElement) {
+      return;
+    }
+
+    event.preventDefault();
+    scrollController.scrollTo(targetElement, {
+      offset: href === "#home" ? 0 : -56,
+      duration: 0.9,
+    });
+  }
 
   if (mobile) {
     return (
       <Link
         href={href}
         aria-current={active ? "page" : undefined}
-        onClick={onClick}
+        onClick={handleClick}
         className={className}
       >
         {label}
@@ -51,6 +82,7 @@ function NavLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
+      onClick={handleClick}
       className={className}
     >
       {label}
@@ -60,8 +92,25 @@ function NavLink({
 
 export default function Nav({ activeSection = "home" }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const scrollController = useLocomotiveScroll();
 
   const isActive = (href: string) => href.replace("#", "") === activeSection;
+
+  function handleLogoClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (
+      !scrollController ||
+      event.defaultPrevented ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    scrollController.scrollTo(0, { immediate: false, duration: 1 });
+  }
 
   return (
     <nav className="nav-root">
@@ -75,6 +124,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           href="/"
           aria-label="hollow-room home"
           className="nav-logo logo-link"
+          onClick={handleLogoClick}
         >
           HOLLOW-ROOM
         </Link>

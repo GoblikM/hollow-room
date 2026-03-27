@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useLocomotiveScroll } from "@/components/LocomotiveScrollProvider";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -15,6 +16,8 @@ function remapProgress(value: number, start: number, end: number): number {
 }
 
 export function useRevealOnScroll(selector = ".section-reveal"): void {
+  const scrollController = useLocomotiveScroll();
+
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(selector));
     if (!elements.length) return;
@@ -32,6 +35,7 @@ export function useRevealOnScroll(selector = ".section-reveal"): void {
     }
 
     let frameId = 0;
+    let latestScrollY = scrollController?.getScrollValues().scroll ?? 0;
 
     function updateRevealProgress() {
       const viewportHeight = window.innerHeight;
@@ -57,7 +61,9 @@ export function useRevealOnScroll(selector = ".section-reveal"): void {
       });
     }
 
-    function scheduleUpdate() {
+    function scheduleUpdate(scrollY: number) {
+      latestScrollY = scrollY;
+
       if (frameId) return;
       frameId = window.requestAnimationFrame(() => {
         frameId = 0;
@@ -65,14 +71,23 @@ export function useRevealOnScroll(selector = ".section-reveal"): void {
       });
     }
 
-    updateRevealProgress();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
+    const unsubscribe =
+      scrollController?.subscribe((values) => {
+        scheduleUpdate(values.scroll);
+      }) ?? (() => undefined);
+
+    scheduleUpdate(latestScrollY);
+
+    const handleResize = () => {
+      scheduleUpdate(scrollController?.getScrollValues().scroll ?? 0);
+    };
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
       if (frameId) window.cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
+      unsubscribe();
+      window.removeEventListener("resize", handleResize);
     };
-  }, [selector]);
+  }, [scrollController, selector]);
 }
