@@ -45,7 +45,7 @@ jobs:
           SITE_BASE_PATH: hollow-room
 
       - name: Run tests
-        run: npm test -- --ci --passWithNoTests
+        run: npm test -- --ci
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
