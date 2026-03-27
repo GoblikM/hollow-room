@@ -47,10 +47,24 @@ jobs:
       - name: Run tests
         run: npm test -- --ci
 
+      - name: Archive Pages artifact
+        run: |
+          tar \
+            --dereference --hard-dereference \
+            --directory ./out \
+            -cvf "$RUNNER_TEMP/artifact.tar" \
+            --exclude=.git \
+            --exclude=.github \
+            --exclude=".[^/]*" \
+            .
+
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          path: ./out
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
 
   deploy-pages:
     name: Deploy to GitHub Pages
