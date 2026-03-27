@@ -1,12 +1,8 @@
 "use client";
 
-import Nav from "@/components/Nav";
-import ScrollRail from "@/components/ScrollRail";
-import ThemePicker from "@/components/ThemePicker";
 import BlogPostCard from "@/components/BlogPostCard";
 import GameCard from "@/components/GameCard";
 import ProjectCard from "@/components/ProjectCard";
-import { useActiveSection } from "@/hooks/useActiveSection";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
@@ -43,7 +39,7 @@ const PLACEHOLDER_BLOG_POSTS = [
     title: "building a static site with Next.js App Router",
     date: "2025-02-14",
     excerpt:
-      "Static exports in Next.js 15 are surprisingly painless once you understand the constraints. No server-side props, no API routes — but you get full React and a great DX. This post walks through the setup I used for this very srqaite.",
+      "Static exports in Next.js 15 are surprisingly painless once you understand the constraints. No server-side props, no API routes — but you get full React and a great DX. This post walks through the setup I used for this very site.",
   },
   {
     title: "pixel fonts and the art of retro UI",
@@ -71,18 +67,13 @@ const PLACEHOLDER_GAMES = [
   },
 ];
 
-const SECTION_IDS = ["home", "about", "games", "projects", "blog"];
 const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 
 export default function Home() {
-  const activeSection = useActiveSection(SECTION_IDS);
   useRevealOnScroll();
 
   return (
     <>
-      <Nav activeSection={activeSection} />
-      <ScrollRail />
-
       <main className="page-content">
         {/* Home section */}
         <section
@@ -236,7 +227,6 @@ export default function Home() {
         </footer>
       </main>
 
-      <ThemePicker />
     </>
   );
 }

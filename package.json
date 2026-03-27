@@ -11,7 +11,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "locomotive-scroll": "^5.0.1",
+    "gsap": "^3.14.2",
     "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

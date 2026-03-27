@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLocomotiveScroll } from "@/components/LocomotiveScrollProvider";
+import { useScroll } from "@/components/ScrollProvider";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -16,7 +16,7 @@ function remapProgress(value: number, start: number, end: number): number {
 }
 
 export function useRevealOnScroll(selector = ".section-reveal"): void {
-  const scrollController = useLocomotiveScroll();
+  const scrollController = useScroll();
 
   useEffect(() => {
     const elements = Array.from(document.querySelectorAll<HTMLElement>(selector));
