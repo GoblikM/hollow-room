@@ -8,6 +8,7 @@ import GameCard from "@/features/home/components/GameCard";
 import { HOME_GAMES_SECTION_ITEMS } from "@/features/home/data/gamesSectionContent";
 import ProjectCard from "@/features/home/components/ProjectCard";
 import { HOME_PROJECTS_SECTION_ITEMS } from "@/features/home/data/projectsSectionContent";
+import { HOME_SECTION_INTRO } from "@/features/home/data/sectionIntroContent";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
@@ -17,8 +18,7 @@ const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 
 export default function Home() {
   useRevealOnScroll();
-  useTypeHeadingsOnScroll(".section .section-reveal h2", 18);
-  useTypeHeadingsOnScroll("#about .about-layout p", 100);
+  useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
 
   return (
     <>
@@ -47,6 +47,7 @@ export default function Home() {
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
               about
             </h2>
+            <p className="section-intro">{HOME_SECTION_INTRO.about}</p>
             <div className="about-layout">
               <div className="about-avatar-frame vhs-border">
                 <Image
@@ -69,6 +70,7 @@ export default function Home() {
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
               games
             </h2>
+            <p className="section-intro">{HOME_SECTION_INTRO.games}</p>
             <div className="card-grid">
               {HOME_GAMES_SECTION_ITEMS.map((game) => (
                 <GameCard key={game.name} {...game} />
@@ -83,6 +85,7 @@ export default function Home() {
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
               projects
             </h2>
+            <p className="section-intro">{HOME_SECTION_INTRO.projects}</p>
             <div className="card-grid">
               {HOME_PROJECTS_SECTION_ITEMS.map((project) => (
                 <ProjectCard key={project.name} {...project} />
@@ -97,6 +100,7 @@ export default function Home() {
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
               blog
             </h2>
+            <p className="section-intro">{HOME_SECTION_INTRO.blog}</p>
             <div>
               {HOME_BLOG_SECTION_POSTS.map((post) => (
                 <BlogPostCard key={post.title} {...post} />
@@ -111,6 +115,7 @@ export default function Home() {
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
               contact
             </h2>
+            <p className="section-intro">{HOME_SECTION_INTRO.contact}</p>
 
             <div className="contact-shell vhs-border">
               <div className="contact-shell-left">
