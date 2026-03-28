@@ -59,7 +59,9 @@ export default function SettingsPicker() {
     setMode(m);
     localStorage.setItem("theme-mode", m);
     // Dispatch custom event for audio system to switch tracks
-    window.dispatchEvent(new CustomEvent("themeChanged", { detail: { mode: m } }));
+    window.dispatchEvent(
+      new CustomEvent("themeChanged", { detail: { mode: m } }),
+    );
   }
 
   function handleDesktopNavToggle() {
@@ -113,7 +115,9 @@ export default function SettingsPicker() {
               viewBox="0 0 12 12"
               fill="currentColor"
             >
-              <polygon points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
+              <polygon
+                points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"}
+              />
             </svg>
           </button>
 

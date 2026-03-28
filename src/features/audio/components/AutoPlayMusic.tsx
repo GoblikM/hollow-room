@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { getInitialMode } from "@/features/theme/utils/themeRuntime";
-import type { ThemeMode } from "@/features/theme/constants/themePalette";
+import { DEFAULT_THEME_MODE, type ThemeMode } from "@/features/theme/constants/themePalette";
 
 function getAudioSource(mode: ThemeMode): string {
   return mode === "light" ? "/audio/light.mp3" : "/audio/dark.mp3";
@@ -13,7 +13,11 @@ const AUDIO_VOLUME = 0.02;
 
 export default function AutoPlayMusic() {
   const { audioRef, setIsPlaying } = useAudio();
-  const [mode, setMode] = useState<ThemeMode>(() => getInitialMode());
+  const [mode, setMode] = useState<ThemeMode>(DEFAULT_THEME_MODE);
+
+  useEffect(() => {
+    setMode(getInitialMode());
+  }, []);
 
   useEffect(() => {
     const audioEl = audioRef?.current;
@@ -73,7 +77,7 @@ export default function AutoPlayMusic() {
       audioEl.removeEventListener("pause", handlePause);
       window.removeEventListener("themeChanged", handleThemeChange);
     };
-  }, [audioRef, setIsPlaying, mode]);
+  }, [audioRef, setIsPlaying]);
 
   // Handle mode changes to reload audio with new theme track
   useEffect(() => {

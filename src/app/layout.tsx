@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   description: "Personal blog and portfolio",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={fontVariables}>
       <body>

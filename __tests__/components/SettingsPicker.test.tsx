@@ -32,7 +32,9 @@ describe("SettingsPicker component", () => {
     const btn = screen.getByRole("button", { name: /pick color scheme/i });
     expect(btn).toBeInTheDocument();
     // Panel should not be visible on initial render
-    expect(screen.queryByRole("button", { name: /void/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /void/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("clicking button shows the panel", () => {
@@ -50,7 +52,9 @@ describe("SettingsPicker component", () => {
     fireEvent.click(btn);
     expect(screen.getByRole("button", { name: /void/i })).toBeInTheDocument();
     fireEvent.click(btn);
-    expect(screen.queryByRole("button", { name: /void/i })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /void/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("clicking a swatch calls setProperty with --color-accent and the correct value", () => {
@@ -68,7 +72,10 @@ describe("SettingsPicker component", () => {
     fireEvent.click(btn);
     const toxicSwatch = screen.getByRole("button", { name: /toxic/i });
     fireEvent.click(toxicSwatch);
-    expect(localStorageMock.setItem).toHaveBeenCalledWith("theme-scheme", "toxic");
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      "theme-scheme",
+      "toxic",
+    );
   });
 
   it("on mount, reads localStorage and applies saved scheme", () => {
@@ -78,7 +85,10 @@ describe("SettingsPicker component", () => {
     });
     render(<SettingsPicker />);
     expect(setPropertyMock).toHaveBeenCalledWith("--color-accent", "#1d4ed8");
-    expect(setPropertyMock).toHaveBeenCalledWith("--color-accent-bright", "#60a5fa");
+    expect(setPropertyMock).toHaveBeenCalledWith(
+      "--color-accent-bright",
+      "#60a5fa",
+    );
   });
 
   it("clicking LIGHT button sets --color-base to parchment", () => {
@@ -115,7 +125,10 @@ describe("SettingsPicker component", () => {
     render(<SettingsPicker />);
     fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
     fireEvent.click(screen.getByRole("button", { name: /light/i }));
-    expect(localStorageMock.setItem).toHaveBeenCalledWith("theme-mode", "light");
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      "theme-mode",
+      "light",
+    );
   });
 
   it("reads theme-mode from localStorage on mount and applies light mode", () => {

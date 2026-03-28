@@ -111,7 +111,9 @@ export default function ThemePicker() {
               viewBox="0 0 12 12"
               fill="currentColor"
             >
-              <polygon points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
+              <polygon
+                points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"}
+              />
             </svg>
           </button>
 

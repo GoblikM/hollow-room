@@ -28,9 +28,13 @@ export default function AutoPlayMusic() {
 
     tryPlay();
 
-    window.addEventListener("pointerdown", handleFirstInteraction, { once: true });
+    window.addEventListener("pointerdown", handleFirstInteraction, {
+      once: true,
+    });
     window.addEventListener("keydown", handleFirstInteraction, { once: true });
-    window.addEventListener("touchstart", handleFirstInteraction, { once: true });
+    window.addEventListener("touchstart", handleFirstInteraction, {
+      once: true,
+    });
 
     return () => {
       window.removeEventListener("pointerdown", handleFirstInteraction);

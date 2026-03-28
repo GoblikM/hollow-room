@@ -733,7 +733,8 @@ body::after {
   gap: 0.32rem;
   padding-bottom: 0.4rem;
   margin-bottom: 0.38rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-outline) 50%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-outline) 50%, transparent);
 }
 
 .theme-swatch {
