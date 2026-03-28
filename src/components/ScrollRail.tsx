@@ -141,8 +141,8 @@ export default function ScrollRail() {
             >
               <button
                 type="button"
-                className={`scroll-rail-label ${
-                  isActive ? "scroll-rail-label-active" : ""
+                className={`scroll-rail-label nav-link hover-text-glitch text-glitch-soft ${
+                  isActive ? "scroll-rail-label-active nav-link-active" : ""
                 }`}
                 aria-current={isActive ? "location" : undefined}
                 onClick={() => handleScrollToSection(sectionId)}
