@@ -6,8 +6,8 @@ type BlogPostCardProps = {
 
 export default function BlogPostCard({ title, date, excerpt }: BlogPostCardProps) {
   return (
-    <article className="border-b border-border pb-6 mb-6">
-      <p className="font-mono text-[0.7rem] mb-[0.4rem] text-text-muted">
+    <article className="border-b border-outline pb-6 mb-6">
+      <p className="font-mono text-[0.7rem] mb-[0.4rem] text-muted">
         {date}
       </p>
       <h3 className="font-pixel text-xs mb-3 leading-[1.5] text-accent-bright">

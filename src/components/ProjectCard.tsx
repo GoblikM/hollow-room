@@ -17,7 +17,7 @@ export default function ProjectCard({ name, description, tags }: ProjectCardProp
         {tags.map((tag) => (
           <li
             key={tag}
-            className="font-mono text-[0.65rem] px-2 py-[0.15rem] border border-accent-dim text-text-muted"
+            className="font-mono text-[0.65rem] px-2 py-[0.15rem] border border-accent-dim text-muted"
           >
             {tag}
           </li>

@@ -101,24 +101,24 @@ function applyScheme(scheme: ColorScheme) {
   root.style.setProperty("--color-accent", scheme.accent);
   root.style.setProperty("--color-accent-bright", scheme.bright);
   root.style.setProperty("--color-accent-dim", scheme.dim);
-  root.style.setProperty("--color-border", scheme.border);
+  root.style.setProperty("--color-outline", scheme.border);
 }
 
 function applyMode(m: "dark" | "light") {
   const root = document.documentElement;
   if (m === "light") {
-    root.style.setProperty("--color-bg", LIGHT_MODE_COLORS.bg);
+    root.style.setProperty("--color-base", LIGHT_MODE_COLORS.bg);
     root.style.setProperty("--color-surface", LIGHT_MODE_COLORS.surface);
     root.style.setProperty("--color-surface-2", LIGHT_MODE_COLORS.surface2);
-    root.style.setProperty("--color-text", LIGHT_MODE_COLORS.text);
-    root.style.setProperty("--color-text-muted", LIGHT_MODE_COLORS.textMuted);
+    root.style.setProperty("--color-fg", LIGHT_MODE_COLORS.text);
+    root.style.setProperty("--color-muted", LIGHT_MODE_COLORS.textMuted);
     document.body.classList.add("light-mode");
   } else {
-    root.style.setProperty("--color-bg", DARK_MODE_COLORS.bg);
+    root.style.setProperty("--color-base", DARK_MODE_COLORS.bg);
     root.style.setProperty("--color-surface", DARK_MODE_COLORS.surface);
     root.style.setProperty("--color-surface-2", DARK_MODE_COLORS.surface2);
-    root.style.setProperty("--color-text", DARK_MODE_COLORS.text);
-    root.style.setProperty("--color-text-muted", DARK_MODE_COLORS.textMuted);
+    root.style.setProperty("--color-fg", DARK_MODE_COLORS.text);
+    root.style.setProperty("--color-muted", DARK_MODE_COLORS.textMuted);
     document.body.classList.remove("light-mode");
   }
 }

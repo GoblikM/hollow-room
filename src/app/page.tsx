@@ -87,7 +87,7 @@ export default function Home() {
                 hollow-room
               </h1>
             </div>
-            <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-text-muted">
+            <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-muted">
               blog &amp; portfolio &mdash; coming soon here
             </p>
           </div>
@@ -183,7 +183,7 @@ export default function Home() {
           className="footer-section p-4 text-center font-pixel text-accent-bright text-xs"
         >
           &copy; 2026 hollow-room. All rights reserved.{" "}
-          <span className="text-text-muted text-[0.65rem] tracking-[0.08em]">
+          <span className="text-muted text-[0.65rem] tracking-[0.08em]">
             v{appVersion}
           </span>
         </footer>
