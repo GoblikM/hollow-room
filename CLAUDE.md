@@ -21,11 +21,9 @@ npx jest __tests__/components/Nav.test.tsx
 ## Releasing
 
 ```bash
-npm version patch   # 0.1.7 → 0.1.8
+npm version patch   # 0.1.7 → 0.1.8  (bumps, regenerates CHANGELOG, pushes commit + tag)
 npm version minor   # 0.1.7 → 0.2.0
 npm version major   # 0.1.7 → 1.0.0
-
-git push && git push --tags
 ```
 
 The `version` npm lifecycle hook runs `git-cliff` automatically — it regenerates `CHANGELOG.md` from conventional commits and stages it before npm creates the version commit and tag. No manual changelog edits needed.
