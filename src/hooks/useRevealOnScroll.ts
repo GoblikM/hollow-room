@@ -1,93 +1,71 @@
 "use client";
 
 import { useEffect } from "react";
-import { useScroll } from "@/app/providers/ScrollProvider";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value));
-}
-
-function easeOutCubic(value: number): number {
-  return 1 - Math.pow(1 - value, 3);
-}
-
-function remapProgress(value: number, start: number, end: number): number {
-  return clamp((value - start) / (end - start), 0, 1);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export function useRevealOnScroll(selector = ".section-reveal"): void {
-  const scrollController = useScroll();
-
   useEffect(() => {
-    const elements = Array.from(document.querySelectorAll<HTMLElement>(selector));
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>(selector),
+    );
     if (!elements.length) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduceMotion) {
       elements.forEach((element) => {
-        element.style.setProperty("--reveal-opacity", "1");
-        element.style.setProperty("--reveal-translate-y", "0px");
-        element.style.setProperty("--reveal-scale", "1");
-        element.style.setProperty("--reveal-blur", "0px");
-        element.style.setProperty("--reveal-brightness", "1");
+        gsap.set(element, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px) brightness(1)",
+        });
       });
       return;
     }
 
-    let frameId = 0;
-    let latestScrollY = scrollController?.getScrollValues().scroll ?? 0;
+    const cleanups: Array<() => void> = [];
 
-    function updateRevealProgress() {
-      const viewportHeight = window.innerHeight;
-      const revealStart = viewportHeight * 0.92;
-      const revealEnd = viewportHeight * 0.52;
-
-      elements.forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const elementCenter = rect.top + rect.height / 2;
-        const rawProgress = remapProgress(revealStart - elementCenter, 0, revealStart - revealEnd);
-        const progress = easeOutCubic(rawProgress);
-        const translateY = (1 - progress) * 72;
-        const scale = 0.96 + progress * 0.04;
-        const blur = (1 - progress) * 10;
-        const brightness = 0.82 + progress * 0.18;
-        const opacity = 0.28 + progress * 0.72;
-
-        element.style.setProperty("--reveal-opacity", opacity.toFixed(3));
-        element.style.setProperty("--reveal-translate-y", `${translateY.toFixed(2)}px`);
-        element.style.setProperty("--reveal-scale", scale.toFixed(3));
-        element.style.setProperty("--reveal-blur", `${blur.toFixed(2)}px`);
-        element.style.setProperty("--reveal-brightness", brightness.toFixed(3));
+    elements.forEach((element) => {
+      gsap.set(element, {
+        opacity: 0,
+        y: 28,
+        scale: 0.985,
+        filter: "blur(8px) brightness(0.9)",
       });
-    }
 
-    function scheduleUpdate(scrollY: number) {
-      latestScrollY = scrollY;
-
-      if (frameId) return;
-      frameId = window.requestAnimationFrame(() => {
-        frameId = 0;
-        updateRevealProgress();
+      const tween = gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px) brightness(1)",
+        duration: 0.92,
+        ease: "power2.out",
+        paused: true,
       });
-    }
 
-    const unsubscribe =
-      scrollController?.subscribe((values) => {
-        scheduleUpdate(values.scroll);
-      }) ?? (() => undefined);
+      const trigger = ScrollTrigger.create({
+        trigger: element,
+        start: "top 68%",
+        onEnter: () => {
+          tween.play();
+        },
+        once: true,
+      });
 
-    scheduleUpdate(latestScrollY);
-
-    const handleResize = () => {
-      scheduleUpdate(scrollController?.getScrollValues().scroll ?? 0);
-    };
-
-    window.addEventListener("resize", handleResize);
+      cleanups.push(() => {
+        trigger.kill();
+        tween.kill();
+      });
+    });
 
     return () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
-      unsubscribe();
-      window.removeEventListener("resize", handleResize);
+      cleanups.forEach((cleanup) => cleanup());
+      ScrollTrigger.refresh();
     };
-  }, [scrollController, selector]);
+  }, [selector]);
 }

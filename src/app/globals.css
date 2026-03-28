@@ -599,15 +599,20 @@ body::after {
 .section {
   background-color: transparent;
   min-height: 70vh;
-  padding: 2rem;
+  padding: clamp(2.4rem, 5vw, 4.2rem) 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+.section + .section {
+  margin-top: clamp(2.4rem, 6vw, 5.5rem);
+}
+
 .section.section-last {
-  padding-bottom: 11rem;
+  min-height: 88vh;
+  padding-bottom: clamp(14rem, 28vh, 22rem);
 }
 
 .footer-section {
@@ -942,27 +947,30 @@ body.light-mode .hero-title {
 }
 
 .section-reveal {
-  --reveal-opacity: 0.28;
-  --reveal-translate-y: 72px;
-  --reveal-scale: 0.96;
-  --reveal-blur: 10px;
-  --reveal-brightness: 0.82;
-  opacity: var(--reveal-opacity);
-  transform: translate3d(0, var(--reveal-translate-y), 0)
-    scale(var(--reveal-scale));
-  filter: blur(var(--reveal-blur)) brightness(var(--reveal-brightness));
-  transition:
-    opacity 0.24s ease-out,
-    transform 0.24s ease-out,
-    filter 0.24s ease-out;
+  opacity: 0.28;
+  transform: translate3d(0, 72px, 0) scale(0.96);
+  filter: blur(10px) brightness(0.82);
   will-change: opacity, transform, filter;
 }
 
 body.light-mode .section-reveal {
-  filter: blur(var(--reveal-blur));
+  filter: blur(10px);
 }
 
 @media (max-width: 640px) {
+  .section {
+    padding: 2rem 1.25rem;
+  }
+
+  .section + .section {
+    margin-top: 1.5rem;
+  }
+
+  .section.section-last {
+    min-height: 78vh;
+    padding-bottom: clamp(9rem, 24vh, 14rem);
+  }
+
   .about-layout {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -989,8 +997,7 @@ body.light-mode .section-reveal {
   }
 
   .section-reveal {
-    transform: translate3d(0, var(--reveal-translate-y), 0)
-      scale(var(--reveal-scale));
+    transform: translate3d(0, 72px, 0) scale(0.96);
   }
 
   .contact-shell {
