@@ -1,3 +1,22 @@
+## [$npm_package_version] - 2026-03-28
+
+### 🚜 Refactor
+
+- Migrate font loading from link tags to next/font/google
+- Register color and font design tokens via Tailwind @theme
+- Replace inline styles with Tailwind classes across all components
+- Rename color tokens to semantic names (bg→base, border→outline, text→fg, text-muted→muted)
+
+### 📚 Documentation
+
+- Update changelog config
+
+### ⚙️ Miscellaneous Tasks
+
+- *(versioning)* Update version script to amend changelog commit automatically
+- Add .claude/ to .gitignore
+- Ignore only .claude/settings.local.json instead of entire .claude/
+- Set module type to ESM in package.json
 ## [0.1.8] - 2026-03-27
 
 ### 🐛 Bug Fixes
