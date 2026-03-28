@@ -1,136 +1,23 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-
-interface ColorScheme {
-  id: string;
-  label: string;
-  accent: string;
-  bright: string;
-  dim: string;
-  border: string;
-}
-
-const SCHEMES: ColorScheme[] = [
-  {
-    id: "void",
-    label: "Void",
-    accent: "#7c3aed",
-    bright: "#a855f7",
-    dim: "#5b21b6",
-    border: "#2a1f4a",
-  },
-  {
-    id: "blood",
-    label: "Blood",
-    accent: "#9b1c1c",
-    bright: "#dc2626",
-    dim: "#7f1d1d",
-    border: "#3b0a0a",
-  },
-  {
-    id: "toxic",
-    label: "Toxic",
-    accent: "#15803d",
-    bright: "#4ade80",
-    dim: "#14532d",
-    border: "#052e16",
-  },
-  {
-    id: "abyss",
-    label: "Abyss",
-    accent: "#1d4ed8",
-    bright: "#60a5fa",
-    dim: "#1e3a8a",
-    border: "#0c1a3e",
-  },
-  {
-    id: "static",
-    label: "Static",
-    accent: "#4b5563",
-    bright: "#9ca3af",
-    dim: "#374151",
-    border: "#1f2937",
-  },
-  {
-    id: "rust",
-    label: "Rust",
-    accent: "#b45309",
-    bright: "#fbbf24",
-    dim: "#92400e",
-    border: "#3d1a00",
-  },
-];
-
-const LIGHT_MODE_COLORS = {
-  bg: "#f5f0e8",
-  surface: "#ede6d6",
-  surface2: "#e4dcc8",
-  text: "#1a0a2e",
-  textMuted: "#5a4a7a",
-};
-
-const DARK_MODE_COLORS = {
-  bg: "#050508",
-  surface: "#0d0a1a",
-  surface2: "#16102a",
-  text: "#c8b8e8",
-  textMuted: "#6b5a8a",
-};
-
-function getInitialSchemeId(): string {
-  if (typeof window === "undefined") {
-    return "void";
-  }
-  const saved = localStorage.getItem("theme-scheme");
-  return saved !== null && SCHEMES.some((scheme) => scheme.id === saved)
-    ? saved
-    : "void";
-}
-
-function getInitialMode(): "dark" | "light" {
-  if (typeof window === "undefined") {
-    return "dark";
-  }
-  const savedMode = localStorage.getItem("theme-mode");
-  return savedMode === "light" || savedMode === "dark" ? savedMode : "dark";
-}
-
-function applyScheme(scheme: ColorScheme) {
-  const root = document.documentElement;
-  root.style.setProperty("--color-accent", scheme.accent);
-  root.style.setProperty("--color-accent-bright", scheme.bright);
-  root.style.setProperty("--color-accent-dim", scheme.dim);
-  root.style.setProperty("--color-outline", scheme.border);
-}
-
-function applyMode(m: "dark" | "light") {
-  const root = document.documentElement;
-  if (m === "light") {
-    root.style.setProperty("--color-base", LIGHT_MODE_COLORS.bg);
-    root.style.setProperty("--color-surface", LIGHT_MODE_COLORS.surface);
-    root.style.setProperty("--color-surface-2", LIGHT_MODE_COLORS.surface2);
-    root.style.setProperty("--color-fg", LIGHT_MODE_COLORS.text);
-    root.style.setProperty("--color-muted", LIGHT_MODE_COLORS.textMuted);
-    document.body.classList.add("light-mode");
-  } else {
-    root.style.setProperty("--color-base", DARK_MODE_COLORS.bg);
-    root.style.setProperty("--color-surface", DARK_MODE_COLORS.surface);
-    root.style.setProperty("--color-surface-2", DARK_MODE_COLORS.surface2);
-    root.style.setProperty("--color-fg", DARK_MODE_COLORS.text);
-    root.style.setProperty("--color-muted", DARK_MODE_COLORS.textMuted);
-    document.body.classList.remove("light-mode");
-  }
-}
+import { SCHEMES, type ColorScheme, type ThemeMode } from "@/features/theme/constants/themePalette";
+import {
+  applyMode,
+  applyScheme,
+  getInitialMode,
+  getInitialSchemeId,
+  getSchemeById,
+} from "@/features/theme/utils/themeRuntime";
 
 export default function ThemePicker() {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
-  const [mode, setMode] = useState<"dark" | "light">(getInitialMode);
+  const [mode, setMode] = useState<ThemeMode>(getInitialMode);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const scheme = SCHEMES.find((item) => item.id === activeId) ?? SCHEMES[0];
+    const scheme = getSchemeById(activeId);
     applyScheme(scheme);
     applyMode(mode);
   }, [activeId, mode]);
@@ -154,14 +41,14 @@ export default function ThemePicker() {
     localStorage.setItem("theme-scheme", scheme.id);
   }
 
-  function handleModeChange(m: "dark" | "light") {
+  function handleModeChange(m: ThemeMode) {
     applyMode(m);
     setMode(m);
     localStorage.setItem("theme-mode", m);
   }
 
   return (
-    <div ref={containerRef} className="fixed bottom-6 right-6 z-[1000]">
+    <div ref={containerRef} className="fixed bottom-6 right-6 z-1000">
       {open && (
         <div className="theme-picker-panel">
           <div className="flex gap-1 mb-2">

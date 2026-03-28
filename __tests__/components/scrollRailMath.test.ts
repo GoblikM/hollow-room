@@ -4,7 +4,7 @@ import {
   getCenteredScrollTarget,
   getRailProgressFromSections,
   type SectionMetrics,
-} from "@/components/scrollRailMath";
+} from "@/shared/utils/scrollRailMath";
 
 describe("scrollRailMath", () => {
   it("collects metrics only for sections present in the DOM", () => {

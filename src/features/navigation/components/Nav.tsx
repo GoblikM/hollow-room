@@ -1,7 +1,7 @@
 "use client";
 
-import { useScroll } from "@/components/ScrollProvider";
-import { NAV_LINKS } from "@/constants/navigation";
+import { useScroll } from "@/app/providers/ScrollProvider";
+import { NAV_LINKS } from "@/features/navigation/constants/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import type { MouseEvent } from "react";

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import ScrollRail from "@/components/ScrollRail";
+import ScrollRail from "@/features/navigation/components/ScrollRail";
 
 const scrollMocks = {
   scrollTo: jest.fn(),
@@ -8,7 +8,7 @@ const scrollMocks = {
   resize: jest.fn(),
 };
 
-jest.mock("@/components/ScrollProvider", () => ({
+jest.mock("@/app/providers/ScrollProvider", () => ({
   useScroll: () => ({
     scrollTo: scrollMocks.scrollTo,
     subscribe: scrollMocks.subscribe,

@@ -1,8 +1,8 @@
 "use client";
 
-import BlogPostCard from "@/components/BlogPostCard";
-import GameCard from "@/components/GameCard";
-import ProjectCard from "@/components/ProjectCard";
+import BlogPostCard from "@/features/blog/components/BlogPostCard";
+import GameCard from "@/features/games/components/GameCard";
+import ProjectCard from "@/features/projects/components/ProjectCard";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";

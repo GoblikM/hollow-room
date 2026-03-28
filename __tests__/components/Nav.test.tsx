@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Nav from "@/components/Nav";
+import Nav from "@/features/navigation/components/Nav";
 
 // Mock next/link to render a plain <a>
 jest.mock("next/link", () => {

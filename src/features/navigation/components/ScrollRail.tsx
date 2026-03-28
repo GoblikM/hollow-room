@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { useScroll } from "@/components/ScrollProvider";
-import { NAV_LINKS, SECTION_IDS } from "@/constants/navigation";
+import { useScroll } from "@/app/providers/ScrollProvider";
+import { NAV_LINKS, SECTION_IDS } from "@/features/navigation/constants/navigation";
 import {
   collectSectionMetrics,
   findCenterSection,
   getCenteredScrollTarget,
   getRailProgressFromSections,
   type SectionMetrics,
-} from "@/components/scrollRailMath";
+} from "@/shared/utils/scrollRailMath";
 
 type RailStopStyle = CSSProperties & { "--rail-stop": string };
 export type ScrollRailSection = {

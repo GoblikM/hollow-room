@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useScroll } from "@/components/ScrollProvider";
+import { useScroll } from "@/app/providers/ScrollProvider";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
