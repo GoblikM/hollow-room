@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useScroll } from "@/components/ScrollProvider";
 import { NAV_LINKS, SECTION_IDS } from "@/constants/navigation";
 import {
@@ -23,12 +17,10 @@ export type ScrollRailSection = {
   label: string;
 };
 
-const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(
-  ({ href, label }) => ({
-    id: href.replace("#", ""),
-    label,
-  }),
-);
+const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(({ href, label }) => ({
+  id: href.replace("#", ""),
+  label,
+}));
 
 type ScrollRailProps = {
   sections?: ScrollRailSection[];
@@ -52,8 +44,7 @@ export default function ScrollRail({
   }, [resolvedSections]);
   const fallbackId = sectionIds[0] ?? SECTION_IDS[0] ?? "home";
   const sectionsRef = useRef<SectionMetrics[]>([]);
-  const [activeCenterSection, setActiveCenterSection] =
-    useState<string>(fallbackId);
+  const [activeCenterSection, setActiveCenterSection] = useState<string>(fallbackId);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -75,12 +66,8 @@ export default function ScrollRail({
       const progress = getRailProgressFromSections(scrollY, sections);
 
       // Visibility — fade in as the about section scrolls into view
-      const revealSection = revealSectionId
-        ? document.getElementById(revealSectionId)
-        : null;
-      const revealStart = revealSection
-        ? revealSection.offsetTop - window.innerHeight * 0.5
-        : 0;
+      const revealSection = revealSectionId ? document.getElementById(revealSectionId) : null;
+      const revealStart = revealSection ? revealSection.offsetTop - window.innerHeight * 0.5 : 0;
       const revealRange = Math.max(window.innerHeight * 0.12, 1);
       const railVisibility = revealSection
         ? Math.min(Math.max((scrollY - revealStart) / revealRange, 0), 1)
@@ -91,17 +78,13 @@ export default function ScrollRail({
 
       root.style.setProperty("--scroll-progress", `${progress}`);
       root.style.setProperty("--scroll-rail-opacity", `${railVisibility}`);
-      setActiveCenterSection((previous) =>
-        previous === centerSection ? previous : centerSection,
-      );
+      setActiveCenterSection((previous) => (previous === centerSection ? previous : centerSection));
     };
 
     const requestProgressUpdate = (scrollY: number) => {
       latestScrollY = scrollY;
       if (frameId !== 0) return;
-      frameId = window.requestAnimationFrame(() =>
-        updateScrollProgress(latestScrollY),
-      );
+      frameId = window.requestAnimationFrame(() => updateScrollProgress(latestScrollY));
     };
 
     const unsubscribe =
@@ -132,8 +115,7 @@ export default function ScrollRail({
     const section = document.getElementById(sectionId);
     if (!section) return;
 
-    const scrollLimit =
-      scrollController?.getScrollValues().limit ?? Number.POSITIVE_INFINITY;
+    const scrollLimit = scrollController?.getScrollValues().limit ?? Number.POSITIVE_INFINITY;
     const clampedTarget = getCenteredScrollTarget(
       section.offsetTop,
       section.offsetHeight,
@@ -164,11 +146,7 @@ export default function ScrollRail({
           };
 
           return (
-            <li
-              key={sectionId}
-              className="scroll-rail-label-item"
-              style={railStopStyle}
-            >
+            <li key={sectionId} className="scroll-rail-label-item" style={railStopStyle}>
               <button
                 type="button"
                 className={`scroll-rail-label nav-link hover-text-glitch text-glitch-soft ${
