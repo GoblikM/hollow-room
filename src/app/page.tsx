@@ -9,6 +9,7 @@ import { HOME_GAMES_SECTION_ITEMS } from "@/features/home/data/gamesSectionConte
 import ProjectCard from "@/features/home/components/ProjectCard";
 import { HOME_PROJECTS_SECTION_ITEMS } from "@/features/home/data/projectsSectionContent";
 import { HOME_SECTION_INTRO } from "@/features/home/data/sectionIntroContent";
+import { useAudio } from "@/features/audio/context/AudioContext";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
@@ -17,9 +18,20 @@ import avatar from "@/assets/avatar.png";
 const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 
 export default function Home() {
+  const { audioRef, isPlaying, setIsPlaying } = useAudio();
+
   useRevealOnScroll();
   useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
   useTypeHeadingsOnScroll(".hero-subtitle", 10);
+
+  const handlePlayMusic = () => {
+    const audioEl = audioRef?.current;
+    if (!audioEl) return;
+
+    void audioEl.play().then(() => {
+      setIsPlaying(true);
+    });
+  };
 
   return (
     <>
@@ -39,6 +51,17 @@ export default function Home() {
             <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-muted">
               blog &amp; portfolio &mdash; coming soon here
             </p>
+            <div className="hero-play-slot">
+              <button
+                type="button"
+                className={`hero-play-trigger${isPlaying ? " is-hidden" : ""}`}
+                onClick={handlePlayMusic}
+                aria-hidden={isPlaying}
+                tabIndex={isPlaying ? -1 : 0}
+              >
+                click to play -&gt;
+              </button>
+            </div>
           </div>
         </section>
 
