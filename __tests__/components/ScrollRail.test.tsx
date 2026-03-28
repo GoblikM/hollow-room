@@ -50,8 +50,7 @@ describe("ScrollRail", () => {
       cb(0);
       return 1;
     }) as typeof window.requestAnimationFrame;
-    window.cancelAnimationFrame = (() =>
-      undefined) as typeof window.cancelAnimationFrame;
+    window.cancelAnimationFrame = (() => undefined) as typeof window.cancelAnimationFrame;
 
     Object.defineProperty(window, "innerHeight", {
       value: 1000,
@@ -88,12 +87,7 @@ describe("ScrollRail", () => {
   });
 
   it("scrolls to centered section target when clicking a label", () => {
-    render(
-      <ScrollRail
-        sections={[{ id: "blog", label: "Blog" }]}
-        revealSectionId={null}
-      />,
-    );
+    render(<ScrollRail sections={[{ id: "blog", label: "Blog" }]} revealSectionId={null} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Blog" }));
 

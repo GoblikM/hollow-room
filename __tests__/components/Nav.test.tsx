@@ -53,9 +53,7 @@ describe("Nav component", () => {
     render(<Nav activeSection="home" />);
 
     const homeLinks = screen.getAllByRole("link", { name: /home/i });
-    const activeHomeLinks = homeLinks.filter(
-      (link) => link.getAttribute("aria-current") === "page"
-    );
+    const activeHomeLinks = homeLinks.filter((link) => link.getAttribute("aria-current") === "page");
     expect(activeHomeLinks.length).toBeGreaterThan(0);
   });
 
@@ -63,9 +61,7 @@ describe("Nav component", () => {
     render(<Nav activeSection="blog" />);
 
     const blogLinks = screen.getAllByRole("link", { name: /blog/i });
-    const activeLinks = blogLinks.filter(
-      (link) => link.getAttribute("aria-current") === "page"
-    );
+    const activeLinks = blogLinks.filter((link) => link.getAttribute("aria-current") === "page");
     expect(activeLinks.length).toBeGreaterThan(0);
   });
 

@@ -24,10 +24,7 @@ export default function ThemePicker() {
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     }
@@ -84,13 +81,7 @@ export default function ThemePicker() {
         aria-label="Pick color scheme"
         aria-expanded={open}
       >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 22 22"
-          fill="none"
-          className="text-accent-bright"
-        >
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-accent-bright">
           <circle cx="7" cy="7" r="3" fill="currentColor" opacity="0.9" />
           <circle cx="15" cy="7" r="3" fill="currentColor" opacity="0.6" />
           <circle cx="11" cy="15" r="3" fill="currentColor" opacity="0.75" />

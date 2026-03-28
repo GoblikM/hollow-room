@@ -24,13 +24,7 @@ function isModifiedClick(e: MouseEvent<HTMLAnchorElement>): boolean {
   return e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;
 }
 
-function NavLink({
-  href,
-  label,
-  active,
-  mobile = false,
-  onClick,
-}: NavLinkProps) {
+function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps) {
   const scrollController = useScroll();
   const baseClassName = mobile ? "nav-mobile-link" : "nav-link";
   const activeClassName = mobile ? "nav-mobile-link-active" : "nav-link-active";
@@ -53,12 +47,7 @@ function NavLink({
   }
 
   return (
-    <Link
-      href={href}
-      aria-current={active ? "page" : undefined}
-      onClick={handleClick}
-      className={className}
-    >
+    <Link href={href} aria-current={active ? "page" : undefined} onClick={handleClick} className={className}>
       {label}
     </Link>
   );
@@ -82,12 +71,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
       <div aria-hidden="true" className="nav-gradient-strip" />
 
       <div className="nav-inner">
-        <Link
-          href="/"
-          aria-label="hollow-room home"
-          className="nav-logo logo-link"
-          onClick={handleLogoClick}
-        >
+        <Link href="/" aria-label="hollow-room home" className="nav-logo logo-link" onClick={handleLogoClick}>
           HOLLOW-ROOM
         </Link>
 
@@ -104,18 +88,11 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           aria-expanded={menuOpen}
           aria-controls="nav-mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
-          className={
-            menuOpen ? "nav-hamburger nav-hamburger-open" : "nav-hamburger"
-          }
+          className={menuOpen ? "nav-hamburger nav-hamburger-open" : "nav-hamburger"}
         >
           {menuOpen ? (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path
-                d="M5 5L15 15M15 5L5 15"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
+              <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           ) : (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
