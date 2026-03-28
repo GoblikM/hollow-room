@@ -6,29 +6,14 @@ type BlogPostCardProps = {
 
 export default function BlogPostCard({ title, date, excerpt }: BlogPostCardProps) {
   return (
-    <article
-      style={{
-        borderBottom: "1px solid var(--color-border)",
-        paddingBottom: "1.5rem",
-        marginBottom: "1.5rem",
-      }}
-    >
-      <p
-        className="font-mono"
-        style={{ color: "var(--color-text-muted)", fontSize: "0.7rem", marginBottom: "0.4rem" }}
-      >
+    <article className="border-b border-border pb-6 mb-6">
+      <p className="font-mono text-[0.7rem] mb-[0.4rem] text-text-muted">
         {date}
       </p>
-      <h3
-        className="font-pixel"
-        style={{ color: "var(--color-accent-bright)", fontSize: "0.8rem", marginBottom: "0.75rem", lineHeight: 1.5 }}
-      >
+      <h3 className="font-pixel text-xs mb-3 leading-[1.5] text-accent-bright">
         {title}
       </h3>
-      <p
-        className="font-mono"
-        style={{ color: "var(--color-text)", fontSize: "0.85rem", lineHeight: 1.7 }}
-      >
+      <p className="font-mono text-[0.85rem] leading-[1.7]">
         {excerpt}
       </p>
     </article>

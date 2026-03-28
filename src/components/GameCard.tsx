@@ -5,20 +5,11 @@ type GameCardProps = {
 
 export default function GameCard({ name, description }: GameCardProps) {
   return (
-    <article
-      className="vhs-border"
-      style={{ background: "var(--color-surface-2)", padding: "1.25rem" }}
-    >
-      <h3
-        className="font-pixel"
-        style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem", marginBottom: "0.6rem" }}
-      >
+    <article className="vhs-border bg-surface-2 p-5">
+      <h3 className="font-pixel text-xs mb-[0.6rem] text-accent-bright">
         {name}
       </h3>
-      <p
-        className="font-mono"
-        style={{ color: "var(--color-text)", fontSize: "0.8rem", lineHeight: 1.6 }}
-      >
+      <p className="font-mono text-[0.8rem] leading-[1.6]">
         {description}
       </p>
     </article>

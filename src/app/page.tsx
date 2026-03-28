@@ -83,21 +83,11 @@ export default function Home() {
           {/* Hero content */}
           <div className="relative z-10 text-center">
             <div className="hero-title-shell">
-              <h1
-                className="hero-title text-7xl mb-6 text-glitch text-glitch-soft"
-                style={{
-                  color: "var(--color-accent-bright)",
-                  fontFamily: "var(--font-pixel)",
-                  letterSpacing: "0.04em",
-                }}
-              >
+              <h1 className="hero-title text-7xl mb-6 text-glitch text-glitch-soft font-pixel text-accent-bright tracking-[0.04em]">
                 hollow-room
               </h1>
             </div>
-            <p
-              className="hero-subtitle font-mono text-lg tracking-widest uppercase"
-              style={{ color: "var(--color-text-muted)" }}
-            >
+            <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-text-muted">
               blog &amp; portfolio &mdash; coming soon here
             </p>
           </div>
@@ -106,12 +96,10 @@ export default function Home() {
         {/* About section */}
         <section id="about" className="section">
           <div
-            className="section-reveal"
-            style={{ maxWidth: "800px", width: "100%" }}
+            className="section-reveal max-w-[800px] w-full"
           >
             <h2
-              className="font-pixel text-5xl mb-10"
-              style={{ color: "var(--color-accent-bright)" }}
+              className="font-pixel text-5xl mb-10 text-accent-bright"
             >
               about
             </h2>
@@ -126,7 +114,6 @@ export default function Home() {
               </div>
               <p
                 className="font-mono text-lg leading-relaxed"
-                style={{ color: "var(--color-text)" }}
               >
                 I&apos;m a hobbyist game developer and web tinkerer. I built this
                 site to share my projects, write about what I&apos;m learning, and
@@ -141,22 +128,14 @@ export default function Home() {
         {/* Games section */}
         <section id="games" className="section">
           <div
-            className="section-reveal"
-            style={{ maxWidth: "800px", width: "100%" }}
+            className="section-reveal max-w-[800px] w-full"
           >
             <h2
-              className="font-pixel text-5xl mb-10"
-              style={{ color: "var(--color-accent-bright)" }}
+              className="font-pixel text-5xl mb-10 text-accent-bright"
             >
               games
             </h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-                gap: "1.25rem",
-              }}
-            >
+            <div className="card-grid">
               {PLACEHOLDER_GAMES.map((game) => (
                 <GameCard key={game.name} {...game} />
               ))}
@@ -167,22 +146,14 @@ export default function Home() {
         {/* Projects section */}
         <section id="projects" className="section">
           <div
-            className="section-reveal"
-            style={{ maxWidth: "800px", width: "100%" }}
+            className="section-reveal max-w-[800px] w-full"
           >
             <h2
-              className="font-pixel text-5xl mb-10"
-              style={{ color: "var(--color-accent-bright)" }}
+              className="font-pixel text-5xl mb-10 text-accent-bright"
             >
               projects
             </h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-                gap: "1.25rem",
-              }}
-            >
+            <div className="card-grid">
               {PLACEHOLDER_PROJECTS.map((project) => (
                 <ProjectCard key={project.name} {...project} />
               ))}
@@ -193,12 +164,10 @@ export default function Home() {
         {/* Blog section */}
         <section id="blog" className="section section-last">
           <div
-            className="section-reveal"
-            style={{ maxWidth: "800px", width: "100%" }}
+            className="section-reveal max-w-[800px] w-full"
           >
             <h2
-              className="font-pixel text-5xl mb-10"
-              style={{ color: "var(--color-accent-bright)" }}
+              className="font-pixel text-5xl mb-10 text-accent-bright"
             >
               blog
             </h2>
@@ -211,17 +180,10 @@ export default function Home() {
         </section>
 
         <footer
-          className="footer-section p-4 text-center font-pixel"
-          style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem" }}
+          className="footer-section p-4 text-center font-pixel text-accent-bright text-xs"
         >
           &copy; 2026 hollow-room. All rights reserved.{" "}
-          <span
-            style={{
-              color: "var(--color-text-muted)",
-              fontSize: "0.65rem",
-              letterSpacing: "0.08em",
-            }}
-          >
+          <span className="text-text-muted text-[0.65rem] tracking-[0.08em]">
             v{appVersion}
           </span>
         </footer>

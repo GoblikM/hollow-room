@@ -161,20 +161,10 @@ export default function ThemePicker() {
   }
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "fixed",
-        bottom: "1.5rem",
-        right: "1.5rem",
-        zIndex: 1000,
-      }}
-    >
+    <div ref={containerRef} className="fixed bottom-6 right-6 z-[1000]">
       {open && (
         <div className="theme-picker-panel">
-          <div
-            style={{ display: "flex", gap: "0.25rem", marginBottom: "0.5rem" }}
-          >
+          <div className="flex gap-1 mb-2">
             {(["dark", "light"] as const).map((m) => (
               <button
                 key={m}
@@ -212,7 +202,7 @@ export default function ThemePicker() {
           height="22"
           viewBox="0 0 22 22"
           fill="none"
-          style={{ color: "var(--color-accent-bright)" }}
+          className="text-accent-bright"
         >
           <circle cx="7" cy="7" r="3" fill="currentColor" opacity="0.9" />
           <circle cx="15" cy="7" r="3" fill="currentColor" opacity="0.6" />

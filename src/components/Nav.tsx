@@ -112,7 +112,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path
                 d="M5 5L15 15M15 5L5 15"
-                stroke="var(--color-accent-bright)"
+                stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
               />

@@ -6,30 +6,18 @@ type ProjectCardProps = {
 
 export default function ProjectCard({ name, description, tags }: ProjectCardProps) {
   return (
-    <article className="pixel-border" style={{ background: "var(--color-surface)", padding: "1.25rem" }}>
-      <h3
-        className="font-pixel"
-        style={{ color: "var(--color-accent-bright)", fontSize: "0.75rem", marginBottom: "0.5rem" }}
-      >
+    <article className="pixel-border bg-surface p-5">
+      <h3 className="font-pixel text-xs mb-2 text-accent-bright">
         {name}
       </h3>
-      <p
-        className="font-mono"
-        style={{ color: "var(--color-text)", fontSize: "0.8rem", lineHeight: 1.6, marginBottom: "1rem" }}
-      >
+      <p className="font-mono text-[0.8rem] leading-[1.6] mb-4">
         {description}
       </p>
-      <ul style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", listStyle: "none", margin: 0, padding: 0 }}>
+      <ul className="flex flex-wrap gap-[0.4rem] list-none m-0 p-0">
         {tags.map((tag) => (
           <li
             key={tag}
-            className="font-mono"
-            style={{
-              fontSize: "0.65rem",
-              padding: "0.15rem 0.5rem",
-              border: "1px solid var(--color-accent-dim)",
-              color: "var(--color-text-muted)",
-            }}
+            className="font-mono text-[0.65rem] px-2 py-[0.15rem] border border-accent-dim text-text-muted"
           >
             {tag}
           </li>
