@@ -14,7 +14,7 @@ html {
   will-change: transform;
 }
 
-:root {
+@theme {
   /* Color palette — horror/VHS */
   --color-bg: #050508;
   --color-surface: #0d0a1a;
@@ -26,12 +26,14 @@ html {
   --color-danger: #8b1a1a;
   --color-text: #c8b8e8;
   --color-text-muted: #6b5a8a;
+}
 
-  /* Fonts — horror-appropriate */
-  --font-heading: "IM Fell English", serif;
-  --font-pixel: "Silkscreen", monospace;
-  --font-mono: "Share Tech Mono", monospace;
-  --font-body: "Crimson Text", serif;
+@theme inline {
+  /* Fonts — variables injected by next/font via layout.tsx class attributes */
+  --font-heading: var(--font-heading);
+  --font-pixel: var(--font-pixel);
+  --font-mono: var(--font-mono);
+  --font-body: var(--font-body);
 }
 
 body {
@@ -116,7 +118,9 @@ body {
 /* Disable custom cursor when precise hover is unavailable */
 @media (hover: none), (pointer: coarse) {
   body,
-  a, button, [data-cursor-hover] {
+  a,
+  button,
+  [data-cursor-hover] {
     cursor: auto;
   }
 
@@ -149,8 +153,7 @@ body::after {
   inset: -50%;
   width: 200%;
   height: 200%;
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   opacity: 0.4;
   animation: grain 0.4s steps(1) infinite;
@@ -159,17 +162,39 @@ body::after {
 }
 
 @keyframes grain {
-  0%   { transform: translate(0, 0); }
-  10%  { transform: translate(-3%, -5%); }
-  20%  { transform: translate(4%, 2%); }
-  30%  { transform: translate(-2%, 7%); }
-  40%  { transform: translate(6%, -3%); }
-  50%  { transform: translate(-5%, 4%); }
-  60%  { transform: translate(3%, -6%); }
-  70%  { transform: translate(-4%, 1%); }
-  80%  { transform: translate(5%, 5%); }
-  90%  { transform: translate(-1%, -4%); }
-  100% { transform: translate(2%, 3%); }
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-3%, -5%);
+  }
+  20% {
+    transform: translate(4%, 2%);
+  }
+  30% {
+    transform: translate(-2%, 7%);
+  }
+  40% {
+    transform: translate(6%, -3%);
+  }
+  50% {
+    transform: translate(-5%, 4%);
+  }
+  60% {
+    transform: translate(3%, -6%);
+  }
+  70% {
+    transform: translate(-4%, 1%);
+  }
+  80% {
+    transform: translate(5%, 5%);
+  }
+  90% {
+    transform: translate(-1%, -4%);
+  }
+  100% {
+    transform: translate(2%, 3%);
+  }
 }
 
 /* ─── Hover glitch for logo link ──────────────────────────────────────── */
@@ -209,19 +234,6 @@ body::after {
 .pixel-border {
   border: 2px solid var(--color-accent);
   box-shadow: 4px 4px 0px var(--color-accent-dim);
-}
-
-/* ─── Font utility classes ───────────────────────────────────────────────── */
-.font-heading {
-  font-family: var(--font-heading);
-}
-
-.font-pixel {
-  font-family: var(--font-pixel);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
 }
 
 /* ─── Scroll rail ───────────────────────────────────────────────────────── */
@@ -278,14 +290,13 @@ body::after {
   transform: translateX(-50%);
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--color-accent-bright) 88%, white);
-  background:
-    radial-gradient(
-      circle at 35% 35%,
-      color-mix(in srgb, white 92%, var(--color-accent-bright)) 0%,
-      color-mix(in srgb, var(--color-accent-bright) 88%, white) 32%,
-      var(--color-accent) 70%,
-      color-mix(in srgb, var(--color-accent-dim) 92%, black) 100%
-    );
+  background: radial-gradient(
+    circle at 35% 35%,
+    color-mix(in srgb, white 92%, var(--color-accent-bright)) 0%,
+    color-mix(in srgb, var(--color-accent-bright) 88%, white) 32%,
+    var(--color-accent) 70%,
+    color-mix(in srgb, var(--color-accent-dim) 92%, black) 100%
+  );
   box-shadow:
     0 0 12px color-mix(in srgb, var(--color-accent-bright) 42%, transparent),
     0 0 24px color-mix(in srgb, var(--color-accent) 24%, transparent);
@@ -297,20 +308,21 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 100;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-surface) 92%, transparent),
-      color-mix(in srgb, var(--color-surface-2) 84%, transparent)
-    );
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface) 92%, transparent),
+    color-mix(in srgb, var(--color-surface-2) 84%, transparent)
+  );
   backdrop-filter: blur(14px) saturate(120%);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 82%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-border) 82%, transparent);
   box-shadow:
     0 10px 30px color-mix(in srgb, var(--color-bg) 60%, transparent),
     0 3px 10px rgba(0, 0, 0, 0.45),
     inset 0 -1px 0 color-mix(in srgb, var(--color-border) 45%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
+    inset 0 1px 0
+      color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
   overflow: clip;
 }
 
@@ -319,13 +331,12 @@ body::after {
   inset: -160% 18% auto;
   height: 220%;
   pointer-events: none;
-  background:
-    radial-gradient(
-      circle at center,
-      color-mix(in srgb, var(--color-accent) 18%, transparent) 0%,
-      color-mix(in srgb, var(--color-accent-bright) 12%, transparent) 22%,
-      transparent 62%
-    );
+  background: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--color-accent) 18%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent-bright) 12%, transparent) 22%,
+    transparent 62%
+  );
   opacity: 0.9;
   filter: blur(38px);
 }
@@ -365,7 +376,10 @@ body::after {
   text-shadow:
     0 0 12px color-mix(in srgb, var(--color-accent-bright) 24%, transparent),
     0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent);
-  transition: color 0.15s, text-shadow 0.2s, transform 0.2s;
+  transition:
+    color 0.15s,
+    text-shadow 0.2s,
+    transform 0.2s;
 }
 
 .nav-desktop-links {
@@ -382,12 +396,14 @@ body::after {
   padding: 0.35rem 0.75rem;
   font-family: var(--font-mono);
   font-size: 0.95rem;
-  text-transform: uppercase; 
+  text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--color-text-muted);
   text-decoration: none;
   border-radius: 3px;
-  transition: color 0.15s, text-shadow 0.15s;
+  transition:
+    color 0.15s,
+    text-shadow 0.15s;
 }
 
 .nav-link-active {
@@ -401,12 +417,11 @@ body::after {
 
 .nav-hamburger {
   display: none;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-surface-2) 92%, transparent),
-      color-mix(in srgb, var(--color-surface) 96%, transparent)
-    );
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface-2) 92%, transparent),
+    color-mix(in srgb, var(--color-surface) 96%, transparent)
+  );
   border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
   border-radius: 999px;
   padding: 8px 10px;
@@ -424,7 +439,8 @@ body::after {
   border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
   box-shadow:
     0 0 16px color-mix(in srgb, var(--color-accent) 18%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
+    inset 0 1px 0
+      color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
 }
 
 .nav-hamburger:hover {
@@ -435,14 +451,14 @@ body::after {
 
 .nav-mobile-menu {
   border-top: 1px solid color-mix(in srgb, var(--color-border) 75%, transparent);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-surface-2) 94%, transparent),
-      color-mix(in srgb, var(--color-surface) 98%, transparent)
-    );
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface-2) 94%, transparent),
+    color-mix(in srgb, var(--color-surface) 98%, transparent)
+  );
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-accent-bright) 10%, transparent),
+    inset 0 1px 0
+      color-mix(in srgb, var(--color-accent-bright) 10%, transparent),
     0 18px 36px color-mix(in srgb, var(--color-bg) 42%, transparent);
 }
 
@@ -693,6 +709,13 @@ body.light-mode .hero-title {
   object-fit: cover;
 }
 
+/* ─── Card grid ──────────────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
 .section-reveal {
   --reveal-opacity: 0.28;
   --reveal-translate-y: 72px;
@@ -700,7 +723,8 @@ body.light-mode .hero-title {
   --reveal-blur: 10px;
   --reveal-brightness: 0.82;
   opacity: var(--reveal-opacity);
-  transform: translate3d(0, var(--reveal-translate-y), 0) scale(var(--reveal-scale));
+  transform: translate3d(0, var(--reveal-translate-y), 0)
+    scale(var(--reveal-scale));
   filter: blur(var(--reveal-blur)) brightness(var(--reveal-brightness));
   transition:
     opacity 0.24s ease-out,
@@ -733,7 +757,8 @@ body.light-mode .section-reveal {
   }
 
   .section-reveal {
-    transform: translate3d(0, var(--reveal-translate-y), 0) scale(var(--reveal-scale));
+    transform: translate3d(0, var(--reveal-translate-y), 0)
+      scale(var(--reveal-scale));
   }
 }
 
@@ -749,81 +774,120 @@ body.light-mode .section-reveal {
 @keyframes hero-shell-flicker {
   0%,
   100% {
-    filter:
-      drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 18%, transparent))
-      drop-shadow(0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent));
+    filter: drop-shadow(
+        0 0 14px color-mix(in srgb, var(--color-accent-bright) 18%, transparent)
+      )
+      drop-shadow(
+        0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent)
+      );
   }
 
   7% {
-    filter:
-      drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
-      drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent));
+    filter: drop-shadow(
+        0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent)
+      )
+      drop-shadow(
+        0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent)
+      );
   }
 
   7.8% {
-    filter:
-      drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent-bright) 28%, transparent))
-      drop-shadow(0 0 44px color-mix(in srgb, var(--color-accent) 20%, transparent));
+    filter: drop-shadow(
+        0 0 22px color-mix(in srgb, var(--color-accent-bright) 28%, transparent)
+      )
+      drop-shadow(
+        0 0 44px color-mix(in srgb, var(--color-accent) 20%, transparent)
+      );
   }
 
   8.4% {
-    filter:
-      drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
-      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
+    filter: drop-shadow(
+        0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent)
+      )
+      drop-shadow(
+        0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent)
+      );
   }
 
   31% {
-    filter:
-      drop-shadow(0 0 15px color-mix(in srgb, var(--color-accent-bright) 19%, transparent))
-      drop-shadow(0 0 30px color-mix(in srgb, var(--color-accent) 13%, transparent));
+    filter: drop-shadow(
+        0 0 15px color-mix(in srgb, var(--color-accent-bright) 19%, transparent)
+      )
+      drop-shadow(
+        0 0 30px color-mix(in srgb, var(--color-accent) 13%, transparent)
+      );
   }
 
   31.6% {
-    filter:
-      drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent-bright) 30%, transparent))
-      drop-shadow(0 0 46px color-mix(in srgb, var(--color-accent) 21%, transparent));
+    filter: drop-shadow(
+        0 0 24px color-mix(in srgb, var(--color-accent-bright) 30%, transparent)
+      )
+      drop-shadow(
+        0 0 46px color-mix(in srgb, var(--color-accent) 21%, transparent)
+      );
   }
 
   32.3% {
-    filter:
-      drop-shadow(0 0 11px color-mix(in srgb, var(--color-accent-bright) 12%, transparent))
-      drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent) 9%, transparent));
+    filter: drop-shadow(
+        0 0 11px color-mix(in srgb, var(--color-accent-bright) 12%, transparent)
+      )
+      drop-shadow(
+        0 0 22px color-mix(in srgb, var(--color-accent) 9%, transparent)
+      );
   }
 
   63% {
-    filter:
-      drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
-      drop-shadow(0 0 25px color-mix(in srgb, var(--color-accent) 10%, transparent));
+    filter: drop-shadow(
+        0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent)
+      )
+      drop-shadow(
+        0 0 25px color-mix(in srgb, var(--color-accent) 10%, transparent)
+      );
   }
 
   63.5% {
-    filter:
-      drop-shadow(0 0 20px color-mix(in srgb, var(--color-accent-bright) 26%, transparent))
-      drop-shadow(0 0 38px color-mix(in srgb, var(--color-accent) 17%, transparent));
+    filter: drop-shadow(
+        0 0 20px color-mix(in srgb, var(--color-accent-bright) 26%, transparent)
+      )
+      drop-shadow(
+        0 0 38px color-mix(in srgb, var(--color-accent) 17%, transparent)
+      );
   }
 
   64.1% {
-    filter:
-      drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
-      drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent) 10%, transparent));
+    filter: drop-shadow(
+        0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent)
+      )
+      drop-shadow(
+        0 0 23px color-mix(in srgb, var(--color-accent) 10%, transparent)
+      );
   }
 
   86% {
-    filter:
-      drop-shadow(0 0 16px color-mix(in srgb, var(--color-accent-bright) 20%, transparent))
-      drop-shadow(0 0 32px color-mix(in srgb, var(--color-accent) 14%, transparent));
+    filter: drop-shadow(
+        0 0 16px color-mix(in srgb, var(--color-accent-bright) 20%, transparent)
+      )
+      drop-shadow(
+        0 0 32px color-mix(in srgb, var(--color-accent) 14%, transparent)
+      );
   }
 
   86.4% {
-    filter:
-      drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent-bright) 29%, transparent))
-      drop-shadow(0 0 45px color-mix(in srgb, var(--color-accent) 20%, transparent));
+    filter: drop-shadow(
+        0 0 23px color-mix(in srgb, var(--color-accent-bright) 29%, transparent)
+      )
+      drop-shadow(
+        0 0 45px color-mix(in srgb, var(--color-accent) 20%, transparent)
+      );
   }
 
   87% {
-    filter:
-      drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
-      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
+    filter: drop-shadow(
+        0 0 14px color-mix(in srgb, var(--color-accent-bright) 16%, transparent)
+      )
+      drop-shadow(
+        0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent)
+      );
   }
 }
 
