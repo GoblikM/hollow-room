@@ -15,9 +15,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
     <ScrollProvider
       fixedChildren={
         <>
-          <div className="site-mobile-nav">
-            <Nav activeSection={activeSection} />
-          </div>
+          <Nav activeSection={activeSection} />
           <ScrollRail />
           <ThemePicker />
         </>

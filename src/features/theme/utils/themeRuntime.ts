@@ -26,6 +26,14 @@ export function getInitialMode(): ThemeMode {
   return savedMode === "light" || savedMode === "dark" ? savedMode : DEFAULT_THEME_MODE;
 }
 
+export function getInitialDesktopNavEnabled(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return localStorage.getItem("ui-desktop-nav") === "1";
+}
+
 export function getSchemeById(schemeId: string): ColorScheme {
   return SCHEMES.find((item) => item.id === schemeId) ?? SCHEMES[0];
 }
@@ -56,4 +64,8 @@ export function applyMode(mode: ThemeMode) {
   root.style.setProperty("--color-fg", DARK_MODE_COLORS.text);
   root.style.setProperty("--color-muted", DARK_MODE_COLORS.textMuted);
   document.body.classList.remove("light-mode");
+}
+
+export function applyDesktopNavEnabled(enabled: boolean) {
+  document.body.classList.toggle("desktop-nav-enabled", enabled);
 }

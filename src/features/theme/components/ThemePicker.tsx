@@ -3,8 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { SCHEMES, type ColorScheme, type ThemeMode } from "@/features/theme/constants/themePalette";
 import {
+  applyDesktopNavEnabled,
   applyMode,
   applyScheme,
+  getInitialDesktopNavEnabled,
   getInitialMode,
   getInitialSchemeId,
   getSchemeById,
@@ -14,13 +16,15 @@ export default function ThemePicker() {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
+  const [desktopNavEnabled, setDesktopNavEnabled] = useState(getInitialDesktopNavEnabled);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const scheme = getSchemeById(activeId);
     applyScheme(scheme);
     applyMode(mode);
-  }, [activeId, mode]);
+    applyDesktopNavEnabled(desktopNavEnabled);
+  }, [activeId, desktopNavEnabled, mode]);
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -44,6 +48,15 @@ export default function ThemePicker() {
     localStorage.setItem("theme-mode", m);
   }
 
+  function handleDesktopNavToggle() {
+    setDesktopNavEnabled((current) => {
+      const next = !current;
+      applyDesktopNavEnabled(next);
+      localStorage.setItem("ui-desktop-nav", next ? "1" : "0");
+      return next;
+    });
+  }
+
   return (
     <div ref={containerRef} className="fixed bottom-6 right-6 z-1000">
       {open && (
@@ -59,6 +72,25 @@ export default function ThemePicker() {
               </button>
             ))}
           </div>
+
+          <div className="theme-toggle-row">
+            <span className="theme-toggle-meta">
+              <span className="theme-toggle-title">Desktop navbar</span>
+            </span>
+
+            <label className="theme-switch" aria-label="Toggle desktop navbar">
+              <input
+                className="theme-switch-input"
+                type="checkbox"
+                checked={desktopNavEnabled}
+                onChange={handleDesktopNavToggle}
+              />
+              <span className="theme-switch-track" aria-hidden="true">
+                <span className="theme-switch-thumb" />
+              </span>
+            </label>
+          </div>
+
           {SCHEMES.map((scheme) => (
             <button
               key={scheme.id}
