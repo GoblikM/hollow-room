@@ -62,5 +62,5 @@ The site is currently a **single-page app** — all sections (home, about, games
 - Tailwind for layout/spacing; custom CSS classes for retro effects (scanlines, grunge, pixel borders)
 - Keep components small — one per file
 - No server-side features (`output: 'export'` is set in `next.config.ts`)
-- Fonts are loaded via `<link>` in `layout.tsx` head (not `next/font`) — the `no-page-custom-font` ESLint rule is suppressed there
+- Fonts are loaded via `next/font/google` in `src/assets/fonts.ts` and applied as CSS variable classes on `<html>` in `layout.tsx`
 - Test files mirror `src/` under `__tests__/` (e.g. `__tests__/components/Nav.test.tsx`)
