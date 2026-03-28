@@ -10,7 +10,7 @@
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "version": "git-cliff --tag v$npm_package_version --output CHANGELOG.md && git add CHANGELOG.md && git commit --amend --no-edit",
+    "version": "git-cliff --tag v$npm_package_version --output CHANGELOG.md && git add CHANGELOG.md",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
