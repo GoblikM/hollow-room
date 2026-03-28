@@ -77,19 +77,19 @@ describe("ThemePicker component", () => {
     expect(setPropertyMock).toHaveBeenCalledWith("--color-accent-bright", "#60a5fa");
   });
 
-  it("clicking LIGHT button sets --color-bg to parchment", () => {
+  it("clicking LIGHT button sets --color-base to parchment", () => {
     render(<ThemePicker />);
     fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
     fireEvent.click(screen.getByRole("button", { name: /light/i }));
-    expect(setPropertyMock).toHaveBeenCalledWith("--color-bg", "#f5f0e8");
+    expect(setPropertyMock).toHaveBeenCalledWith("--color-base", "#f5f0e8");
   });
 
-  it("clicking DARK button restores --color-bg to dark", () => {
+  it("clicking DARK button restores --color-base to dark", () => {
     render(<ThemePicker />);
     fireEvent.click(screen.getByRole("button", { name: /pick color scheme/i }));
     fireEvent.click(screen.getByRole("button", { name: /light/i }));
     fireEvent.click(screen.getByRole("button", { name: /dark/i }));
-    expect(setPropertyMock).toHaveBeenCalledWith("--color-bg", "#050508");
+    expect(setPropertyMock).toHaveBeenCalledWith("--color-base", "#050508");
   });
 
   it("clicking LIGHT adds light-mode class to document.body", () => {
@@ -120,6 +120,6 @@ describe("ThemePicker component", () => {
       return null;
     });
     render(<ThemePicker />);
-    expect(setPropertyMock).toHaveBeenCalledWith("--color-bg", "#f5f0e8");
+    expect(setPropertyMock).toHaveBeenCalledWith("--color-base", "#f5f0e8");
   });
 });
