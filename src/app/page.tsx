@@ -1,11 +1,11 @@
 "use client";
 
-import BlogPostCard from "@/features/blog/components/BlogPostCard";
+import BlogPostCard from "@/features/home/components/BlogPostCard";
 import { HOME_BLOG_SECTION_POSTS } from "@/features/home/data/blogSectionContent";
-import GameCard from "@/features/games/components/GameCard";
+import GameCard from "@/features/home/components/GameCard";
 import { HOME_GAMES_SECTION_ITEMS } from "@/features/home/data/gamesSectionContent";
+import ProjectCard from "@/features/home/components/ProjectCard";
 import { HOME_PROJECTS_SECTION_ITEMS } from "@/features/home/data/projectsSectionContent";
-import ProjectCard from "@/features/projects/components/ProjectCard";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
