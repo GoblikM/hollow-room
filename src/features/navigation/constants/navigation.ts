@@ -4,8 +4,7 @@ export const NAV_LINKS = [
   { href: "#games", label: "Games" },
   { href: "#projects", label: "Projects" },
   { href: "#blog", label: "Blog" },
+  { href: "#contact", label: "Contact" },
 ] as const;
 
-export const SECTION_IDS = NAV_LINKS.map(({ href }) =>
-  href.replace("#", "")
-);
+export const SECTION_IDS = NAV_LINKS.map(({ href }) => href.replace("#", ""));
