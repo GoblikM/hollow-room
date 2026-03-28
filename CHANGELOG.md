@@ -1,5 +1,9 @@
 ## [$npm_package_version] - 2026-03-28
 
+### 🐛 Bug Fixes
+
+- Update ThemePicker tests to use renamed --color-base token
+
 ### 🚜 Refactor
 
 - Migrate font loading from link tags to next/font/google
@@ -17,6 +21,9 @@
 - Add .claude/ to .gitignore
 - Ignore only .claude/settings.local.json instead of entire .claude/
 - Set module type to ESM in package.json
+- Set module type to ESM in package.json
+- Auto-push commit and tag after npm version via postversion hook
+- Fix version hook to produce single release commit
 ## [0.1.8] - 2026-03-27
 
 ### 🐛 Bug Fixes
