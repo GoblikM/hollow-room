@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import "@/app/globals.css";
 import SiteShell from "@/app/providers/SiteShell";
-import CustomCursor from "@/components/CustomCursor";
+import CustomCursor from "@/shared/ui/CustomCursor";
 import { fontVariables } from "@/assets/fonts";
 
 export const metadata: Metadata = {

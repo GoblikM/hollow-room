@@ -14,9 +14,7 @@ export default function CustomCursor() {
 
   useEffect(() => {
     // Enable only when the primary input supports precise hover.
-    const supportsCustomCursor = window.matchMedia(
-      "(hover: hover) and (pointer: fine)",
-    ).matches;
+    const supportsCustomCursor = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     if (!supportsCustomCursor) return;
 
@@ -73,10 +71,8 @@ export default function CustomCursor() {
       }
 
       if (ring) {
-        ringPosRef.current.x +=
-          (posRef.current.x - ringPosRef.current.x) * RING_LERP;
-        ringPosRef.current.y +=
-          (posRef.current.y - ringPosRef.current.y) * RING_LERP;
+        ringPosRef.current.x += (posRef.current.x - ringPosRef.current.x) * RING_LERP;
+        ringPosRef.current.y += (posRef.current.y - ringPosRef.current.y) * RING_LERP;
         ring.style.transform = `translate(${ringPosRef.current.x}px, ${ringPosRef.current.y}px)`;
       }
 
@@ -98,20 +94,8 @@ export default function CustomCursor() {
 
   return (
     <>
-      <div
-        ref={dotRef}
-        aria-hidden
-        className="cursor-dot"
-        data-hovered={hovered}
-        data-visible={visible}
-      />
-      <div
-        ref={ringRef}
-        aria-hidden
-        className="cursor-ring"
-        data-hovered={hovered}
-        data-visible={visible}
-      />
+      <div ref={dotRef} aria-hidden className="cursor-dot" data-hovered={hovered} data-visible={visible} />
+      <div ref={ringRef} aria-hidden className="cursor-ring" data-hovered={hovered} data-visible={visible} />
     </>
   );
 }

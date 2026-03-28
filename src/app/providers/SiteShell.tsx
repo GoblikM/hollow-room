@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import ScrollProvider from "@/app/providers/ScrollProvider";
 import Nav from "@/features/navigation/components/Nav";
 import ScrollRail from "@/features/navigation/components/ScrollRail";
-import ThemePicker from "@/components/ThemePicker";
+import ThemePicker from "@/features/theme/components/ThemePicker";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
 

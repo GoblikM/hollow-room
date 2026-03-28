@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import ThemePicker from "@/components/ThemePicker";
+import ThemePicker from "@/features/theme/components/ThemePicker";
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
