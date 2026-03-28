@@ -1,6 +1,6 @@
 {
   "name": "hollow-room",
-  "version": "0.1.9",
+  "version": "0.1.8",
   "private": true,
   "type": "module",
   "scripts": {
