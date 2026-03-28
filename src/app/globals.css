@@ -12,7 +12,6 @@ html {
 
 #smooth-content {
   will-change: transform;
-  padding-top: 64px;
 }
 
 @theme {
@@ -291,17 +290,27 @@ body::after {
   height: 14px;
   transform: translateX(-50%);
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--color-accent-bright) 88%, white);
+  border: 1px solid color-mix(in srgb, var(--color-accent-bright) 76%, white);
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--color-accent-bright) 30%, transparent),
+    0 0 22px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.scroll-rail-ball::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: inherit;
   background: radial-gradient(
-    circle at 35% 35%,
-    color-mix(in srgb, white 92%, var(--color-accent-bright)) 0%,
-    color-mix(in srgb, var(--color-accent-bright) 88%, white) 32%,
-    var(--color-accent) 70%,
-    color-mix(in srgb, var(--color-accent-dim) 92%, black) 100%
+    circle at 50% 50%,
+    color-mix(in srgb, white 90%, var(--color-accent-bright)) 0%,
+    var(--color-accent-bright) 48%,
+    color-mix(in srgb, var(--color-accent) 90%, black) 100%
   );
   box-shadow:
-    0 0 12px color-mix(in srgb, var(--color-accent-bright) 42%, transparent),
-    0 0 24px color-mix(in srgb, var(--color-accent) 24%, transparent);
+    0 0 8px color-mix(in srgb, var(--color-accent-bright) 55%, transparent),
+    0 0 16px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
 .scroll-rail-labels {
@@ -560,8 +569,20 @@ body::after {
   color: var(--color-fg);
 }
 
+.site-mobile-nav {
+  display: none;
+}
+
 /* Nav responsive visibility */
 @media (max-width: 640px) {
+  #smooth-content {
+    padding-top: 60px;
+  }
+
+  .site-mobile-nav {
+    display: block;
+  }
+
   .scroll-rail {
     display: none;
   }
@@ -588,6 +609,10 @@ body::after {
 }
 
 @media (min-width: 641px) {
+  .site-mobile-nav {
+    display: none;
+  }
+
   .nav-mobile-menu {
     display: none !important;
   }
