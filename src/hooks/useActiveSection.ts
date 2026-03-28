@@ -2,12 +2,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const NAV_OFFSET = "-56px 0px 0px 0px";
-const DEFAULT_THRESHOLDS = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+const DEFAULT_THRESHOLDS = [
+  0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
+];
 const HASH_UPDATE_MIN_INTERVAL_MS = 120;
 
 function findMostVisibleSection(
   sectionIds: string[],
-  ratios: Map<string, number>
+  ratios: Map<string, number>,
 ): string {
   let maxId = sectionIds[0];
   let maxRatio = 0;
@@ -37,7 +39,7 @@ function updateUrlHashIfNeeded(id: string, firstSectionId: string): void {
 
 export function useActiveSection(
   sectionIds: string[],
-  options: { rootMargin?: string; threshold?: number | number[] } = {}
+  options: { rootMargin?: string; threshold?: number | number[] } = {},
 ): string {
   const [activeId, setActiveId] = useState(sectionIds[0]);
   const ratios = useRef<Map<string, number>>(new Map());
@@ -53,7 +55,9 @@ export function useActiveSection(
           ratios.current.set(entry.target.id, entry.intersectionRatio);
         });
         const mostVisible = findMostVisibleSection(sectionIds, ratios.current);
-        setActiveId((previous) => (previous === mostVisible ? previous : mostVisible));
+        setActiveId((previous) =>
+          previous === mostVisible ? previous : mostVisible,
+        );
 
         const now = performance.now();
         const elapsed = now - lastHashUpdateAt.current;
@@ -69,7 +73,7 @@ export function useActiveSection(
       {
         rootMargin,
         threshold,
-      }
+      },
     );
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);

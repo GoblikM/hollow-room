@@ -14,7 +14,9 @@ export function getInitialSchemeId(): string {
   }
 
   const saved = localStorage.getItem("theme-scheme");
-  return saved !== null && SCHEMES.some((scheme) => scheme.id === saved) ? saved : DEFAULT_SCHEME_ID;
+  return saved !== null && SCHEMES.some((scheme) => scheme.id === saved)
+    ? saved
+    : DEFAULT_SCHEME_ID;
 }
 
 export function getInitialMode(): ThemeMode {
@@ -23,7 +25,9 @@ export function getInitialMode(): ThemeMode {
   }
 
   const savedMode = localStorage.getItem("theme-mode");
-  return savedMode === "light" || savedMode === "dark" ? savedMode : DEFAULT_THEME_MODE;
+  return savedMode === "light" || savedMode === "dark"
+    ? savedMode
+    : DEFAULT_THEME_MODE;
 }
 
 export function getInitialDesktopNavEnabled(): boolean {
