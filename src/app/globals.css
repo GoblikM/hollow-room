@@ -615,11 +615,18 @@ body::after {
     display: none;
   }
 
-  body.desktop-nav-enabled .nav-root {
+  body.desktop-nav-enabled .nav-root,
+  html.desktop-nav-enabled .nav-root {
     display: block;
   }
 
-  body.desktop-nav-enabled #smooth-content {
+  body.desktop-nav-enabled .scroll-rail,
+  html.desktop-nav-enabled .scroll-rail {
+    display: none;
+  }
+
+  body.desktop-nav-enabled #smooth-content,
+  html.desktop-nav-enabled #smooth-content {
     padding-top: 64px;
   }
 

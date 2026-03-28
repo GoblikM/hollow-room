@@ -72,4 +72,5 @@ export function applyMode(mode: ThemeMode) {
 
 export function applyDesktopNavEnabled(enabled: boolean) {
   document.body.classList.toggle("desktop-nav-enabled", enabled);
+  document.documentElement.classList.toggle("desktop-nav-enabled", enabled);
 }
