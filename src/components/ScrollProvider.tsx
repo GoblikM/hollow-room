@@ -64,7 +64,7 @@ export default function ScrollProvider({
     smootherRef.current = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
-      smooth: prefersReducedMotion ? 0 : 1.5,
+      smooth: prefersReducedMotion ? 0 : 1,
       effects: true,
     });
 
