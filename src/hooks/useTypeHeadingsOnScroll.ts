@@ -41,7 +41,10 @@ export function useTypeHeadingsOnScroll(
 
       const tween = gsap.to(state, {
         count: characters.length,
-        duration: Math.max(0.85, characters.length / Math.max(charsPerSecond, 1)),
+        duration: Math.max(
+          0.85,
+          characters.length / Math.max(charsPerSecond, 1),
+        ),
         ease: `steps(${characters.length})`,
         paused: true,
         onUpdate: render,

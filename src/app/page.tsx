@@ -1,6 +1,7 @@
 "use client";
 
 import BlogPostCard from "@/features/home/components/BlogPostCard";
+import { HOME_ABOUT_TEXT } from "@/features/home/data/aboutSectionContent";
 import { HOME_BLOG_SECTION_POSTS } from "@/features/home/data/blogSectionContent";
 import { HOME_CONTACT_SECTION } from "@/features/home/data/contactSectionContent";
 import GameCard from "@/features/home/components/GameCard";
@@ -56,11 +57,7 @@ export default function Home() {
                 />
               </div>
               <p className="font-mono text-lg leading-relaxed">
-                I&apos;m a hobbyist game developer and web tinkerer. I built
-                this site to share my projects, write about what I&apos;m
-                learning, and experiment with retro aesthetics. If you like
-                pixel art, procedural generation, or just want to say hi, feel
-                free to reach out!
+                {HOME_ABOUT_TEXT}
               </p>
             </div>
           </div>

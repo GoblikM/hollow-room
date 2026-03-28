@@ -7,7 +7,7 @@ export const HOME_GAMES_SECTION_ITEMS = [
   {
     name: "snake 8-bit",
     description:
-      "Classic snake in a 20×20 grid. Arrow keys to move, eat the dots, don&apos;t bite yourself. How long can you last?",
+      "Classic snake in a 20×20 grid. Arrow keys to move, eat the dots, don't bite yourself. How long can you last?",
   },
   {
     name: "memory tiles",
