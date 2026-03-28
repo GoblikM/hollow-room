@@ -11,8 +11,14 @@ describe("scrollRailMath", () => {
     document.body.innerHTML = '<section id="home"></section>';
     const home = document.getElementById("home") as HTMLElement;
 
-    Object.defineProperty(home, "offsetTop", { value: 120, configurable: true });
-    Object.defineProperty(home, "offsetHeight", { value: 400, configurable: true });
+    Object.defineProperty(home, "offsetTop", {
+      value: 120,
+      configurable: true,
+    });
+    Object.defineProperty(home, "offsetHeight", {
+      value: 400,
+      configurable: true,
+    });
 
     const metrics = collectSectionMetrics(["home", "missing"]);
 
@@ -43,7 +49,12 @@ describe("scrollRailMath", () => {
       { id: "blog", top: 1300, bottom: 1900, center: 1600 },
     ];
 
-    const progressAtBottom = getRailProgressFromSections(1000, sections, 800, 1800);
+    const progressAtBottom = getRailProgressFromSections(
+      1000,
+      sections,
+      800,
+      1800,
+    );
 
     expect(progressAtBottom).toBe(1);
   });

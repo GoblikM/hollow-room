@@ -29,7 +29,13 @@ describe("ScrollRail", () => {
     scrollMocks.getScrollValues.mockReset();
 
     scrollMocks.subscribe.mockImplementation((listener) => {
-      listener({ scroll: 0, limit: 700, velocity: 0, direction: 0, progress: 0 });
+      listener({
+        scroll: 0,
+        limit: 700,
+        velocity: 0,
+        direction: 0,
+        progress: 0,
+      });
       return () => undefined;
     });
     scrollMocks.getScrollValues.mockReturnValue({
@@ -44,7 +50,8 @@ describe("ScrollRail", () => {
       cb(0);
       return 1;
     }) as typeof window.requestAnimationFrame;
-    window.cancelAnimationFrame = (() => undefined) as typeof window.cancelAnimationFrame;
+    window.cancelAnimationFrame = (() =>
+      undefined) as typeof window.cancelAnimationFrame;
 
     Object.defineProperty(window, "innerHeight", {
       value: 1000,
@@ -59,8 +66,14 @@ describe("ScrollRail", () => {
 
     document.body.innerHTML = '<section id="blog"></section>';
     const blogSection = document.getElementById("blog") as HTMLElement;
-    Object.defineProperty(blogSection, "offsetTop", { value: 1200, configurable: true });
-    Object.defineProperty(blogSection, "offsetHeight", { value: 400, configurable: true });
+    Object.defineProperty(blogSection, "offsetTop", {
+      value: 1200,
+      configurable: true,
+    });
+    Object.defineProperty(blogSection, "offsetHeight", {
+      value: 400,
+      configurable: true,
+    });
   });
 
   afterEach(() => {

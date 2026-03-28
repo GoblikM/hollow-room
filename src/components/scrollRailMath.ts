@@ -98,6 +98,7 @@ export function getCenteredScrollTarget(
   viewportHeight: number,
   scrollLimit: number,
 ): number {
-  const sectionCenterTarget = sectionTop + sectionHeight / 2 - viewportHeight / 2;
+  const sectionCenterTarget =
+    sectionTop + sectionHeight / 2 - viewportHeight / 2;
   return Math.max(0, Math.min(sectionCenterTarget, scrollLimit));
 }

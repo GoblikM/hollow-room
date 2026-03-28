@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { useScroll } from "@/components/ScrollProvider";
 import { NAV_LINKS, SECTION_IDS } from "@/constants/navigation";
 import {
@@ -17,10 +23,12 @@ export type ScrollRailSection = {
   label: string;
 };
 
-const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(({ href, label }) => ({
-  id: href.replace("#", ""),
-  label,
-}));
+const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(
+  ({ href, label }) => ({
+    id: href.replace("#", ""),
+    label,
+  }),
+);
 
 type ScrollRailProps = {
   sections?: ScrollRailSection[];
@@ -124,7 +132,8 @@ export default function ScrollRail({
     const section = document.getElementById(sectionId);
     if (!section) return;
 
-    const scrollLimit = scrollController?.getScrollValues().limit ?? Number.POSITIVE_INFINITY;
+    const scrollLimit =
+      scrollController?.getScrollValues().limit ?? Number.POSITIVE_INFINITY;
     const clampedTarget = getCenteredScrollTarget(
       section.offsetTop,
       section.offsetHeight,
