@@ -43,8 +43,9 @@ function findCenterSection(scrollY: number): string {
 
 export default function ScrollRail() {
   const scrollController = useScroll();
-  const [activeCenterSection, setActiveCenterSection] =
-    useState<string>(SECTION_IDS[0]);
+  const [activeCenterSection, setActiveCenterSection] = useState<string>(
+    SECTION_IDS[0],
+  );
 
   useEffect(() => {
     const root = document.documentElement;
@@ -77,7 +78,7 @@ export default function ScrollRail() {
       root.style.setProperty("--scroll-progress", `${progress}`);
       root.style.setProperty("--scroll-rail-opacity", `${railVisibility}`);
       setActiveCenterSection((previous) =>
-        previous === centerSection ? previous : centerSection
+        previous === centerSection ? previous : centerSection,
       );
     };
 
@@ -85,7 +86,7 @@ export default function ScrollRail() {
       latestScrollY = scrollY;
       if (frameId !== 0) return;
       frameId = window.requestAnimationFrame(() =>
-        updateScrollProgress(latestScrollY)
+        updateScrollProgress(latestScrollY),
       );
     };
 
