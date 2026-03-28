@@ -1,51 +1,51 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
-import { NAV_HEIGHT } from "@/components/Nav";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useScroll } from "@/components/ScrollProvider";
 import { NAV_LINKS, SECTION_IDS } from "@/constants/navigation";
+import {
+  collectSectionMetrics,
+  findCenterSection,
+  getCenteredScrollTarget,
+  getRailProgressFromSections,
+  type SectionMetrics,
+} from "@/components/scrollRailMath";
 
 type RailStopStyle = CSSProperties & { "--rail-stop": string };
+export type ScrollRailSection = {
+  id: string;
+  label: string;
+};
 
-function findCenterSection(scrollY: number): string {
-  const viewportCenter = scrollY + window.innerHeight / 2;
+const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(({ href, label }) => ({
+  id: href.replace("#", ""),
+  label,
+}));
 
-  for (const id of SECTION_IDS) {
-    const section = document.getElementById(id);
-    if (!section) continue;
+type ScrollRailProps = {
+  sections?: ScrollRailSection[];
+  revealSectionId?: string | null;
+  ariaLabel?: string;
+};
 
-    const top = section.offsetTop;
-    const bottom = top + section.offsetHeight;
-    if (viewportCenter >= top && viewportCenter < bottom) {
-      return id;
-    }
-  }
-
-  // Fallback: if center line is between sections, pick nearest section center.
-  let nearestId = SECTION_IDS[0];
-  let nearestDistance = Number.POSITIVE_INFINITY;
-
-  for (const id of SECTION_IDS) {
-    const section = document.getElementById(id);
-    if (!section) continue;
-
-    const sectionCenter = section.offsetTop + section.offsetHeight / 2;
-    const distance = Math.abs(sectionCenter - viewportCenter);
-
-    if (distance < nearestDistance) {
-      nearestDistance = distance;
-      nearestId = id;
-    }
-  }
-
-  return nearestId;
-}
-
-export default function ScrollRail() {
+export default function ScrollRail({
+  sections,
+  revealSectionId = "about",
+  ariaLabel = "Section navigation rail",
+}: ScrollRailProps) {
   const scrollController = useScroll();
-  const [activeCenterSection, setActiveCenterSection] = useState<string>(
-    SECTION_IDS[0],
+  const resolvedSections = useMemo(
+    () => (sections && sections.length > 0 ? sections : DEFAULT_SECTIONS),
+    [sections],
   );
+  const sectionIds = useMemo(() => {
+    if (resolvedSections.length === 0) return SECTION_IDS;
+    return resolvedSections.map((section) => section.id);
+  }, [resolvedSections]);
+  const fallbackId = sectionIds[0] ?? SECTION_IDS[0] ?? "home";
+  const sectionsRef = useRef<SectionMetrics[]>([]);
+  const [activeCenterSection, setActiveCenterSection] =
+    useState<string>(fallbackId);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -53,27 +53,33 @@ export default function ScrollRail() {
     let frameId = 0;
     let latestScrollY = scrollController?.getScrollValues().scroll ?? 0;
 
+    const refreshSectionMetrics = () => {
+      sectionsRef.current = collectSectionMetrics(sectionIds);
+    };
+
     const updateScrollProgress = (scrollY: number) => {
       frameId = 0;
+      if (sectionsRef.current.length === 0) {
+        refreshSectionMetrics();
+      }
 
-      // Progress — use smooth-content height since ScrollSmoother sets
-      // overflow:hidden on the wrapper, breaking documentElement.scrollHeight
-      const contentEl = document.getElementById("smooth-content");
-      const totalHeight =
-        contentEl?.scrollHeight ?? document.documentElement.scrollHeight;
-      const scrollRange = Math.max(totalHeight - window.innerHeight, 1);
-      const progress = scrollY / scrollRange;
+      const sections = sectionsRef.current;
+      const progress = getRailProgressFromSections(scrollY, sections);
 
       // Visibility — fade in as the about section scrolls into view
-      const aboutSection = document.getElementById("about");
-      const revealStart = aboutSection
-        ? aboutSection.offsetTop - window.innerHeight * 0.5
+      const revealSection = revealSectionId
+        ? document.getElementById(revealSectionId)
+        : null;
+      const revealStart = revealSection
+        ? revealSection.offsetTop - window.innerHeight * 0.5
         : 0;
       const revealRange = Math.max(window.innerHeight * 0.12, 1);
-      const railVisibility = aboutSection
+      const railVisibility = revealSection
         ? Math.min(Math.max((scrollY - revealStart) / revealRange, 0), 1)
-        : 0;
-      const centerSection = findCenterSection(scrollY);
+        : revealSectionId
+          ? 0
+          : 1;
+      const centerSection = findCenterSection(scrollY, sections, fallbackId);
 
       root.style.setProperty("--scroll-progress", `${progress}`);
       root.style.setProperty("--scroll-rail-opacity", `${railVisibility}`);
@@ -95,9 +101,11 @@ export default function ScrollRail() {
         requestProgressUpdate(values.scroll);
       }) ?? (() => undefined);
 
+    refreshSectionMetrics();
     requestProgressUpdate(latestScrollY);
 
     const handleResize = () => {
+      refreshSectionMetrics();
       requestProgressUpdate(scrollController?.getScrollValues().scroll ?? 0);
     };
 
@@ -110,25 +118,38 @@ export default function ScrollRail() {
       root.style.removeProperty("--scroll-rail-opacity");
       window.removeEventListener("resize", handleResize);
     };
-  }, [scrollController]);
+  }, [fallbackId, revealSectionId, scrollController, sectionIds]);
 
   const handleScrollToSection = (sectionId: string) => {
-    scrollController?.scrollTo(`#${sectionId}`, {
-      offset: sectionId === "home" ? 0 : -NAV_HEIGHT,
-    });
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const scrollLimit = scrollController?.getScrollValues().limit ?? Number.POSITIVE_INFINITY;
+    const clampedTarget = getCenteredScrollTarget(
+      section.offsetTop,
+      section.offsetHeight,
+      window.innerHeight,
+      scrollLimit,
+    );
+
+    scrollController?.scrollTo(clampedTarget);
   };
 
+  if (resolvedSections.length === 0) {
+    return null;
+  }
+
   return (
-    <nav className="scroll-rail" aria-label="Section navigation rail">
+    <nav className="scroll-rail" aria-label={ariaLabel}>
       <div className="scroll-rail-track" />
       <div className="scroll-rail-fill" />
       <div className="scroll-rail-ball" />
 
       <ol className="scroll-rail-labels">
-        {NAV_LINKS.map((link, index) => {
-          const sectionId = link.href.replace("#", "");
+        {resolvedSections.map((section, index) => {
+          const sectionId = section.id;
           const isActive = activeCenterSection === sectionId;
-          const position = index / Math.max(NAV_LINKS.length - 1, 1);
+          const position = index / Math.max(resolvedSections.length - 1, 1);
           const railStopStyle: RailStopStyle = {
             "--rail-stop": `${position}`,
           };
@@ -147,7 +168,7 @@ export default function ScrollRail() {
                 aria-current={isActive ? "location" : undefined}
                 onClick={() => handleScrollToSection(sectionId)}
               >
-                {link.label}
+                {section.label}
               </button>
             </li>
           );
