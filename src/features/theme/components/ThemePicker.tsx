@@ -70,7 +70,7 @@ export default function ThemePicker() {
     <div ref={containerRef} className="fixed bottom-6 right-6 z-1000">
       {open && (
         <div className="theme-picker-panel">
-          <div className="flex gap-1 mb-2">
+          <div className="mode-toggle-row">
             {(["dark", "light"] as const).map((m) => (
               <button
                 key={m}

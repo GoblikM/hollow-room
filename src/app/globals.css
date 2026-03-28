@@ -839,22 +839,65 @@ body::after {
 
 /* ─── Mode toggle (dark / light) ─────────────────────────────────────────── */
 
+.mode-toggle-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 0.58rem;
+  border: 1px solid color-mix(in srgb, var(--color-outline) 78%, transparent);
+  background: color-mix(in srgb, var(--color-surface-2) 82%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 6%, transparent),
+    0 0 0 1px color-mix(in srgb, black 16%, transparent);
+}
+
 .mode-toggle-btn {
-  flex: 1;
-  padding: 0.2rem 0.4rem;
+  position: relative;
+  padding: 0.42rem 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  background: none;
-  border: 1px solid var(--color-outline);
+  font-size: 0.63rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  border: 0;
+  border-right: 1px solid color-mix(in srgb, var(--color-outline) 70%, transparent);
   color: var(--color-muted);
   cursor: pointer;
+  transition:
+    color 0.16s ease,
+    background 0.16s ease,
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.mode-toggle-btn:last-child {
+  border-right: 0;
+}
+
+.mode-toggle-btn:hover,
+.mode-toggle-btn:focus-visible {
+  color: var(--color-fg);
+  background: color-mix(in srgb, var(--color-surface-2) 88%, transparent);
 }
 
 .mode-toggle-btn.active {
-  background: var(--color-accent-dim);
-  color: var(--color-fg);
-  border-color: var(--color-accent);
+  background:
+    repeating-linear-gradient(
+      180deg,
+      color-mix(in srgb, white 10%, transparent) 0,
+      color-mix(in srgb, white 10%, transparent) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-accent-bright) 28%, var(--color-surface-2)),
+    color-mix(in srgb, var(--color-accent) 22%, var(--color-surface))
+  );
+  color: color-mix(in srgb, var(--color-fg) 82%, white);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 60%, transparent),
+    0 0 12px color-mix(in srgb, var(--color-accent) 20%, transparent);
 }
 
 /* ─── Light mode overrides ───────────────────────────────────────────────── */
