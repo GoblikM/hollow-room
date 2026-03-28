@@ -218,16 +218,7 @@ body::after {
 
 /* ─── Low-poly clip-path utility ─────────────────────────────────────────── */
 .polygon-clip {
-  clip-path: polygon(
-    0% 8%,
-    8% 0%,
-    92% 0%,
-    100% 8%,
-    100% 92%,
-    92% 100%,
-    8% 100%,
-    0% 92%
-  );
+  clip-path: polygon(0% 8%, 8% 0%, 92% 0%, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0% 92%);
 }
 
 /* ─── Pixel border utility (updated to accent color) ────────────────────── */
@@ -392,14 +383,12 @@ body::after {
   );
   backdrop-filter: blur(14px) saturate(120%);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
-  border-bottom: 1px solid
-    color-mix(in srgb, var(--color-outline) 82%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-outline) 82%, transparent);
   box-shadow:
     0 10px 30px color-mix(in srgb, var(--color-base) 60%, transparent),
     0 3px 10px rgba(0, 0, 0, 0.45),
     inset 0 -1px 0 color-mix(in srgb, var(--color-outline) 45%, transparent),
-    inset 0 1px 0
-      color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
   overflow: clip;
 }
 
@@ -516,8 +505,7 @@ body::after {
   border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
   box-shadow:
     0 0 16px color-mix(in srgb, var(--color-accent) 18%, transparent),
-    inset 0 1px 0
-      color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent-bright) 14%, transparent);
 }
 
 .nav-hamburger:hover {
@@ -527,16 +515,14 @@ body::after {
 }
 
 .nav-mobile-menu {
-  border-top: 1px solid
-    color-mix(in srgb, var(--color-outline) 75%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--color-outline) 75%, transparent);
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--color-surface-2) 94%, transparent),
     color-mix(in srgb, var(--color-surface) 98%, transparent)
   );
   box-shadow:
-    inset 0 1px 0
-      color-mix(in srgb, var(--color-accent-bright) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent-bright) 10%, transparent),
     0 18px 36px color-mix(in srgb, var(--color-base) 42%, transparent);
 }
 
@@ -733,8 +719,7 @@ body::after {
   gap: 0.32rem;
   padding-bottom: 0.4rem;
   margin-bottom: 0.38rem;
-  border-bottom: 1px solid
-    color-mix(in srgb, var(--color-outline) 50%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-outline) 50%, transparent);
 }
 
 .theme-swatch {
@@ -839,14 +824,9 @@ body::after {
 
 .theme-switch-input:checked + .theme-switch-track {
   border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
-  background: color-mix(
-    in srgb,
-    var(--color-accent) 36%,
-    var(--color-surface-2)
-  );
+  background: color-mix(in srgb, var(--color-accent) 36%, var(--color-surface-2));
   box-shadow:
-    inset 0 0 0 1px
-      color-mix(in srgb, var(--color-accent-bright) 20%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, var(--color-accent-bright) 20%, transparent),
     0 0 12px color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
@@ -902,8 +882,7 @@ body::after {
   text-transform: uppercase;
   background: color-mix(in srgb, var(--color-surface) 78%, transparent);
   border: 0;
-  border-right: 1px solid
-    color-mix(in srgb, var(--color-outline) 70%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--color-outline) 70%, transparent);
   color: var(--color-muted);
   cursor: pointer;
   transition:
@@ -934,11 +913,7 @@ body::after {
     ),
     linear-gradient(
       180deg,
-      color-mix(
-        in srgb,
-        var(--color-accent-bright) 28%,
-        var(--color-surface-2)
-      ),
+      color-mix(in srgb, var(--color-accent-bright) 28%, var(--color-surface-2)),
       color-mix(in srgb, var(--color-accent) 22%, var(--color-surface))
     );
   color: color-mix(in srgb, var(--color-fg) 82%, white);
@@ -1084,11 +1059,7 @@ body.light-mode .hero-title {
       color-mix(in srgb, var(--color-surface-2) 94%, transparent),
       color-mix(in srgb, var(--color-surface) 96%, transparent)
     ),
-    radial-gradient(
-      130% 160% at 10% 0%,
-      color-mix(in srgb, var(--color-accent-dim) 12%, transparent),
-      transparent 56%
-    );
+    radial-gradient(130% 160% at 10% 0%, color-mix(in srgb, var(--color-accent-dim) 12%, transparent), transparent 56%);
 }
 
 .contact-shell-left,
@@ -1136,8 +1107,7 @@ body.light-mode .hero-title {
 .contact-email-link:hover,
 .contact-email-link:focus-visible {
   border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
-  box-shadow: 0 0 0 1px
-    color-mix(in srgb, var(--color-accent-bright) 24%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent-bright) 24%, transparent);
   transform: translateY(-1px);
 }
 
@@ -1287,120 +1257,68 @@ body.light-mode .section-reveal {
 @keyframes hero-shell-flicker {
   0%,
   100% {
-    filter: drop-shadow(
-        0 0 14px color-mix(in srgb, var(--color-accent-bright) 18%, transparent)
-      )
-      drop-shadow(
-        0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent)
-      );
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 18%, transparent))
+      drop-shadow(0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent));
   }
 
   7% {
-    filter: drop-shadow(
-        0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent)
-      )
-      drop-shadow(
-        0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent)
-      );
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
+      drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent));
   }
 
   7.8% {
-    filter: drop-shadow(
-        0 0 22px color-mix(in srgb, var(--color-accent-bright) 28%, transparent)
-      )
-      drop-shadow(
-        0 0 44px color-mix(in srgb, var(--color-accent) 20%, transparent)
-      );
+    filter: drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent-bright) 28%, transparent))
+      drop-shadow(0 0 44px color-mix(in srgb, var(--color-accent) 20%, transparent));
   }
 
   8.4% {
-    filter: drop-shadow(
-        0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent)
-      )
-      drop-shadow(
-        0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent)
-      );
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
   }
 
   31% {
-    filter: drop-shadow(
-        0 0 15px color-mix(in srgb, var(--color-accent-bright) 19%, transparent)
-      )
-      drop-shadow(
-        0 0 30px color-mix(in srgb, var(--color-accent) 13%, transparent)
-      );
+    filter: drop-shadow(0 0 15px color-mix(in srgb, var(--color-accent-bright) 19%, transparent))
+      drop-shadow(0 0 30px color-mix(in srgb, var(--color-accent) 13%, transparent));
   }
 
   31.6% {
-    filter: drop-shadow(
-        0 0 24px color-mix(in srgb, var(--color-accent-bright) 30%, transparent)
-      )
-      drop-shadow(
-        0 0 46px color-mix(in srgb, var(--color-accent) 21%, transparent)
-      );
+    filter: drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent-bright) 30%, transparent))
+      drop-shadow(0 0 46px color-mix(in srgb, var(--color-accent) 21%, transparent));
   }
 
   32.3% {
-    filter: drop-shadow(
-        0 0 11px color-mix(in srgb, var(--color-accent-bright) 12%, transparent)
-      )
-      drop-shadow(
-        0 0 22px color-mix(in srgb, var(--color-accent) 9%, transparent)
-      );
+    filter: drop-shadow(0 0 11px color-mix(in srgb, var(--color-accent-bright) 12%, transparent))
+      drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent) 9%, transparent));
   }
 
   63% {
-    filter: drop-shadow(
-        0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent)
-      )
-      drop-shadow(
-        0 0 25px color-mix(in srgb, var(--color-accent) 10%, transparent)
-      );
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 25px color-mix(in srgb, var(--color-accent) 10%, transparent));
   }
 
   63.5% {
-    filter: drop-shadow(
-        0 0 20px color-mix(in srgb, var(--color-accent-bright) 26%, transparent)
-      )
-      drop-shadow(
-        0 0 38px color-mix(in srgb, var(--color-accent) 17%, transparent)
-      );
+    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-accent-bright) 26%, transparent))
+      drop-shadow(0 0 38px color-mix(in srgb, var(--color-accent) 17%, transparent));
   }
 
   64.1% {
-    filter: drop-shadow(
-        0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent)
-      )
-      drop-shadow(
-        0 0 23px color-mix(in srgb, var(--color-accent) 10%, transparent)
-      );
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
+      drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent) 10%, transparent));
   }
 
   86% {
-    filter: drop-shadow(
-        0 0 16px color-mix(in srgb, var(--color-accent-bright) 20%, transparent)
-      )
-      drop-shadow(
-        0 0 32px color-mix(in srgb, var(--color-accent) 14%, transparent)
-      );
+    filter: drop-shadow(0 0 16px color-mix(in srgb, var(--color-accent-bright) 20%, transparent))
+      drop-shadow(0 0 32px color-mix(in srgb, var(--color-accent) 14%, transparent));
   }
 
   86.4% {
-    filter: drop-shadow(
-        0 0 23px color-mix(in srgb, var(--color-accent-bright) 29%, transparent)
-      )
-      drop-shadow(
-        0 0 45px color-mix(in srgb, var(--color-accent) 20%, transparent)
-      );
+    filter: drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent-bright) 29%, transparent))
+      drop-shadow(0 0 45px color-mix(in srgb, var(--color-accent) 20%, transparent));
   }
 
   87% {
-    filter: drop-shadow(
-        0 0 14px color-mix(in srgb, var(--color-accent-bright) 16%, transparent)
-      )
-      drop-shadow(
-        0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent)
-      );
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
   }
 }
 

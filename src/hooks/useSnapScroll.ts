@@ -39,9 +39,7 @@ export function useSnapScroll({
   const isSnappingRef = useRef(false);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
     function getSections(): HTMLElement[] {
@@ -74,7 +72,9 @@ export function useSnapScroll({
         scrollTo: { y: targetEl.offsetTop, autoKill: false },
         duration,
         ease: "power2.inOut",
-        onComplete: () => { isSnappingRef.current = false; },
+        onComplete: () => {
+          isSnappingRef.current = false;
+        },
       });
     }
 

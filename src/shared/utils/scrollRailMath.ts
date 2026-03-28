@@ -5,10 +5,7 @@ export type SectionMetrics = {
   center: number;
 };
 
-export function collectSectionMetrics(
-  sectionIds: string[],
-  doc: Document = document,
-): SectionMetrics[] {
+export function collectSectionMetrics(sectionIds: string[], doc: Document = document): SectionMetrics[] {
   return sectionIds
     .map((id) => {
       const section = doc.getElementById(id);
@@ -66,8 +63,7 @@ export function getRailProgressFromSections(
   if (sections.length <= 1) return 0;
 
   const viewportCenter = scrollY + viewportHeight / 2;
-  const maxViewportCenter =
-    Math.max(documentHeight - viewportHeight, 0) + viewportHeight / 2;
+  const maxViewportCenter = Math.max(documentHeight - viewportHeight, 0) + viewportHeight / 2;
   const sectionCenters = sections.map((section) => section.center);
   const lastIndex = sectionCenters.length - 1;
   const firstStopCenter = sectionCenters[0];
@@ -98,7 +94,6 @@ export function getCenteredScrollTarget(
   viewportHeight: number,
   scrollLimit: number,
 ): number {
-  const sectionCenterTarget =
-    sectionTop + sectionHeight / 2 - viewportHeight / 2;
+  const sectionCenterTarget = sectionTop + sectionHeight / 2 - viewportHeight / 2;
   return Math.max(0, Math.min(sectionCenterTarget, scrollLimit));
 }

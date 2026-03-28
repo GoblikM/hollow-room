@@ -1,9 +1,4 @@
-import {
-  Crimson_Text,
-  IM_Fell_English,
-  Share_Tech_Mono,
-  Silkscreen,
-} from "next/font/google";
+import { Crimson_Text, IM_Fell_English, Share_Tech_Mono, Silkscreen } from "next/font/google";
 
 export const headingFont = IM_Fell_English({
   weight: "400",
@@ -35,6 +30,4 @@ export const bodyFont = Crimson_Text({
   variable: "--font-body",
 });
 
-export const fontVariables = [headingFont, pixelFont, monoFont, bodyFont]
-  .map((f) => f.variable)
-  .join(" ");
+export const fontVariables = [headingFont, pixelFont, monoFont, bodyFont].map((f) => f.variable).join(" ");

@@ -96,12 +96,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
             </svg>
           ) : (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path
-                d="M3 6h14M3 10h14M3 14h14"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
+              <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           )}
         </button>
@@ -112,13 +107,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           <ul role="list" className="nav-mobile-links">
             {NAV_LINKS.map(({ href, label }) => (
               <li key={href}>
-                <NavLink
-                  href={href}
-                  label={label}
-                  active={isActive(href)}
-                  mobile
-                  onClick={() => setMenuOpen(false)}
-                />
+                <NavLink href={href} label={label} active={isActive(href)} mobile onClick={() => setMenuOpen(false)} />
               </li>
             ))}
           </ul>

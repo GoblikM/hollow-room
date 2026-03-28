@@ -26,13 +26,7 @@ export default function MusicControls() {
       aria-label={isPlaying ? "Pause music" : "Play music"}
       title={isPlaying ? "Pause music" : "Play music"}
     >
-      <svg
-        className="music-control-icon"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-      >
+      <svg className="music-control-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         {isPlaying ? (
           <>
             <rect x="6" y="4" width="4" height="16" />

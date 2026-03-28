@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useRef,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { createContext, useContext, useRef, useState, ReactNode, useEffect } from "react";
 
 interface AudioContextType {
   audioRef: React.RefObject<HTMLAudioElement> | null;
@@ -21,11 +14,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  return (
-    <AudioContext.Provider value={{ audioRef, isPlaying, setIsPlaying }}>
-      {children}
-    </AudioContext.Provider>
-  );
+  return <AudioContext.Provider value={{ audioRef, isPlaying, setIsPlaying }}>{children}</AudioContext.Provider>;
 }
 
 export function useAudio() {

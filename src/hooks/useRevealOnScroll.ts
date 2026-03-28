@@ -8,14 +8,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function useRevealOnScroll(selector = ".section-reveal"): void {
   useEffect(() => {
-    const elements = Array.from(
-      document.querySelectorAll<HTMLElement>(selector),
-    );
+    const elements = Array.from(document.querySelectorAll<HTMLElement>(selector));
     if (!elements.length) return;
 
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) {
       elements.forEach((element) => {
         gsap.set(element, {

@@ -45,22 +45,13 @@ export default function Home() {
         {/* About section */}
         <section id="about" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
-              about
-            </h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">about</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.about}</p>
             <div className="about-layout">
               <div className="about-avatar-frame vhs-border">
-                <Image
-                  src={avatar}
-                  alt="Portrait avatar"
-                  className="about-avatar-image"
-                  priority
-                />
+                <Image src={avatar} alt="Portrait avatar" className="about-avatar-image" priority />
               </div>
-              <p className="font-mono text-lg leading-relaxed">
-                {HOME_ABOUT_TEXT}
-              </p>
+              <p className="font-mono text-lg leading-relaxed">{HOME_ABOUT_TEXT}</p>
             </div>
           </div>
         </section>
@@ -68,9 +59,7 @@ export default function Home() {
         {/* Games section */}
         <section id="games" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
-              games
-            </h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">games</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.games}</p>
             <div className="card-grid">
               {HOME_GAMES_SECTION_ITEMS.map((game) => (
@@ -83,9 +72,7 @@ export default function Home() {
         {/* Projects section */}
         <section id="projects" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
-              projects
-            </h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">projects</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.projects}</p>
             <div className="card-grid">
               {HOME_PROJECTS_SECTION_ITEMS.map((project) => (
@@ -98,9 +85,7 @@ export default function Home() {
         {/* Blog section */}
         <section id="blog" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
-              blog
-            </h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">blog</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.blog}</p>
             <div>
               {HOME_BLOG_SECTION_POSTS.map((post) => (
@@ -113,27 +98,20 @@ export default function Home() {
         {/* Contact section */}
         <section id="contact" className="section section-last">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">
-              contact
-            </h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">contact</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.contact}</p>
 
             <div className="contact-shell vhs-border">
               <div className="contact-shell-left">
                 <p className="contact-kicker">reach out</p>
                 <p className="contact-copy">
-                  Open for collabs, game jams, and weird web experiments. If you
-                  have an idea, send a message and I&apos;ll get back to you.
+                  Open for collabs, game jams, and weird web experiments. If you have an idea, send a message and
+                  I&apos;ll get back to you.
                 </p>
 
-                <a
-                  className="contact-email-link"
-                  href={`mailto:${HOME_CONTACT_SECTION.email}`}
-                >
+                <a className="contact-email-link" href={`mailto:${HOME_CONTACT_SECTION.email}`}>
                   <span className="contact-email-label">email</span>
-                  <span className="contact-email-value">
-                    {HOME_CONTACT_SECTION.email}
-                  </span>
+                  <span className="contact-email-value">{HOME_CONTACT_SECTION.email}</span>
                 </a>
               </div>
 
@@ -142,12 +120,7 @@ export default function Home() {
                 <ul className="contact-links-list">
                   {HOME_CONTACT_SECTION.socials.map((social) => (
                     <li key={social.label}>
-                      <a
-                        href={social.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="contact-link-chip"
-                      >
+                      <a href={social.href} target="_blank" rel="noreferrer" className="contact-link-chip">
                         <span className="contact-link-arrow" aria-hidden="true">
                           &gt;
                         </span>
@@ -163,9 +136,7 @@ export default function Home() {
 
         <footer className="footer-section p-4 text-center font-pixel text-accent-bright text-xs">
           &copy; 2026 hollow-room. All rights reserved.{" "}
-          <span className="text-muted text-[0.65rem] tracking-[0.08em]">
-            v{appVersion}
-          </span>
+          <span className="text-muted text-[0.65rem] tracking-[0.08em]">v{appVersion}</span>
         </footer>
       </main>
     </>

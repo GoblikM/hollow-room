@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -26,7 +20,7 @@ type ScrollListener = (values: ScrollValues) => void;
 type ScrollContextValue = {
   scrollTo: (
     target: string | HTMLElement | number,
-    options?: { offset?: number; duration?: number; immediate?: boolean }
+    options?: { offset?: number; duration?: number; immediate?: boolean },
   ) => void;
   resize: () => void;
   subscribe: (listener: ScrollListener) => () => void;
@@ -57,9 +51,7 @@ export default function ScrollProvider({
   });
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     smootherRef.current = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
@@ -76,12 +68,8 @@ export default function ScrollProvider({
 
       if (Math.abs(scroll - prev.scroll) < 0.05) return;
 
-      const limit = Math.max(
-        document.documentElement.scrollHeight - window.innerHeight,
-        1
-      );
-      const direction =
-        scroll > prev.scroll ? 1 : scroll < prev.scroll ? -1 : prev.direction;
+      const limit = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const direction = scroll > prev.scroll ? 1 : scroll < prev.scroll ? -1 : prev.direction;
       const velocity = scroll - prev.scroll;
       const progress = scroll / limit;
 
@@ -109,13 +97,9 @@ export default function ScrollProvider({
       if (typeof target === "number") {
         scrollPos = target + offset;
       } else {
-        const el =
-          typeof target === "string"
-            ? document.querySelector<HTMLElement>(target)
-            : target;
+        const el = typeof target === "string" ? document.querySelector<HTMLElement>(target) : target;
         if (!el) return;
-        scrollPos =
-          el.getBoundingClientRect().top + smoother.scrollTop() + offset;
+        scrollPos = el.getBoundingClientRect().top + smoother.scrollTop() + offset;
       }
 
       smoother.scrollTo(scrollPos, !immediate);

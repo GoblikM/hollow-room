@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import {
-  SCHEMES,
-  type ColorScheme,
-  type ThemeMode,
-} from "@/features/theme/constants/themePalette";
+import { SCHEMES, type ColorScheme, type ThemeMode } from "@/features/theme/constants/themePalette";
 import {
   applyDesktopNavEnabled,
   applyMode,
@@ -22,9 +18,7 @@ export default function ThemePicker() {
   const [openSchemes, setOpenSchemes] = useState(false);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
-  const [desktopNavEnabled, setDesktopNavEnabled] = useState(
-    getInitialDesktopNavEnabled,
-  );
+  const [desktopNavEnabled, setDesktopNavEnabled] = useState(getInitialDesktopNavEnabled);
   const { audioRef, isPlaying, setIsPlaying } = useAudio();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -37,10 +31,7 @@ export default function ThemePicker() {
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     }
@@ -98,22 +89,10 @@ export default function ThemePicker() {
             ))}
           </div>
 
-          <button
-            className="schemes-toggle-btn"
-            onClick={() => setOpenSchemes((v) => !v)}
-            aria-expanded={openSchemes}
-          >
+          <button className="schemes-toggle-btn" onClick={() => setOpenSchemes((v) => !v)} aria-expanded={openSchemes}>
             <span className="schemes-toggle-title">Color schemes</span>
-            <svg
-              className="schemes-toggle-icon"
-              width="14"
-              height="14"
-              viewBox="0 0 12 12"
-              fill="currentColor"
-            >
-              <polygon
-                points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"}
-              />
+            <svg className="schemes-toggle-icon" width="14" height="14" viewBox="0 0 12 12" fill="currentColor">
+              <polygon points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
             </svg>
           </button>
 
@@ -160,12 +139,7 @@ export default function ThemePicker() {
             </span>
 
             <label className="theme-switch" aria-label="Toggle music">
-              <input
-                className="theme-switch-input"
-                type="checkbox"
-                checked={isPlaying}
-                onChange={handleMusicToggle}
-              />
+              <input className="theme-switch-input" type="checkbox" checked={isPlaying} onChange={handleMusicToggle} />
               <span className="theme-switch-track" aria-hidden="true">
                 <span className="theme-switch-thumb" />
               </span>
@@ -179,13 +153,7 @@ export default function ThemePicker() {
         aria-label="Pick color scheme"
         aria-expanded={open}
       >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 22 22"
-          fill="none"
-          className="text-accent-bright"
-        >
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-accent-bright">
           <circle cx="7" cy="7" r="3" fill="currentColor" opacity="0.9" />
           <circle cx="15" cy="7" r="3" fill="currentColor" opacity="0.6" />
           <circle cx="11" cy="15" r="3" fill="currentColor" opacity="0.75" />

@@ -34,10 +34,7 @@ export default function ScrollRail({
   ariaLabel = "Section navigation rail",
 }: ScrollRailProps) {
   const scrollController = useScroll();
-  const resolvedSections = useMemo(
-    () => (sections && sections.length > 0 ? sections : DEFAULT_SECTIONS),
-    [sections],
-  );
+  const resolvedSections = useMemo(() => (sections && sections.length > 0 ? sections : DEFAULT_SECTIONS), [sections]);
   const sectionIds = useMemo(() => {
     if (resolvedSections.length === 0) return SECTION_IDS;
     return resolvedSections.map((section) => section.id);

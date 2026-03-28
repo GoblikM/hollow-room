@@ -9,26 +9,21 @@ beforeEach(() => {
   jest.clearAllMocks();
   observerCallback = undefined as unknown as IntersectionObserverCallback;
 
-  global.IntersectionObserver = jest
-    .fn()
-    .mockImplementation((cb: IntersectionObserverCallback) => {
+  global.IntersectionObserver = jest.fn().mockImplementation((cb: IntersectionObserverCallback) => {
     observerCallback = cb;
     return {
       observe: mockObserve,
       unobserve: jest.fn(),
       disconnect: mockDisconnect,
     };
-    });
+  });
 
   window.history.replaceState = jest.fn();
 });
 
 const SECTION_IDS = ["home", "about", "blog"];
 
-function makeEntry(
-  id: string,
-  intersectionRatio: number
-): IntersectionObserverEntry {
+function makeEntry(id: string, intersectionRatio: number): IntersectionObserverEntry {
   return {
     target: { id } as Element,
     intersectionRatio,
@@ -50,10 +45,7 @@ describe("useActiveSection", () => {
     const { result } = renderHook(() => useActiveSection(SECTION_IDS));
 
     act(() => {
-      observerCallback(
-        [makeEntry("blog", 0.5)],
-        makeObserver()
-      );
+      observerCallback([makeEntry("blog", 0.5)], makeObserver());
     });
 
     expect(result.current).toBe("blog");
@@ -65,27 +57,17 @@ describe("useActiveSection", () => {
 
     // First make blog active
     act(() => {
-      observerCallback(
-        [makeEntry("blog", 0.5)],
-        makeObserver()
-      );
+      observerCallback([makeEntry("blog", 0.5)], makeObserver());
     });
 
     expect(result.current).toBe("blog");
 
     // Now make home the most visible
     act(() => {
-      observerCallback(
-        [makeEntry("home", 0.8), makeEntry("blog", 0.1)],
-        makeObserver()
-      );
+      observerCallback([makeEntry("home", 0.8), makeEntry("blog", 0.1)], makeObserver());
     });
 
     expect(result.current).toBe("home");
-    expect(window.history.replaceState).toHaveBeenLastCalledWith(
-      null,
-      "",
-      window.location.pathname
-    );
+    expect(window.history.replaceState).toHaveBeenLastCalledWith(null, "", window.location.pathname);
   });
 });
