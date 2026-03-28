@@ -95,31 +95,16 @@ export default function Home() {
 
         {/* About section */}
         <section id="about" className="section">
-          <div
-            className="section-reveal max-w-[800px] w-full"
-          >
-            <h2
-              className="font-pixel text-5xl mb-10 text-accent-bright"
-            >
-              about
-            </h2>
+          <div className="section-reveal max-w-200 w-full">
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">about</h2>
             <div className="about-layout">
               <div className="about-avatar-frame vhs-border">
-                <Image
-                  src={avatar}
-                  alt="Portrait avatar"
-                  className="about-avatar-image"
-                  priority
-                />
+                <Image src={avatar} alt="Portrait avatar" className="about-avatar-image" priority />
               </div>
-              <p
-                className="font-mono text-lg leading-relaxed"
-              >
-                I&apos;m a hobbyist game developer and web tinkerer. I built this
-                site to share my projects, write about what I&apos;m learning, and
-                experiment with retro aesthetics. If you like pixel art,
-                procedural generation, or just want to say hi, feel free to reach
-                out!
+              <p className="font-mono text-lg leading-relaxed">
+                I&apos;m a hobbyist game developer and web tinkerer. I built this site to share my projects,
+                write about what I&apos;m learning, and experiment with retro aesthetics. If you like pixel
+                art, procedural generation, or just want to say hi, feel free to reach out!
               </p>
             </div>
           </div>
@@ -127,14 +112,8 @@ export default function Home() {
 
         {/* Games section */}
         <section id="games" className="section">
-          <div
-            className="section-reveal max-w-[800px] w-full"
-          >
-            <h2
-              className="font-pixel text-5xl mb-10 text-accent-bright"
-            >
-              games
-            </h2>
+          <div className="section-reveal max-w-200 w-full">
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">games</h2>
             <div className="card-grid">
               {PLACEHOLDER_GAMES.map((game) => (
                 <GameCard key={game.name} {...game} />
@@ -145,14 +124,8 @@ export default function Home() {
 
         {/* Projects section */}
         <section id="projects" className="section">
-          <div
-            className="section-reveal max-w-[800px] w-full"
-          >
-            <h2
-              className="font-pixel text-5xl mb-10 text-accent-bright"
-            >
-              projects
-            </h2>
+          <div className="section-reveal max-w-200 w-full">
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">projects</h2>
             <div className="card-grid">
               {PLACEHOLDER_PROJECTS.map((project) => (
                 <ProjectCard key={project.name} {...project} />
@@ -163,14 +136,8 @@ export default function Home() {
 
         {/* Blog section */}
         <section id="blog" className="section section-last">
-          <div
-            className="section-reveal max-w-[800px] w-full"
-          >
-            <h2
-              className="font-pixel text-5xl mb-10 text-accent-bright"
-            >
-              blog
-            </h2>
+          <div className="section-reveal max-w-200 w-full">
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">blog</h2>
             <div>
               {PLACEHOLDER_BLOG_POSTS.map((post) => (
                 <BlogPostCard key={post.title} {...post} />
@@ -179,16 +146,11 @@ export default function Home() {
           </div>
         </section>
 
-        <footer
-          className="footer-section p-4 text-center font-pixel text-accent-bright text-xs"
-        >
+        <footer className="footer-section p-4 text-center font-pixel text-accent-bright text-xs">
           &copy; 2026 hollow-room. All rights reserved.{" "}
-          <span className="text-muted text-[0.65rem] tracking-[0.08em]">
-            v{appVersion}
-          </span>
+          <span className="text-muted text-[0.65rem] tracking-[0.08em]">v{appVersion}</span>
         </footer>
       </main>
-
     </>
   );
 }
