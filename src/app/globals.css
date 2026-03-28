@@ -326,11 +326,7 @@ body::after {
   background: transparent;
   pointer-events: auto;
   cursor: pointer;
-  transition:
-    color 0.18s ease,
-    text-shadow 0.18s ease,
-    transform 0.18s ease,
-    opacity 0.18s ease;
+  transition: transform 0.18s ease, opacity 0.18s ease;
   opacity: 0.88;
 }
 
@@ -349,13 +345,9 @@ body::after {
     width 0.18s ease;
 }
 
-.scroll-rail-label:hover,
 .scroll-rail-label:focus-visible {
   opacity: 1;
   transform: translateX(1px);
-}
-
-.scroll-rail-label:focus-visible {
   outline: 1px solid color-mix(in srgb, var(--color-accent-bright) 70%, white);
   outline-offset: 2px;
 }

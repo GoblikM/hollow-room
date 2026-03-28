@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
+import { NAV_HEIGHT } from "@/components/Nav";
 import { useScroll } from "@/components/ScrollProvider";
-import { NAV_LINKS } from "@/constants/navigation";
+import { NAV_LINKS, SECTION_IDS } from "@/constants/navigation";
 
-const SECTION_IDS = NAV_LINKS.map(({ href }) => href.replace("#", ""));
 type RailStopStyle = CSSProperties & { "--rail-stop": string };
 
 function findCenterSection(scrollY: number): string {
@@ -114,7 +114,7 @@ export default function ScrollRail() {
 
   const handleScrollToSection = (sectionId: string) => {
     scrollController?.scrollTo(`#${sectionId}`, {
-      offset: -72,
+      offset: sectionId === "home" ? 0 : -NAV_HEIGHT,
     });
   };
 
