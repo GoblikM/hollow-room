@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import "@/app/globals.css";
 import SiteShell from "@/app/providers/SiteShell";
+import { AudioProvider } from "@/features/audio/context/AudioContext";
+import AutoPlayMusic from "@/features/audio/components/AutoPlayMusic";
 import CustomCursor from "@/shared/ui/CustomCursor";
 import { fontVariables } from "@/assets/fonts";
 
@@ -14,8 +16,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={fontVariables}>
       <body>
-        <CustomCursor />
-        <SiteShell>{children}</SiteShell>
+        <AudioProvider>
+          <AutoPlayMusic />
+          <CustomCursor />
+          <SiteShell>{children}</SiteShell>
+        </AudioProvider>
       </body>
     </html>
   );

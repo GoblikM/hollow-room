@@ -15,14 +15,17 @@ import {
   getInitialSchemeId,
   getSchemeById,
 } from "@/features/theme/utils/themeRuntime";
+import { useAudio } from "@/features/audio/context/AudioContext";
 
 export default function ThemePicker() {
   const [open, setOpen] = useState(false);
+  const [openSchemes, setOpenSchemes] = useState(false);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
   const [desktopNavEnabled, setDesktopNavEnabled] = useState(
     getInitialDesktopNavEnabled,
   );
+  const { audioRef, isPlaying, setIsPlaying } = useAudio();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -66,6 +69,19 @@ export default function ThemePicker() {
     });
   }
 
+  function handleMusicToggle() {
+    if (!audioRef?.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      void audioRef.current.play().catch(() => {
+        // Handle autoplay block
+      });
+      setIsPlaying(true);
+    }
+  }
+
   return (
     <div ref={containerRef} className="fixed bottom-6 right-6 z-1000">
       {open && (
@@ -82,7 +98,43 @@ export default function ThemePicker() {
             ))}
           </div>
 
-          <div className="theme-toggle-row">
+          <button
+            className="schemes-toggle-btn"
+            onClick={() => setOpenSchemes((v) => !v)}
+            aria-expanded={openSchemes}
+          >
+            <span className="schemes-toggle-title">Color schemes</span>
+            <svg
+              className="schemes-toggle-icon"
+              width="14"
+              height="14"
+              viewBox="0 0 12 12"
+              fill="currentColor"
+            >
+              <polygon points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
+            </svg>
+          </button>
+
+          {openSchemes && (
+            <div className="schemes-list">
+              {SCHEMES.map((scheme) => (
+                <button
+                  key={scheme.id}
+                  className="theme-swatch"
+                  onClick={() => handleSwatchClick(scheme)}
+                  aria-label={scheme.label}
+                >
+                  <span
+                    className={`theme-swatch-circle${activeId === scheme.id ? " active" : ""}`}
+                    style={{ backgroundColor: scheme.accent }}
+                  />
+                  <span>{scheme.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="theme-toggle-row ui-desktop-nav-row">
             <span className="theme-toggle-meta">
               <span className="theme-toggle-title">Desktop navbar</span>
             </span>
@@ -100,20 +152,23 @@ export default function ThemePicker() {
             </label>
           </div>
 
-          {SCHEMES.map((scheme) => (
-            <button
-              key={scheme.id}
-              className="theme-swatch"
-              onClick={() => handleSwatchClick(scheme)}
-              aria-label={scheme.label}
-            >
-              <span
-                className={`theme-swatch-circle${activeId === scheme.id ? " active" : ""}`}
-                style={{ backgroundColor: scheme.accent }}
+          <div className="audio-control-row">
+            <span className="theme-toggle-meta">
+              <span className="theme-toggle-title">Music</span>
+            </span>
+
+            <label className="theme-switch" aria-label="Toggle music">
+              <input
+                className="theme-switch-input"
+                type="checkbox"
+                checked={isPlaying}
+                onChange={handleMusicToggle}
               />
-              <span>{scheme.label}</span>
-            </button>
-          ))}
+              <span className="theme-switch-track" aria-hidden="true">
+                <span className="theme-switch-thumb" />
+              </span>
+            </label>
+          </div>
         </div>
       )}
       <button

@@ -575,7 +575,7 @@ body::after {
     padding-top: 60px;
   }
 
-  .theme-toggle-row {
+  .ui-desktop-nav-row {
     display: none !important;
   }
 
@@ -605,7 +605,7 @@ body::after {
 }
 
 @media (hover: none), (pointer: coarse) {
-  .theme-toggle-row {
+  .ui-desktop-nav-row {
     display: none !important;
   }
 }
@@ -696,19 +696,60 @@ body::after {
   z-index: 1001;
 }
 
-.theme-swatch {
+/* ─── Color schemes collapsible ──────────────────────────────────────────── */
+
+.schemes-toggle-btn {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.2rem 0;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.69rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-muted);
   background: none;
   border: none;
   width: 100%;
   text-align: left;
+  transition: color 0.16s ease;
+  margin-bottom: 0.38rem;
+}
+
+.schemes-toggle-btn:hover {
+  color: var(--color-fg);
+}
+
+.schemes-toggle-icon {
+  flex-shrink: 0;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.schemes-list {
+  display: grid;
+  gap: 0.32rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.38rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-outline) 50%, transparent);
+}
+
+.theme-swatch {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  padding: 0.22rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: color 0.16s ease;
 }
 
 .theme-swatch:hover {
@@ -860,7 +901,8 @@ body::after {
   text-transform: uppercase;
   background: color-mix(in srgb, var(--color-surface) 78%, transparent);
   border: 0;
-  border-right: 1px solid color-mix(in srgb, var(--color-outline) 70%, transparent);
+  border-right: 1px solid
+    color-mix(in srgb, var(--color-outline) 70%, transparent);
   color: var(--color-muted);
   cursor: pointer;
   transition:
@@ -890,14 +932,35 @@ body::after {
       transparent 3px
     ),
     linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--color-accent-bright) 28%, var(--color-surface-2)),
-    color-mix(in srgb, var(--color-accent) 22%, var(--color-surface))
-  );
+      180deg,
+      color-mix(
+        in srgb,
+        var(--color-accent-bright) 28%,
+        var(--color-surface-2)
+      ),
+      color-mix(in srgb, var(--color-accent) 22%, var(--color-surface))
+    );
   color: color-mix(in srgb, var(--color-fg) 82%, white);
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 60%, transparent),
     0 0 12px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+/* ─── Audio control row ──────────────────────────────────────────────────── */
+
+.audio-control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  width: 100%;
+  margin-bottom: 0.42rem;
+  padding: 0.2rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  letter-spacing: 0.06em;
+  color: var(--color-fg);
+  text-align: left;
 }
 
 /* ─── Light mode overrides ───────────────────────────────────────────────── */
