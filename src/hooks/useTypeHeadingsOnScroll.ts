@@ -8,12 +8,17 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function useTypeHeadingsOnScroll(
   selector = ".section .section-reveal h2",
+  charsPerSecond = 16,
 ): void {
   useEffect(() => {
-    const headings = Array.from(document.querySelectorAll<HTMLElement>(selector));
+    const headings = Array.from(
+      document.querySelectorAll<HTMLElement>(selector),
+    );
     if (!headings.length) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduceMotion) return;
 
     const cleanups: Array<() => void> = [];
@@ -36,7 +41,7 @@ export function useTypeHeadingsOnScroll(
 
       const tween = gsap.to(state, {
         count: characters.length,
-        duration: Math.max(0.85, characters.length * 0.06),
+        duration: Math.max(0.85, characters.length / Math.max(charsPerSecond, 1)),
         ease: `steps(${characters.length})`,
         paused: true,
         onUpdate: render,
@@ -65,5 +70,5 @@ export function useTypeHeadingsOnScroll(
     return () => {
       cleanups.forEach((cleanup) => cleanup());
     };
-  }, [selector]);
+  }, [charsPerSecond, selector]);
 }
