@@ -326,7 +326,9 @@ body::after {
   background: transparent;
   pointer-events: auto;
   cursor: pointer;
-  transition: transform 0.18s ease, opacity 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease;
   opacity: 0.88;
 }
 
