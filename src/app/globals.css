@@ -754,6 +754,17 @@ body.light-mode .hero-title {
   text-shadow: 0 0 18px color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
 
+.typing-heading {
+  position: relative;
+}
+
+.typing-heading::after {
+  content: "_";
+  margin-left: 0.18em;
+  color: color-mix(in srgb, var(--color-accent-bright) 90%, white);
+  animation: heading-caret-blink 0.9s steps(1, end) infinite;
+}
+
 .about-layout {
   display: grid;
   grid-template-columns: minmax(180px, 240px) 1fr;
@@ -848,7 +859,8 @@ body.light-mode .hero-title {
 .contact-email-link:hover,
 .contact-email-link:focus-visible {
   border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent-bright) 24%, transparent);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--color-accent-bright) 24%, transparent);
   transform: translateY(-1px);
 }
 
@@ -1103,6 +1115,18 @@ body.light-mode .section-reveal {
       drop-shadow(
         0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent)
       );
+  }
+}
+
+@keyframes heading-caret-blink {
+  0%,
+  46% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
   }
 }
 

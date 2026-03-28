@@ -8,6 +8,7 @@ import { HOME_GAMES_SECTION_ITEMS } from "@/features/home/data/gamesSectionConte
 import ProjectCard from "@/features/home/components/ProjectCard";
 import { HOME_PROJECTS_SECTION_ITEMS } from "@/features/home/data/projectsSectionContent";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
+import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
 
@@ -15,6 +16,7 @@ const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 
 export default function Home() {
   useRevealOnScroll();
+  useTypeHeadingsOnScroll();
 
   return (
     <>
@@ -116,9 +118,8 @@ export default function Home() {
               <div className="contact-shell-left">
                 <p className="contact-kicker">reach out</p>
                 <p className="contact-copy">
-                  Open for collabs, game jams, and weird web experiments. If
-                  you have an idea, send a message and I&apos;ll get back to
-                  you.
+                  Open for collabs, game jams, and weird web experiments. If you
+                  have an idea, send a message and I&apos;ll get back to you.
                 </p>
 
                 <a
