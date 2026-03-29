@@ -143,7 +143,7 @@ export default function ScrollRail({
       scrollLimit,
     );
 
-    scrollController?.scrollTo(clampedTarget);
+    scrollController?.scrollTo(clampedTarget, { duration: 1.5 });
   };
 
   if (resolvedSections.length === 0) {

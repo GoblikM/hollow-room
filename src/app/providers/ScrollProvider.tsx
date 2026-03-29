@@ -41,6 +41,7 @@ export default function ScrollProvider({
   fixedChildren?: ReactNode;
 }) {
   const smootherRef = useRef<InstanceType<typeof ScrollSmoother> | null>(null);
+  const scrollTweenRef = useRef<gsap.core.Tween | null>(null);
   const listenersRef = useRef(new Set<ScrollListener>());
   const scrollValuesRef = useRef<ScrollValues>({
     scroll: 0,
@@ -82,6 +83,7 @@ export default function ScrollProvider({
 
     return () => {
       gsap.ticker.remove(updateValues);
+      scrollTweenRef.current?.kill();
       smootherRef.current?.kill();
       smootherRef.current = null;
     };
@@ -89,7 +91,7 @@ export default function ScrollProvider({
 
   const value: ScrollContextValue = {
     scrollTo(target, options = {}) {
-      const { offset = 0, immediate = false } = options;
+      const { offset = 0, duration = 1.4, immediate = false } = options;
       const smoother = smootherRef.current;
       if (!smoother) return;
 
@@ -102,7 +104,19 @@ export default function ScrollProvider({
         scrollPos = el.getBoundingClientRect().top + smoother.scrollTop() + offset;
       }
 
-      smoother.scrollTo(scrollPos, !immediate);
+      if (immediate || duration <= 0) {
+        scrollTweenRef.current?.kill();
+        smoother.scrollTo(scrollPos, false);
+        return;
+      }
+
+      scrollTweenRef.current?.kill();
+      scrollTweenRef.current = gsap.to(smoother, {
+        scrollTop: scrollPos,
+        duration,
+        ease: "power2.inOut",
+        overwrite: "auto",
+      });
     },
     resize() {
       ScrollTrigger.refresh();

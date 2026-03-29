@@ -42,7 +42,7 @@ function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps)
     event.preventDefault();
     scrollController.scrollTo(targetElement, {
       offset: href === "#home" ? 0 : -NAV_HEIGHT,
-      duration: 0.9,
+      duration: 1.5,
     });
   }
 
@@ -62,7 +62,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
   function handleLogoClick(event: MouseEvent<HTMLAnchorElement>) {
     if (!scrollController || isModifiedClick(event)) return;
     event.preventDefault();
-    scrollController.scrollTo(0, { immediate: false, duration: 1 });
+    scrollController.scrollTo(0, { immediate: false, duration: 1.6 });
   }
 
   return (
