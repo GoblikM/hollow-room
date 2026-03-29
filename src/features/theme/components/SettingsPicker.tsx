@@ -6,19 +6,25 @@ import {
   applyDesktopNavEnabled,
   applyMode,
   applyScheme,
-  getInitialDesktopNavEnabled,
   getInitialMode,
   getInitialSchemeId,
   getSchemeById,
 } from "@/features/theme/utils/themeRuntime";
 import { useAudio } from "@/features/audio/context/AudioContext";
 
+const FLOW_SECTION_IDS = ["home", "about", "games", "projects", "blog", "contact"] as const;
+
 export default function SettingsPicker() {
+  const isDev = process.env.NODE_ENV !== "production";
   const [open, setOpen] = useState(false);
   const [openSchemes, setOpenSchemes] = useState(false);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
-  const [desktopNavEnabled, setDesktopNavEnabled] = useState(getInitialDesktopNavEnabled);
+  const [desktopNavEnabled, setDesktopNavEnabled] = useState(false);
+  const [isFlowLocked, setIsFlowLocked] = useState(false);
+  const [isGuidedEnabled, setIsGuidedEnabled] = useState(false);
+  const [flowStepIndex, setFlowStepIndex] = useState(0);
+  const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
   const { audioRef, isPlaying, setIsPlaying } = useAudio();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +45,48 @@ export default function SettingsPicker() {
     return () => document.removeEventListener("mousedown", handleMouseDown);
   }, []);
 
+  useEffect(() => {
+    const syncLockState = () => {
+      setIsFlowLocked(document.body.classList.contains("guided-flow-pending"));
+    };
+
+    const handleGuidedFlowLockChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ locked?: boolean }>;
+      setIsFlowLocked(Boolean(customEvent.detail?.locked));
+    };
+
+    syncLockState();
+    window.addEventListener("guidedFlowLockChanged", handleGuidedFlowLockChange);
+
+    return () => {
+      window.removeEventListener("guidedFlowLockChanged", handleGuidedFlowLockChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleFlowStateChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{
+        isGuidedEnabled?: boolean;
+        flowStepIndex?: number;
+        hasOpenedSettingsInFlow?: boolean;
+      }>;
+      if (customEvent.detail?.isGuidedEnabled !== undefined) {
+        setIsGuidedEnabled(customEvent.detail.isGuidedEnabled);
+      }
+      if (customEvent.detail?.flowStepIndex !== undefined) {
+        setFlowStepIndex(customEvent.detail.flowStepIndex);
+      }
+      if (customEvent.detail?.hasOpenedSettingsInFlow !== undefined) {
+        setHasOpenedSettingsInFlow(customEvent.detail.hasOpenedSettingsInFlow);
+      }
+    };
+
+    window.addEventListener("flowStateChanged", handleFlowStateChange);
+    return () => {
+      window.removeEventListener("flowStateChanged", handleFlowStateChange);
+    };
+  }, []);
+
   function handleSwatchClick(scheme: ColorScheme) {
     applyScheme(scheme);
     setActiveId(scheme.id);
@@ -54,6 +102,10 @@ export default function SettingsPicker() {
   }
 
   function handleDesktopNavToggle() {
+    if (isFlowLocked) {
+      return;
+    }
+
     setDesktopNavEnabled((current) => {
       const next = !current;
       applyDesktopNavEnabled(next);
@@ -75,8 +127,23 @@ export default function SettingsPicker() {
     }
   }
 
+  function handleDevResetStorage() {
+    localStorage.clear();
+    window.location.reload();
+  }
+
+  function handleToggleSettingsPanel() {
+    setOpen((current) => !current);
+  }
+
+  useEffect(() => {
+    if (open) {
+      window.dispatchEvent(new CustomEvent("settingsPanelOpened"));
+    }
+  }, [open]);
+
   return (
-    <div ref={containerRef} className="fixed bottom-6 right-6 z-1000">
+    <div ref={containerRef} className="fixed bottom-6 right-6 z-1000 overflow-visible">
       {open && (
         <div className="theme-picker-panel">
           <div className="mode-toggle-row">
@@ -127,6 +194,7 @@ export default function SettingsPicker() {
                 className="theme-switch-input"
                 type="checkbox"
                 checked={desktopNavEnabled}
+                disabled={isFlowLocked}
                 onChange={handleDesktopNavToggle}
               />
               <span className="theme-switch-track" aria-hidden="true">
@@ -147,20 +215,38 @@ export default function SettingsPicker() {
               </span>
             </label>
           </div>
+
+          {isDev && (
+            <button type="button" className="dev-reset-btn" onClick={handleDevResetStorage}>
+              DEV: clear localStorage
+            </button>
+          )}
         </div>
       )}
-      <button
-        className="theme-picker-btn"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Pick color scheme"
-        aria-expanded={open}
-      >
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-accent-bright">
-          <circle cx="7" cy="7" r="3" fill="currentColor" opacity="0.9" />
-          <circle cx="15" cy="7" r="3" fill="currentColor" opacity="0.6" />
-          <circle cx="11" cy="15" r="3" fill="currentColor" opacity="0.75" />
-        </svg>
-      </button>
+      <div className="relative inline-block z-1001">
+        {isGuidedEnabled && !hasOpenedSettingsInFlow && FLOW_SECTION_IDS[flowStepIndex] === "contact" && (
+          <button
+            type="button"
+            className="hero-play-trigger absolute right-full mr-1 whitespace-nowrap z-1001"
+            aria-label="Settings panel hint"
+            tabIndex={-1}
+          >
+            open settings &gt;
+          </button>
+        )}
+        <button
+          className="theme-picker-btn"
+          onClick={handleToggleSettingsPanel}
+          aria-label="Pick color scheme"
+          aria-expanded={open}
+        >
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-accent-bright">
+            <circle cx="7" cy="7" r="3" fill="currentColor" opacity="0.9" />
+            <circle cx="15" cy="7" r="3" fill="currentColor" opacity="0.6" />
+            <circle cx="11" cy="15" r="3" fill="currentColor" opacity="0.75" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }

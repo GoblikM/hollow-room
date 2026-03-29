@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import BlogPostCard from "@/features/home/components/BlogPostCard";
 import { HOME_ABOUT_TEXT } from "@/features/home/data/aboutSectionContent";
 import { HOME_BLOG_SECTION_POSTS } from "@/features/home/data/blogSectionContent";
@@ -9,20 +10,141 @@ import { HOME_GAMES_SECTION_ITEMS } from "@/features/home/data/gamesSectionConte
 import ProjectCard from "@/features/home/components/ProjectCard";
 import { HOME_PROJECTS_SECTION_ITEMS } from "@/features/home/data/projectsSectionContent";
 import { HOME_SECTION_INTRO } from "@/features/home/data/sectionIntroContent";
+import { useScroll } from "@/app/providers/ScrollProvider";
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
+import { getCenteredScrollTarget } from "@/shared/utils/scrollRailMath";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
 
 const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
+const FLOW_SECTION_IDS = ["home", "about", "games", "projects", "blog", "contact"] as const;
+const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
+
+async function waitForSectionTypingDone(sectionId: string): Promise<void> {
+  const section = document.getElementById(sectionId);
+  const intro = section?.querySelector<HTMLElement>(".section-intro");
+
+  if (!intro) return;
+
+  const resolveIfDone = () => !intro.classList.contains("typing-heading");
+  if (resolveIfDone()) return;
+
+  await new Promise<void>((resolve) => {
+    const observer = new MutationObserver(() => {
+      if (!resolveIfDone()) return;
+      observer.disconnect();
+      resolve();
+    });
+
+    const timeout = window.setTimeout(() => {
+      observer.disconnect();
+      resolve();
+    }, 7000);
+
+    observer.observe(intro, { attributes: true, attributeFilter: ["class"] });
+
+    if (resolveIfDone()) {
+      window.clearTimeout(timeout);
+      observer.disconnect();
+      resolve();
+    }
+  });
+}
 
 export default function Home() {
+  const scrollController = useScroll();
   const { audioRef, isPlaying, setIsPlaying } = useAudio();
+  const [flowStepIndex, setFlowStepIndex] = useState(0);
+  const [isStepReady, setIsStepReady] = useState(true);
+  const [isScrollUnlocked, setIsScrollUnlocked] = useState(false);
+  const [isGuidedEnabled, setIsGuidedEnabled] = useState(false);
+  const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
 
   useRevealOnScroll();
   useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
   useTypeHeadingsOnScroll(".hero-subtitle", 10);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 641px)");
+
+    const syncGuidedMode = () => {
+      const hasCompletedGuidedFlow = localStorage.getItem(GUIDED_FLOW_COMPLETED_KEY) === "1";
+      setIsGuidedEnabled(mediaQuery.matches && !hasCompletedGuidedFlow);
+    };
+
+    syncGuidedMode();
+    mediaQuery.addEventListener("change", syncGuidedMode);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncGuidedMode);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isGuidedEnabled || isScrollUnlocked) {
+      document.body.classList.remove("guided-scroll-locked");
+      return;
+    }
+
+    document.body.classList.add("guided-scroll-locked");
+
+    const prevent = (event: Event) => {
+      event.preventDefault();
+    };
+
+    const preventKeyboardScroll = (event: KeyboardEvent) => {
+      const blockedKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
+      if (!blockedKeys.includes(event.key)) return;
+      event.preventDefault();
+    };
+
+    window.addEventListener("wheel", prevent, { passive: false });
+    window.addEventListener("touchmove", prevent, { passive: false });
+    window.addEventListener("keydown", preventKeyboardScroll, { passive: false });
+
+    return () => {
+      document.body.classList.remove("guided-scroll-locked");
+      window.removeEventListener("wheel", prevent);
+      window.removeEventListener("touchmove", prevent);
+      window.removeEventListener("keydown", preventKeyboardScroll);
+    };
+  }, [isGuidedEnabled, isScrollUnlocked]);
+
+  useEffect(() => {
+    const flowLocked = isGuidedEnabled && !isScrollUnlocked;
+    document.body.classList.toggle("guided-flow-pending", flowLocked);
+    window.dispatchEvent(new CustomEvent("guidedFlowLockChanged", { detail: { locked: flowLocked } }));
+
+    return () => {
+      document.body.classList.remove("guided-flow-pending");
+    };
+  }, [isGuidedEnabled, isScrollUnlocked]);
+
+  useEffect(() => {
+    const handleSettingsPanelOpened = () => {
+      setHasOpenedSettingsInFlow(true);
+    };
+
+    window.addEventListener("settingsPanelOpened", handleSettingsPanelOpened);
+
+    return () => {
+      window.removeEventListener("settingsPanelOpened", handleSettingsPanelOpened);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("flowStateChanged", {
+        detail: {
+          isGuidedEnabled,
+          flowStepIndex,
+          hasOpenedSettingsInFlow,
+        },
+      })
+    );
+  }, [isGuidedEnabled, flowStepIndex, hasOpenedSettingsInFlow]);
 
   const handlePlayMusic = () => {
     const audioEl = audioRef?.current;
@@ -31,6 +153,92 @@ export default function Home() {
     void audioEl.play().then(() => {
       setIsPlaying(true);
     });
+  };
+
+  const handleFlowAdvance = async () => {
+    if (!isGuidedEnabled) {
+      handlePlayMusic();
+      return;
+    }
+
+    if (!isStepReady) return;
+
+    const isFinalStep = flowStepIndex === FLOW_SECTION_IDS.length - 1;
+    if (isFinalStep) {
+      setIsScrollUnlocked(true);
+      localStorage.setItem(GUIDED_FLOW_COMPLETED_KEY, "1");
+      return;
+    }
+
+    if (flowStepIndex === 0) {
+      handlePlayMusic();
+    }
+
+    const nextStepIndex = flowStepIndex + 1;
+    const nextSectionId = FLOW_SECTION_IDS[nextStepIndex];
+    const nextSectionEl = document.getElementById(nextSectionId);
+
+    setIsStepReady(false);
+    setFlowStepIndex(nextStepIndex);
+
+    if (nextSectionEl) {
+      const controllerLimit = scrollController?.getScrollValues().limit ?? 0;
+      const docScrollLimit = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+      const scrollLimit = controllerLimit > 0 ? controllerLimit : docScrollLimit;
+      const centeredTarget = getCenteredScrollTarget(
+        nextSectionEl.offsetTop,
+        nextSectionEl.offsetHeight,
+        window.innerHeight,
+        scrollLimit,
+      );
+
+      scrollController?.scrollTo(centeredTarget, {
+        immediate: false,
+        duration: 1.1,
+      });
+    }
+
+    await waitForSectionTypingDone(nextSectionId);
+    setIsStepReady(true);
+  };
+
+  const renderFlowButton = (sectionId: (typeof FLOW_SECTION_IDS)[number], label: string, slotClassName = "") => {
+    if (!isGuidedEnabled) {
+      if (sectionId !== "home") return null;
+
+      const hidden = isPlaying;
+      return (
+        <div className={`hero-play-slot ${slotClassName}`.trim()}>
+          <button
+            type="button"
+            className={`hero-play-trigger${hidden ? " is-hidden" : ""}`}
+            onClick={handlePlayMusic}
+            aria-hidden={hidden}
+            tabIndex={hidden ? -1 : 0}
+          >
+            click to play -&gt;
+          </button>
+        </div>
+      );
+    }
+
+    const currentSectionId = FLOW_SECTION_IDS[flowStepIndex];
+    const isCurrent = currentSectionId === sectionId;
+    const hidden = !isCurrent || !isStepReady || isScrollUnlocked;
+
+    return (
+      <div className={`hero-play-slot ${slotClassName}`.trim()}>
+        <button
+          type="button"
+          className={`hero-play-trigger${hidden ? " is-hidden" : ""}`}
+          onClick={handleFlowAdvance}
+          aria-hidden={hidden}
+          tabIndex={hidden ? -1 : 0}
+        >
+          {label}
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -51,17 +259,7 @@ export default function Home() {
             <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-muted">
               blog &amp; portfolio &mdash; coming soon here
             </p>
-            <div className="hero-play-slot">
-              <button
-                type="button"
-                className={`hero-play-trigger${isPlaying ? " is-hidden" : ""}`}
-                onClick={handlePlayMusic}
-                aria-hidden={isPlaying}
-                tabIndex={isPlaying ? -1 : 0}
-              >
-                click to play -&gt;
-              </button>
-            </div>
+            {renderFlowButton("home", "click to play ->")}
           </div>
         </section>
 
@@ -76,6 +274,7 @@ export default function Home() {
               </div>
               <p className="font-mono text-lg leading-relaxed">{HOME_ABOUT_TEXT}</p>
             </div>
+            {renderFlowButton("about", "descend deeper ->", "flow-continue-anchor")}
           </div>
         </section>
 
@@ -89,6 +288,7 @@ export default function Home() {
                 <GameCard key={game.name} {...game} />
               ))}
             </div>
+            {renderFlowButton("games", "step through static ->", "flow-continue-anchor")}
           </div>
         </section>
 
@@ -102,6 +302,7 @@ export default function Home() {
                 <ProjectCard key={project.name} {...project} />
               ))}
             </div>
+            {renderFlowButton("projects", "keep drifting ->", "flow-continue-anchor")}
           </div>
         </section>
 
@@ -115,6 +316,7 @@ export default function Home() {
                 <BlogPostCard key={post.title} {...post} />
               ))}
             </div>
+            {renderFlowButton("blog", "open final gate ->", "flow-continue-anchor")}
           </div>
         </section>
 
@@ -154,6 +356,24 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+
+            {isGuidedEnabled && (
+              <div className="hero-play-slot flow-continue-anchor">
+                <button
+                  type="button"
+                  className={`hero-play-trigger${
+                    FLOW_SECTION_IDS[flowStepIndex] !== "contact" || !isStepReady || isScrollUnlocked
+                      ? " is-hidden"
+                      : ""
+                  }`}
+                  onClick={handleFlowAdvance}
+                  aria-hidden={FLOW_SECTION_IDS[flowStepIndex] !== "contact" || !isStepReady || isScrollUnlocked}
+                  tabIndex={FLOW_SECTION_IDS[flowStepIndex] !== "contact" || !isStepReady || isScrollUnlocked ? -1 : 0}
+                >
+                  break the seal -&gt;
+                </button>
+              </div>
+            )}
           </div>
         </section>
 

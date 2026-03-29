@@ -34,6 +34,7 @@ export default function ScrollRail({
   ariaLabel = "Section navigation rail",
 }: ScrollRailProps) {
   const scrollController = useScroll();
+  const [isFlowLocked, setIsFlowLocked] = useState(false);
   const resolvedSections = useMemo(() => (sections && sections.length > 0 ? sections : DEFAULT_SECTIONS), [sections]);
   const sectionIds = useMemo(() => {
     if (resolvedSections.length === 0) return SECTION_IDS;
@@ -42,6 +43,24 @@ export default function ScrollRail({
   const fallbackId = sectionIds[0] ?? SECTION_IDS[0] ?? "home";
   const sectionsRef = useRef<SectionMetrics[]>([]);
   const [activeCenterSection, setActiveCenterSection] = useState<string>(fallbackId);
+
+  useEffect(() => {
+    const syncLockState = () => {
+      setIsFlowLocked(document.body.classList.contains("guided-flow-pending"));
+    };
+
+    const handleGuidedFlowLockChange = (event: Event) => {
+      const customEvent = event as CustomEvent<{ locked?: boolean }>;
+      setIsFlowLocked(Boolean(customEvent.detail?.locked));
+    };
+
+    syncLockState();
+    window.addEventListener("guidedFlowLockChanged", handleGuidedFlowLockChange);
+
+    return () => {
+      window.removeEventListener("guidedFlowLockChanged", handleGuidedFlowLockChange);
+    };
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -109,6 +128,10 @@ export default function ScrollRail({
   }, [fallbackId, revealSectionId, scrollController, sectionIds]);
 
   const handleScrollToSection = (sectionId: string) => {
+    if (isFlowLocked) {
+      return;
+    }
+
     const section = document.getElementById(sectionId);
     if (!section) return;
 
@@ -150,6 +173,8 @@ export default function ScrollRail({
                   isActive ? "scroll-rail-label-active nav-link-active" : ""
                 }`}
                 aria-current={isActive ? "location" : undefined}
+                aria-disabled={isFlowLocked}
+                disabled={isFlowLocked}
                 onClick={() => handleScrollToSection(sectionId)}
               >
                 {section.label}

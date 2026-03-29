@@ -47,34 +47,6 @@ export default function AutoPlayMusic() {
     // eslint-disable-next-line
     audioEl.volume = AUDIO_VOLUME;
 
-    const tryPlay = () => {
-      void audioEl
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(() => {
-          // Autoplay can be blocked; first user interaction will retry.
-        });
-    };
-
-    const handleFirstInteraction = () => {
-      tryPlay();
-      window.removeEventListener("pointerdown", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
-    };
-
-    tryPlay();
-
-    window.addEventListener("pointerdown", handleFirstInteraction, {
-      once: true,
-    });
-    window.addEventListener("keydown", handleFirstInteraction, { once: true });
-    window.addEventListener("touchstart", handleFirstInteraction, {
-      once: true,
-    });
-
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => {
       if (isSwitchingTrack.current) return;
@@ -107,9 +79,6 @@ export default function AutoPlayMusic() {
     window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      window.removeEventListener("pointerdown", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
       audioEl.removeEventListener("play", handlePlay);
       audioEl.removeEventListener("pause", handlePause);
       window.removeEventListener("themeChanged", handleThemeChange);

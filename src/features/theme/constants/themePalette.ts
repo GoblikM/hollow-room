@@ -9,7 +9,7 @@ export interface ColorScheme {
   border: string;
 }
 
-export const DEFAULT_SCHEME_ID = "void";
+export const DEFAULT_SCHEME_ID = "static";
 export const DEFAULT_THEME_MODE: ThemeMode = "dark";
 
 export const SCHEMES: ColorScheme[] = [
