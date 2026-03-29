@@ -1,4 +1,10 @@
-## [$npm_package_version] - 2026-03-29
+## [0.2.1] - 2026-03-29
+
+### 🐛 Bug Fixes
+
+- Restore guided flow step after refresh
+- Remove unused audio context import
+## [0.2.0] - 2026-03-29
 
 ### 🚀 Features
 
