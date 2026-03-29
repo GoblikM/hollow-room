@@ -22,6 +22,34 @@ const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 const FLOW_SECTION_IDS = ["home", "about", "games", "projects", "blog", "contact"] as const;
 const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
 
+function getFlowStepIndexFromHash(hash: string): number {
+  if (!hash.startsWith("#")) return -1;
+
+  const normalizedHash = hash.slice(1).trim().toLowerCase();
+  return FLOW_SECTION_IDS.findIndex((sectionId) => sectionId === normalizedHash);
+}
+
+function getFlowStepIndexFromScrollPosition(): number {
+  const viewportCenter = window.scrollY + window.innerHeight * 0.5;
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  FLOW_SECTION_IDS.forEach((sectionId, index) => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const sectionCenter = section.offsetTop + section.offsetHeight * 0.5;
+    const distance = Math.abs(sectionCenter - viewportCenter);
+
+    if (distance >= bestDistance) return;
+
+    bestDistance = distance;
+    bestIndex = index;
+  });
+
+  return bestIndex;
+}
+
 async function waitForSectionTypingDone(sectionId: string): Promise<void> {
   const section = document.getElementById(sectionId);
   const intro = section?.querySelector<HTMLElement>(".section-intro");
@@ -56,7 +84,12 @@ async function waitForSectionTypingDone(sectionId: string): Promise<void> {
 export default function Home() {
   const scrollController = useScroll();
   const { audioRef, isPlaying, setIsPlaying } = useAudio();
-  const [flowStepIndex, setFlowStepIndex] = useState(0);
+  const [flowStepIndex, setFlowStepIndex] = useState(() => {
+    if (typeof window === "undefined") return 0;
+
+    const hashStepIndex = getFlowStepIndexFromHash(window.location.hash);
+    return hashStepIndex >= 0 ? hashStepIndex : getFlowStepIndexFromScrollPosition();
+  });
   const [isStepReady, setIsStepReady] = useState(true);
   const [isScrollUnlocked, setIsScrollUnlocked] = useState(false);
   const [isGuidedEnabled, setIsGuidedEnabled] = useState(false);

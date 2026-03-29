@@ -39,6 +39,20 @@ jest.mock("next/link", () => {
 });
 
 describe("Home page", () => {
+  afterEach(() => {
+    window.location.hash = "";
+    (window.matchMedia as jest.Mock).mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+  });
+
   it("renders the site title", () => {
     render(<Home />);
     expect(screen.getByText("hollow-room")).toBeInTheDocument();
@@ -62,5 +76,24 @@ describe("Home page", () => {
   it("renders the games section", () => {
     render(<Home />);
     expect(document.getElementById("games")).toBeInTheDocument();
+  });
+
+  it("restores guided flow step from hash after refresh", async () => {
+    (window.matchMedia as jest.Mock).mockImplementation((query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+    window.location.hash = "#about";
+
+    render(<Home />);
+
+    expect(await screen.findByRole("button", { name: /descend deeper ->/i })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /click to play ->/i })).not.toBeInTheDocument();
   });
 });
