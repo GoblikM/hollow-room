@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>Hollow room icon</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8f1519" />
+      <stop offset="100%" stop-color="#2a0306" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="8" fill="#050508" />
+  <rect x="6" y="6" width="52" height="52" rx="6" fill="none" stroke="url(#g)" stroke-width="2" />
+  <path d="M18 46V18h8l8 12 8-12h4v28h-6V30l-6 9h-2l-6-9v16z" fill="#f4e7d4" />
+</svg>

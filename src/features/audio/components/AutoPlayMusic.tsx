@@ -5,8 +5,11 @@ import { useAudio } from "@/features/audio/context/AudioContext";
 import { getInitialMode } from "@/features/theme/utils/themeRuntime";
 import { DEFAULT_THEME_MODE, type ThemeMode } from "@/features/theme/constants/themePalette";
 
+const PUBLIC_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 function getAudioSource(mode: ThemeMode): string {
-  return mode === "light" ? "/audio/light.mp3" : "/audio/dark.mp3";
+  const trackPath = mode === "light" ? "/audio/light.mp3" : "/audio/dark.mp3";
+  return `${PUBLIC_BASE_PATH}${trackPath}`;
 }
 
 const AUDIO_VOLUME = 0.02;

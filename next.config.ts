@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   basePath: useSubpathDeployment ? `/${repoName}` : "",
   assetPrefix: useSubpathDeployment ? `/${repoName}` : "",
   env: {
+    NEXT_PUBLIC_BASE_PATH: useSubpathDeployment ? `/${repoName}` : "",
     NEXT_PUBLIC_APP_VERSION: version ?? "0.0.0",
   },
   images: {
