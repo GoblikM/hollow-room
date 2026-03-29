@@ -17,7 +17,7 @@ type ScrollValues = {
 
 type ScrollListener = (values: ScrollValues) => void;
 
-type ScrollContextValue = {
+export type ScrollContextValue = {
   scrollTo: (
     target: string | HTMLElement | number,
     options?: { offset?: number; duration?: number; immediate?: boolean },

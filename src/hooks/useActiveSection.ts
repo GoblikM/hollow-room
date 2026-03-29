@@ -25,7 +25,7 @@ function updateUrlHashIfNeeded(id: string, firstSectionId: string): void {
   }
 
   if (targetHash === "") {
-    window.history.replaceState(null, "", window.location.pathname);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
     return;
   }
 

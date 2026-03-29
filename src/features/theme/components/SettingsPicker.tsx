@@ -11,8 +11,7 @@ import {
   getSchemeById,
 } from "@/features/theme/utils/themeRuntime";
 import { useAudio } from "@/features/audio/context/AudioContext";
-
-const FLOW_SECTION_IDS = ["home", "about", "games", "projects", "blog", "contact"] as const;
+import { SECTION_IDS } from "@/features/navigation/constants/navigation";
 
 export default function SettingsPicker() {
   const isDev = process.env.NODE_ENV !== "production";
@@ -224,7 +223,7 @@ export default function SettingsPicker() {
         </div>
       )}
       <div className="relative inline-block z-1001">
-        {isGuidedEnabled && !hasOpenedSettingsInFlow && FLOW_SECTION_IDS[flowStepIndex] === "contact" && (
+        {isGuidedEnabled && !hasOpenedSettingsInFlow && SECTION_IDS[flowStepIndex] === "contact" && (
           <button
             type="button"
             className="hero-play-trigger absolute right-full mr-1 whitespace-nowrap z-1001"

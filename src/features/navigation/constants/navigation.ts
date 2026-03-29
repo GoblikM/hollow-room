@@ -1,10 +1,17 @@
-export const NAV_LINKS = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#games", label: "Games" },
-  { href: "#projects", label: "Projects" },
-  { href: "#blog", label: "Blog" },
-  { href: "#contact", label: "Contact" },
+export const NAV_SECTIONS = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "games", label: "Games" },
+  { id: "projects", label: "Projects" },
+  { id: "blog", label: "Blog" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
-export const SECTION_IDS = NAV_LINKS.map(({ href }) => href.replace("#", ""));
+export type SectionId = (typeof NAV_SECTIONS)[number]["id"];
+
+export const NAV_LINKS = NAV_SECTIONS.map(({ id, label }) => ({
+  href: `#${id}`,
+  label,
+}));
+
+export const SECTION_IDS = NAV_SECTIONS.map(({ id }) => id);

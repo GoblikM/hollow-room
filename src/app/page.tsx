@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import BlogPostCard from "@/features/home/components/BlogPostCard";
 import { HOME_ABOUT_TEXT } from "@/features/home/data/aboutSectionContent";
 import { HOME_BLOG_SECTION_POSTS } from "@/features/home/data/blogSectionContent";
@@ -14,170 +13,19 @@ import { useScroll } from "@/app/providers/ScrollProvider";
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
-import { getCenteredScrollTarget } from "@/shared/utils/scrollRailMath";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
+import { useGuidedFlow } from "@/hooks/useGuidedFlow";
+import { SECTION_IDS, type SectionId } from "@/features/navigation/constants/navigation";
 
 const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
-const FLOW_SECTION_IDS = ["home", "about", "games", "projects", "blog", "contact"] as const;
-const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
-
-function getFlowStepIndexFromHash(hash: string): number {
-  if (!hash.startsWith("#")) return -1;
-
-  const normalizedHash = hash.slice(1).trim().toLowerCase();
-  return FLOW_SECTION_IDS.findIndex((sectionId) => sectionId === normalizedHash);
-}
-
-function getFlowStepIndexFromScrollPosition(): number {
-  const viewportCenter = window.scrollY + window.innerHeight * 0.5;
-  let bestIndex = 0;
-  let bestDistance = Number.POSITIVE_INFINITY;
-
-  FLOW_SECTION_IDS.forEach((sectionId, index) => {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    const sectionCenter = section.offsetTop + section.offsetHeight * 0.5;
-    const distance = Math.abs(sectionCenter - viewportCenter);
-
-    if (distance >= bestDistance) return;
-
-    bestDistance = distance;
-    bestIndex = index;
-  });
-
-  return bestIndex;
-}
-
-async function waitForSectionTypingDone(sectionId: string): Promise<void> {
-  const section = document.getElementById(sectionId);
-  const intro = section?.querySelector<HTMLElement>(".section-intro");
-
-  if (!intro) return;
-
-  const resolveIfDone = () => !intro.classList.contains("typing-heading");
-  if (resolveIfDone()) return;
-
-  await new Promise<void>((resolve) => {
-    const observer = new MutationObserver(() => {
-      if (!resolveIfDone()) return;
-      observer.disconnect();
-      resolve();
-    });
-
-    const timeout = window.setTimeout(() => {
-      observer.disconnect();
-      resolve();
-    }, 7000);
-
-    observer.observe(intro, { attributes: true, attributeFilter: ["class"] });
-
-    if (resolveIfDone()) {
-      window.clearTimeout(timeout);
-      observer.disconnect();
-      resolve();
-    }
-  });
-}
-
 export default function Home() {
   const scrollController = useScroll();
   const { audioRef, isPlaying, setIsPlaying } = useAudio();
-  const [flowStepIndex, setFlowStepIndex] = useState(() => {
-    if (typeof window === "undefined") return 0;
-
-    const hashStepIndex = getFlowStepIndexFromHash(window.location.hash);
-    return hashStepIndex >= 0 ? hashStepIndex : getFlowStepIndexFromScrollPosition();
-  });
-  const [isStepReady, setIsStepReady] = useState(true);
-  const [isScrollUnlocked, setIsScrollUnlocked] = useState(false);
-  const [isGuidedEnabled, setIsGuidedEnabled] = useState(false);
-  const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
 
   useRevealOnScroll();
   useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
   useTypeHeadingsOnScroll(".hero-subtitle", 10);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 641px)");
-
-    const syncGuidedMode = () => {
-      const hasCompletedGuidedFlow = localStorage.getItem(GUIDED_FLOW_COMPLETED_KEY) === "1";
-      setIsGuidedEnabled(mediaQuery.matches && !hasCompletedGuidedFlow);
-    };
-
-    syncGuidedMode();
-    mediaQuery.addEventListener("change", syncGuidedMode);
-
-    return () => {
-      mediaQuery.removeEventListener("change", syncGuidedMode);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isGuidedEnabled || isScrollUnlocked) {
-      document.body.classList.remove("guided-scroll-locked");
-      return;
-    }
-
-    document.body.classList.add("guided-scroll-locked");
-
-    const prevent = (event: Event) => {
-      event.preventDefault();
-    };
-
-    const preventKeyboardScroll = (event: KeyboardEvent) => {
-      const blockedKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
-      if (!blockedKeys.includes(event.key)) return;
-      event.preventDefault();
-    };
-
-    window.addEventListener("wheel", prevent, { passive: false });
-    window.addEventListener("touchmove", prevent, { passive: false });
-    window.addEventListener("keydown", preventKeyboardScroll, { passive: false });
-
-    return () => {
-      document.body.classList.remove("guided-scroll-locked");
-      window.removeEventListener("wheel", prevent);
-      window.removeEventListener("touchmove", prevent);
-      window.removeEventListener("keydown", preventKeyboardScroll);
-    };
-  }, [isGuidedEnabled, isScrollUnlocked]);
-
-  useEffect(() => {
-    const flowLocked = isGuidedEnabled && !isScrollUnlocked;
-    document.body.classList.toggle("guided-flow-pending", flowLocked);
-    window.dispatchEvent(new CustomEvent("guidedFlowLockChanged", { detail: { locked: flowLocked } }));
-
-    return () => {
-      document.body.classList.remove("guided-flow-pending");
-    };
-  }, [isGuidedEnabled, isScrollUnlocked]);
-
-  useEffect(() => {
-    const handleSettingsPanelOpened = () => {
-      setHasOpenedSettingsInFlow(true);
-    };
-
-    window.addEventListener("settingsPanelOpened", handleSettingsPanelOpened);
-
-    return () => {
-      window.removeEventListener("settingsPanelOpened", handleSettingsPanelOpened);
-    };
-  }, []);
-
-  useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent("flowStateChanged", {
-        detail: {
-          isGuidedEnabled,
-          flowStepIndex,
-          hasOpenedSettingsInFlow,
-        },
-      }),
-    );
-  }, [isGuidedEnabled, flowStepIndex, hasOpenedSettingsInFlow]);
 
   const handlePlayMusic = () => {
     const audioEl = audioRef?.current;
@@ -188,54 +36,20 @@ export default function Home() {
     });
   };
 
-  const handleFlowAdvance = async () => {
-    if (!isGuidedEnabled) {
-      handlePlayMusic();
-      return;
-    }
+  const {
+    currentSectionId,
+    isGuidedEnabled,
+    isScrollUnlocked,
+    isStepReady,
+    advance,
+  } = useGuidedFlow({
+    sectionIds: SECTION_IDS as SectionId[],
+    scrollController,
+    onFreeAdvance: handlePlayMusic,
+    onStartStep: handlePlayMusic,
+  });
 
-    if (!isStepReady) return;
-
-    const isFinalStep = flowStepIndex === FLOW_SECTION_IDS.length - 1;
-    if (isFinalStep) {
-      setIsScrollUnlocked(true);
-      localStorage.setItem(GUIDED_FLOW_COMPLETED_KEY, "1");
-      return;
-    }
-
-    if (flowStepIndex === 0) {
-      handlePlayMusic();
-    }
-
-    const nextStepIndex = flowStepIndex + 1;
-    const nextSectionId = FLOW_SECTION_IDS[nextStepIndex];
-    const nextSectionEl = document.getElementById(nextSectionId);
-
-    setIsStepReady(false);
-    setFlowStepIndex(nextStepIndex);
-
-    if (nextSectionEl) {
-      const controllerLimit = scrollController?.getScrollValues().limit ?? 0;
-      const docScrollLimit = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
-      const scrollLimit = controllerLimit > 0 ? controllerLimit : docScrollLimit;
-      const centeredTarget = getCenteredScrollTarget(
-        nextSectionEl.offsetTop,
-        nextSectionEl.offsetHeight,
-        window.innerHeight,
-        scrollLimit,
-      );
-
-      scrollController?.scrollTo(centeredTarget, {
-        immediate: false,
-        duration: 1.1,
-      });
-    }
-
-    await waitForSectionTypingDone(nextSectionId);
-    setIsStepReady(true);
-  };
-
-  const renderFlowButton = (sectionId: (typeof FLOW_SECTION_IDS)[number], label: string, slotClassName = "") => {
+  const renderFlowButton = (sectionId: SectionId, label: string, slotClassName = "") => {
     if (!isGuidedEnabled) {
       if (sectionId !== "home") return null;
 
@@ -255,7 +69,6 @@ export default function Home() {
       );
     }
 
-    const currentSectionId = FLOW_SECTION_IDS[flowStepIndex];
     const isCurrent = currentSectionId === sectionId;
     const hidden = !isCurrent || !isStepReady || isScrollUnlocked;
 
@@ -264,7 +77,7 @@ export default function Home() {
         <button
           type="button"
           className={`hero-play-trigger${hidden ? " is-hidden" : ""}`}
-          onClick={handleFlowAdvance}
+          onClick={advance}
           aria-hidden={hidden}
           tabIndex={hidden ? -1 : 0}
         >
@@ -395,13 +208,13 @@ export default function Home() {
                 <button
                   type="button"
                   className={`hero-play-trigger${
-                    FLOW_SECTION_IDS[flowStepIndex] !== "contact" || !isStepReady || isScrollUnlocked
+                    currentSectionId !== "contact" || !isStepReady || isScrollUnlocked
                       ? " is-hidden"
                       : ""
                   }`}
-                  onClick={handleFlowAdvance}
-                  aria-hidden={FLOW_SECTION_IDS[flowStepIndex] !== "contact" || !isStepReady || isScrollUnlocked}
-                  tabIndex={FLOW_SECTION_IDS[flowStepIndex] !== "contact" || !isStepReady || isScrollUnlocked ? -1 : 0}
+                  onClick={advance}
+                  aria-hidden={currentSectionId !== "contact" || !isStepReady || isScrollUnlocked}
+                  tabIndex={currentSectionId !== "contact" || !isStepReady || isScrollUnlocked ? -1 : 0}
                 >
                   break the seal -&gt;
                 </button>
