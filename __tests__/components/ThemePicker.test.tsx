@@ -1,6 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import ThemePicker from "@/features/theme/components/ThemePicker";
 
+jest.mock("@/features/audio/context/AudioContext", () => ({
+  useAudio: () => ({
+    audioRef: { current: null },
+    isPlaying: false,
+    setIsPlaying: jest.fn(),
+  }),
+}));
+
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {
@@ -39,6 +47,7 @@ describe("ThemePicker component", () => {
     render(<ThemePicker />);
     const btn = screen.getByRole("button", { name: /pick color scheme/i });
     fireEvent.click(btn);
+    fireEvent.click(screen.getByRole("button", { name: /color schemes/i }));
     expect(screen.getByRole("button", { name: /void/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /blood/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /toxic/i })).toBeInTheDocument();
@@ -48,6 +57,7 @@ describe("ThemePicker component", () => {
     render(<ThemePicker />);
     const btn = screen.getByRole("button", { name: /pick color scheme/i });
     fireEvent.click(btn);
+    fireEvent.click(screen.getByRole("button", { name: /color schemes/i }));
     expect(screen.getByRole("button", { name: /void/i })).toBeInTheDocument();
     fireEvent.click(btn);
     expect(screen.queryByRole("button", { name: /void/i })).not.toBeInTheDocument();
@@ -57,6 +67,7 @@ describe("ThemePicker component", () => {
     render(<ThemePicker />);
     const btn = screen.getByRole("button", { name: /pick color scheme/i });
     fireEvent.click(btn);
+    fireEvent.click(screen.getByRole("button", { name: /color schemes/i }));
     const bloodSwatch = screen.getByRole("button", { name: /blood/i });
     fireEvent.click(bloodSwatch);
     expect(setPropertyMock).toHaveBeenCalledWith("--color-accent", "#9b1c1c");
@@ -66,6 +77,7 @@ describe("ThemePicker component", () => {
     render(<ThemePicker />);
     const btn = screen.getByRole("button", { name: /pick color scheme/i });
     fireEvent.click(btn);
+    fireEvent.click(screen.getByRole("button", { name: /color schemes/i }));
     const toxicSwatch = screen.getByRole("button", { name: /toxic/i });
     fireEvent.click(toxicSwatch);
     expect(localStorageMock.setItem).toHaveBeenCalledWith("theme-scheme", "toxic");

@@ -8,6 +8,12 @@ const mockDisconnect = jest.fn();
 beforeEach(() => {
   jest.clearAllMocks();
   observerCallback = undefined as unknown as IntersectionObserverCallback;
+  window.history.pushState(null, "", "/");
+  let nowTick = 0;
+  jest.spyOn(performance, "now").mockImplementation(() => {
+    nowTick += 130;
+    return nowTick;
+  });
 
   global.IntersectionObserver = jest.fn().mockImplementation((cb: IntersectionObserverCallback) => {
     observerCallback = cb;
@@ -18,7 +24,11 @@ beforeEach(() => {
     };
   });
 
-  window.history.replaceState = jest.fn();
+  jest.spyOn(window.history, "replaceState");
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
 });
 
 const SECTION_IDS = ["home", "about", "blog"];

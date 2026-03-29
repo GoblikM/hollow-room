@@ -91,6 +91,6 @@ describe("ScrollRail", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Blog" }));
 
-    expect(scrollMocks.scrollTo).toHaveBeenCalledWith(700);
+    expect(scrollMocks.scrollTo).toHaveBeenCalledWith(700, { duration: 1.5 });
   });
 });

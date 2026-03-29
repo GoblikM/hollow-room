@@ -1,6 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 
+jest.mock("@/features/audio/context/AudioContext", () => ({
+  useAudio: () => ({
+    audioRef: { current: null },
+    isPlaying: false,
+    setIsPlaying: jest.fn(),
+  }),
+}));
+
 // Mock IntersectionObserver — not implemented in Jest/jsdom
 global.IntersectionObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
