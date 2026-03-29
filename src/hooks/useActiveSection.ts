@@ -38,7 +38,7 @@ export function useActiveSection(
 ): string {
   const [activeId, setActiveId] = useState(sectionIds[0]);
   const ratios = useRef<Map<string, number>>(new Map());
-  const lastHashUpdateAt = useRef(0);
+  const lastHashUpdateAt = useRef(-HASH_UPDATE_MIN_INTERVAL_MS);
   const lastHashSectionId = useRef(sectionIds[0]);
   const rootMargin = options.rootMargin ?? NAV_OFFSET;
   const threshold = options.threshold ?? DEFAULT_THRESHOLDS;
