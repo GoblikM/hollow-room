@@ -142,7 +142,7 @@ export default function Home() {
           flowStepIndex,
           hasOpenedSettingsInFlow,
         },
-      })
+      }),
     );
   }, [isGuidedEnabled, flowStepIndex, hasOpenedSettingsInFlow]);
 
