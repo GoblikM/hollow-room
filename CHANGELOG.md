@@ -1,4 +1,64 @@
-## [$npm_package_version] - 2026-03-28
+## [$npm_package_version] - 2026-03-29
+
+### 🚀 Features
+
+- Implement useSnapScroll hook for smooth section snapping
+- Enhance ScrollRail with dynamic section navigation and labels
+- Add contact section with email and social links
+- Implement typing effect for section headings on scroll
+- Enhance typing effect by adding customizable characters per second and specific selectors
+- Refactor about section text into a separate constant and update usage
+- Add section intro content and apply styling to enhance section presentation
+- Add typing effect for hero subtitle on scroll
+- Adjust padding for smooth content and change nav position to fixed
+- Enhance section styling and improve reveal animation on scroll
+- Update navigation display for mobile and adjust padding for smooth layout
+- Implement desktop navbar toggle and enhance theme switch functionality
+- Hide vertical scroll rail when navbar is enabled.
+- Add mode toggle styling and update ThemePicker layout
+- Integrate audio features with autoplay and music controls in theme settings
+- Update audio components and improve theme handling; format code for consistency
+- Add hero play button and audio playback functionality; enhance audio context integration
+- Implement guided flow functionality; add scroll locking and flow state management
+- Enhance scroll functionality with improved duration settings across navigation components
+
+### 🐛 Bug Fixes
+
+- Adjust smooth scrolling value for better performance
+- Update ScrollRail button classes for improved styling and hover effects
+- Adjust ScrollRail scroll offset based on section height and improve transition effects
+- Correct formatting in useEffect dependency array for flow state management
+- Adjust grain overlay properties for improved visual effect in light mode
+- Improve audio ref typing and active section hash throttling
+- Resolve subpath asset loading and restore versioning config
+
+### 🚜 Refactor
+
+- Restructure components and utilities for improved organization
+- Reorganize components and utilities for improved structure and clarity
+- Extract text data into separated files.
+- Move BlogPostCard, GameCard, and ProjectCard components to home directory
+
+### 🎨 Styling
+
+- Format CSS transitions and improve code readability in ScrollRail component
+- Format transition properties for improved readability in body hover effect
+- Improve code formatting and readability in ScrollRail and scrollRailMath tests
+- Refactor ScrollRail component for improved readability and consistency
+- Simplify markup and improve readability in Home component sections
+- Improve code formatting and readability across multiple test and component files
+- Format CSS and TypeScript code for improved readability
+
+### 🧪 Testing
+
+- Align UI and hook tests with current behavior
+
+### ⚙️ Miscellaneous Tasks
+
+- Add settings for frontend design plugin
+- Format all files.
+- Add release scripts with v-prefixed version commits
+## [0.1.9] - 2026-03-28
 
 ### 🐛 Bug Fixes
 
