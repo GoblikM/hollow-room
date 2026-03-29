@@ -234,7 +234,7 @@ export default function SettingsPicker() {
           </button>
         )}
         <button
-          className="theme-picker-btn"
+          className={`theme-picker-btn${isPlaying ? " is-playing" : ""}`}
           onClick={handleToggleSettingsPanel}
           aria-label="Pick color scheme"
           aria-expanded={open}
