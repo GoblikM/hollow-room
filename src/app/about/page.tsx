@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,16 +12,31 @@ import SkillGrid from "@/features/about/components/SkillGrid";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import { useSnapScroll } from "@/hooks/useSnapScroll";
+import ScrollArrow from "@/shared/ui/ScrollArrow";
 const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
 
 export default function AboutPage() {
   const router = useRouter();
+  const [arrowHidden, setArrowHidden] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem(GUIDED_FLOW_COMPLETED_KEY) !== "1") {
       router.replace("/#about");
     }
   }, [router]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      // Použij skutečnou pozici šipky pro skrytí místo fixní hodnoty
+      const arrow = document.querySelector(".scroll-arrow-animated");
+      if (!arrow) return setArrowHidden(false);
+      const rect = arrow.getBoundingClientRect();
+      // Skryj šipku, když její spodní okraj zmizí z horní třetiny viewportu
+      setArrowHidden(rect.bottom < window.innerHeight / 3);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useRevealOnScroll();
   useTypeHeadingsOnScroll(".about-page .section-reveal h2", 28);
@@ -36,6 +51,7 @@ export default function AboutPage() {
           </div>
           <h1 className="about-hero-title font-pixel text-accent-bright">about me</h1>
           <p className="about-hero-tagline font-mono text-muted">{ABOUT_TAGLINE}</p>
+          <ScrollArrow />
         </div>
       </section>
 
