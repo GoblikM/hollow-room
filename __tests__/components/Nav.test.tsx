@@ -1,6 +1,19 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Nav from "@/features/navigation/components/Nav";
 
+jest.mock("@/app/providers/ScrollProvider", () => ({
+  useScroll: () => ({
+    scrollTo: jest.fn(),
+    resize: jest.fn(),
+    subscribe: jest.fn(() => jest.fn()),
+    getScrollValues: () => ({ scroll: 0, limit: 0, velocity: 0, direction: 0, progress: 0 }),
+  }),
+}));
+
+jest.mock("next/navigation", () => ({
+  usePathname: () => "/",
+}));
+
 // Mock next/link to render a plain <a>
 jest.mock("next/link", () => {
   const MockLink = ({
@@ -37,15 +50,15 @@ describe("Nav component", () => {
   it("uses hash hrefs for nav links", () => {
     render(<Nav />);
     const blogLinks = screen.getAllByRole("link", { name: /blog/i });
-    const blogNavLink = blogLinks.find((link) => link.getAttribute("href") === "#blog");
+    const blogNavLink = blogLinks.find((link) => link.getAttribute("href") === "/#blog");
     expect(blogNavLink).toBeTruthy();
 
     const projectLinks = screen.getAllByRole("link", { name: /projects/i });
-    const projectNavLink = projectLinks.find((link) => link.getAttribute("href") === "#projects");
+    const projectNavLink = projectLinks.find((link) => link.getAttribute("href") === "/#projects");
     expect(projectNavLink).toBeTruthy();
 
     const gamesLinks = screen.getAllByRole("link", { name: /games/i });
-    const gamesNavLink = gamesLinks.find((link) => link.getAttribute("href") === "#games");
+    const gamesNavLink = gamesLinks.find((link) => link.getAttribute("href") === "/#games");
     expect(gamesNavLink).toBeTruthy();
   });
 
@@ -97,7 +110,7 @@ describe("Nav component", () => {
 
     const mobileMenu = document.getElementById("nav-mobile-menu");
     expect(mobileMenu).not.toBeNull();
-    const blogMenuLink = mobileMenu!.querySelector('a[href="#blog"]');
+    const blogMenuLink = mobileMenu!.querySelector('a[href="/#blog"]');
     expect(blogMenuLink).not.toBeNull();
     fireEvent.click(blogMenuLink!);
 

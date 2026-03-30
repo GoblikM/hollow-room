@@ -37,17 +37,25 @@ Conventional commit prefixes and how they map to changelog sections:
 
 ## Architecture
 
-The site is currently a **single-page app** — all sections (home, about, games, projects, blog) live in `src/app/page.tsx` as `<section id="...">` elements with in-page hash navigation. There are no sub-routes yet; blog/projects/games show placeholder data arrays defined at the top of `page.tsx`.
+The site is currently a **single-page app** — all sections (home, about, games, projects, blog) live in `src/app/page.tsx` as `<section id="...">` elements with in-page hash navigation. There are no sub-routes yet; blog/projects/games data lives in `src/features/home/data/` (one file per section).
 
-**Scroll system** — `ScrollProvider` (via `SiteShell` in `layout.tsx`) initialises GSAP ScrollSmoother and exposes a React context with `scrollTo`, `subscribe`, `resize`, and `getScrollValues`. Components that need to programmatically scroll call `useScroll()` to get the controller. Respects `prefers-reduced-motion`. Fixed UI elements (Nav, ScrollRail, ThemePicker) are rendered as `fixedChildren` outside `#smooth-content` to avoid `position: fixed` breaking inside ScrollSmoother's CSS transform. `LocomotiveScrollProvider.tsx` is a backward-compat re-export shim.
+**Directory structure** — code is organized by domain under `src/features/`:
+- `features/audio/` — `AudioContext`, `MusicControls`, `AutoPlayMusic`
+- `features/home/` — card components (`BlogPostCard`, `GameCard`, `ProjectCard`) and content data files
+- `features/navigation/` — `Nav`, `ScrollRail`, section ID constants
+- `features/theme/` — `ThemePicker`, `SettingsPicker`, palette constants, theme runtime utils
+- `hooks/` — shared animation/scroll hooks: `useRevealOnScroll`, `useTypeHeadingsOnScroll`, `useGuidedFlow`, `useSnapScroll`, `useActiveSection`
+- `shared/ui/` — cross-feature UI components (e.g. `CustomCursor`)
+- `shared/utils/` — cross-feature utilities (e.g. `scrollRailMath`)
 
+**Scroll system** — `ScrollProvider` (via `SiteShell` in `layout.tsx`) initialises GSAP ScrollSmoother and exposes a React context with `scrollTo`, `subscribe`, `resize`, and `getScrollValues`. Components that need to programmatically scroll call `useScroll()` to get the controller. Respects `prefers-reduced-motion`. Fixed UI elements (Nav, ScrollRail, ThemePicker) are rendered as `fixedChildren` outside `#smooth-content` to avoid `position: fixed` breaking inside ScrollSmoother's CSS transform.
 **Active section tracking** — `useActiveSection` hook uses `IntersectionObserver` on section elements and updates the URL hash via `window.history.replaceState` (no router push, so no full re-render).
 
 **Theme system** — `ThemePicker` (fixed bottom-right) writes CSS custom properties directly to `document.documentElement` and persists scheme + dark/light mode to `localStorage`. Themes (Void, Blood, Toxic, Abyss, Static, Rust) only change accent colors; background/text colors swap between two fixed dark/light palettes.
 
 **CSS design tokens** — all colors and fonts are CSS variables defined in `globals.css`:
-- `--color-accent`, `--color-accent-bright`, `--color-accent-dim`, `--color-border`
-- `--color-bg`, `--color-surface`, `--color-surface-2`, `--color-text`, `--color-text-muted`
+- `--color-accent`, `--color-accent-bright`, `--color-accent-dim`, `--color-outline`
+- `--color-base`, `--color-surface`, `--color-surface-2`, `--color-fg`, `--color-muted`
 - `--font-heading` (IM Fell English), `--font-pixel` (Silkscreen), `--font-mono` (Share Tech Mono), `--font-body` (Crimson Text)
 
 **Tailwind plugin** — `src/app/plugins/text-glitch-plugin.ts` is a local Tailwind CSS v4 plugin (imported via `@plugin` in `globals.css`) that generates a `@keyframes glitch` animation and utility classes: `.text-glitch`, `.hover-text-glitch`, `.text-glitch-soft`, `.text-glitch-balanced`, `.text-glitch-strong`. Tuned via CSS variables `--tg-rgb-r/g/b`, `--tg-rgb-blur`, `--tg-rgb-duration`.

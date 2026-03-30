@@ -3,25 +3,11 @@
 import { useAudio } from "@/features/audio/context/AudioContext";
 
 export default function MusicControls() {
-  const { audioRef, isPlaying, setIsPlaying } = useAudio();
-
-  const handleToggle = () => {
-    if (!audioRef?.current) return;
-
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      void audioRef.current.play().catch(() => {
-        // Handle autoplay block
-      });
-      setIsPlaying(true);
-    }
-  };
+  const { isPlaying, togglePlayback } = useAudio();
 
   return (
     <button
-      onClick={handleToggle}
+      onClick={togglePlayback}
       className="music-control-btn"
       aria-label={isPlaying ? "Pause music" : "Play music"}
       title={isPlaying ? "Pause music" : "Play music"}

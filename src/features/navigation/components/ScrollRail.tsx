@@ -17,8 +17,8 @@ export type ScrollRailSection = {
   label: string;
 };
 
-const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(({ href, label }) => ({
-  id: href.replace("#", ""),
+const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(({ id, label }) => ({
+  id,
   label,
 }));
 
@@ -66,7 +66,7 @@ export default function ScrollRail({
     const root = document.documentElement;
     root.style.setProperty("--scroll-rail-opacity", "0");
     let frameId = 0;
-    let latestScrollY = scrollController?.getScrollValues().scroll ?? 0;
+    let latestScrollY = scrollController.getScrollValues().scroll;
 
     const refreshSectionMetrics = () => {
       sectionsRef.current = collectSectionMetrics(sectionIds);
@@ -103,17 +103,16 @@ export default function ScrollRail({
       frameId = window.requestAnimationFrame(() => updateScrollProgress(latestScrollY));
     };
 
-    const unsubscribe =
-      scrollController?.subscribe((values) => {
-        requestProgressUpdate(values.scroll);
-      }) ?? (() => undefined);
+    const unsubscribe = scrollController.subscribe((values) => {
+      requestProgressUpdate(values.scroll);
+    });
 
     refreshSectionMetrics();
     requestProgressUpdate(latestScrollY);
 
     const handleResize = () => {
       refreshSectionMetrics();
-      requestProgressUpdate(scrollController?.getScrollValues().scroll ?? 0);
+      requestProgressUpdate(scrollController.getScrollValues().scroll);
     };
 
     window.addEventListener("resize", handleResize);
@@ -135,7 +134,7 @@ export default function ScrollRail({
     const section = document.getElementById(sectionId);
     if (!section) return;
 
-    const scrollLimit = scrollController?.getScrollValues().limit ?? Number.POSITIVE_INFINITY;
+    const scrollLimit = scrollController.getScrollValues().limit;
     const clampedTarget = getCenteredScrollTarget(
       section.offsetTop,
       section.offsetHeight,
@@ -143,7 +142,7 @@ export default function ScrollRail({
       scrollLimit,
     );
 
-    scrollController?.scrollTo(clampedTarget, { duration: 1.5 });
+    scrollController.scrollTo(clampedTarget, { duration: 1.5 });
   };
 
   if (resolvedSections.length === 0) {

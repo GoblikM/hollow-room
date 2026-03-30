@@ -46,8 +46,7 @@ export default function AutoPlayMusic() {
       return;
     }
 
-    // Set volume - eslint-disable because this is necessary imperative DOM manipulation
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/immutability -- setting volume on the DOM element is intentional
     audioEl.volume = AUDIO_VOLUME;
 
     const handlePlay = () => setIsPlaying(true);

@@ -6,6 +6,17 @@ jest.mock("@/features/audio/context/AudioContext", () => ({
     audioRef: { current: null },
     isPlaying: false,
     setIsPlaying: jest.fn(),
+    play: jest.fn(),
+    togglePlayback: jest.fn(),
+  }),
+}));
+
+jest.mock("@/app/providers/ScrollProvider", () => ({
+  useScroll: () => ({
+    scrollTo: jest.fn(),
+    resize: jest.fn(),
+    subscribe: jest.fn(() => jest.fn()),
+    getScrollValues: () => ({ scroll: 0, limit: 0, velocity: 0, direction: 0, progress: 0 }),
   }),
 }));
 

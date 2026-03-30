@@ -6,6 +6,8 @@ jest.mock("@/features/audio/context/AudioContext", () => ({
     audioRef: { current: null },
     isPlaying: false,
     setIsPlaying: jest.fn(),
+    play: jest.fn(),
+    togglePlayback: jest.fn(),
   }),
 }));
 
