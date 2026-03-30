@@ -9,6 +9,7 @@ import SettingsPicker from "@/features/theme/components/SettingsPicker";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { usePathname } from "next/navigation";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
+import Footer from "@/shared/ui/Footer";
 
 export default function SiteShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -31,6 +32,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
       }
     >
       {children}
+      <Footer />
     </ScrollProvider>
   );
 }

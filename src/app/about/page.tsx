@@ -82,13 +82,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* Bottom back link */}
-      <div className="about-back section-reveal">
-        <Link href="/#about" className="about-back-link font-mono hover-text-glitch text-glitch-soft">
-          &lt;- back to home
-        </Link>
-      </div>
     </main>
   );
 }

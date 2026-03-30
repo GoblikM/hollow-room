@@ -110,6 +110,10 @@ export default function ScrollProvider({
     const hash = window.location.hash;
     if (!hash || hash.length <= 1) {
       smoother.scrollTo(0, false);
+      // Synchronously zero out the cached scroll values so that any subscriber
+      // that reads them immediately after mount (e.g. ScrollHint) gets scroll=0
+      // instead of the stale value from the previous page.
+      scrollValuesRef.current = { ...scrollValuesRef.current, scroll: 0, velocity: 0, direction: 0, progress: 0 };
     }
   }, [pathname]);
 

@@ -18,8 +18,6 @@ import Link from "next/link";
 import avatar from "@/assets/avatar.png";
 import { useGuidedFlow } from "@/hooks/useGuidedFlow";
 import { SECTION_IDS, type SectionId } from "@/features/navigation/constants/navigation";
-
-const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 export default function Home() {
   const scrollController = useScroll();
   const { isPlaying, play: playMusic } = useAudio();
@@ -200,10 +198,6 @@ export default function Home() {
           </div>
         </section>
 
-        <footer className="footer-section p-4 text-center font-pixel text-accent-bright text-xs">
-          &copy; 2026 hollow-room. All rights reserved.{" "}
-          <span className="text-muted text-[0.65rem] tracking-[0.08em]">v{appVersion}</span>
-        </footer>
       </main>
     </>
   );
