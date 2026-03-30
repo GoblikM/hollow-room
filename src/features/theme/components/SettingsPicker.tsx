@@ -24,7 +24,7 @@ export default function SettingsPicker() {
   const [isGuidedEnabled, setIsGuidedEnabled] = useState(false);
   const [flowStepIndex, setFlowStepIndex] = useState(0);
   const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
-  const { audioRef, isPlaying, setIsPlaying } = useAudio();
+  const { isPlaying, togglePlayback } = useAudio();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -114,16 +114,7 @@ export default function SettingsPicker() {
   }
 
   function handleMusicToggle() {
-    if (!audioRef?.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      void audioRef.current.play().catch(() => {
-        // Handle autoplay block
-      });
-      setIsPlaying(true);
-    }
+    togglePlayback();
   }
 
   function handleDevResetStorage() {

@@ -3,6 +3,7 @@
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { NAV_LINKS } from "@/features/navigation/constants/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { MouseEvent } from "react";
 
@@ -24,24 +25,31 @@ function isModifiedClick(e: MouseEvent<HTMLAnchorElement>): boolean {
   return e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey;
 }
 
+function extractHash(href: string): string | null {
+  const hashIndex = href.indexOf("#");
+  return hashIndex >= 0 ? href.slice(hashIndex) : null;
+}
+
 function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps) {
   const scrollController = useScroll();
+  const pathname = usePathname();
   const baseClassName = mobile ? "nav-mobile-link" : "nav-link";
   const activeClassName = mobile ? "nav-mobile-link-active" : "nav-link-active";
   const className = `${baseClassName}${active ? ` ${activeClassName}` : ""} hover-text-glitch text-glitch-soft`;
-  const isHashLink = href.startsWith("#");
+  const hash = extractHash(href);
+  const isHomepage = pathname === "/" || pathname === "";
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     onClick?.();
 
-    if (!isHashLink || !scrollController || isModifiedClick(event)) return;
+    if (!hash || !isHomepage || isModifiedClick(event)) return;
 
-    const targetElement = document.querySelector<HTMLElement>(href);
+    const targetElement = document.querySelector<HTMLElement>(hash);
     if (!targetElement) return;
 
     event.preventDefault();
     scrollController.scrollTo(targetElement, {
-      offset: href === "#home" ? 0 : -NAV_HEIGHT,
+      offset: hash === "#home" ? 0 : -NAV_HEIGHT,
       duration: 1.5,
     });
   }
@@ -53,14 +61,38 @@ function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps)
   );
 }
 
+function SubPageNav() {
+  return (
+    <nav className="nav-root nav-root-subpage" aria-label="Page navigation">
+      <div aria-hidden="true" className="nav-ambient-glow" />
+      <div aria-hidden="true" className="nav-gradient-strip" />
+      <div className="nav-inner">
+        <Link href="/#about" className="nav-back-link hover-text-glitch text-glitch-soft font-mono">
+          &lt;- home
+        </Link>
+      </div>
+    </nav>
+  );
+}
+
 export default function Nav({ activeSection = "home" }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrollController = useScroll();
+  const pathname = usePathname();
+  const isHomepage = pathname === "/" || pathname === "";
 
-  const isActive = (href: string) => href.replace("#", "") === activeSection;
+  if (!isHomepage) {
+    return <SubPageNav />;
+  }
+
+  const isActive = (href: string) => {
+    const hash = extractHash(href);
+    if (hash) return hash.slice(1) === activeSection;
+    return pathname === href;
+  };
 
   function handleLogoClick(event: MouseEvent<HTMLAnchorElement>) {
-    if (!scrollController || isModifiedClick(event)) return;
+    if (isModifiedClick(event)) return;
     event.preventDefault();
     scrollController.scrollTo(0, { immediate: false, duration: 1.6 });
   }

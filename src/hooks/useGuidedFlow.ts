@@ -9,7 +9,7 @@ const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
 
 type UseGuidedFlowOptions = {
   sectionIds?: SectionId[];
-  scrollController: ScrollContextValue | null;
+  scrollController: ScrollContextValue;
   onFreeAdvance?: () => void;
   onStartStep?: () => void;
 };
@@ -215,9 +215,9 @@ export function useGuidedFlow({
     setFlowStepIndex(nextStepIndex);
 
     if (nextSectionEl) {
-      const controllerLimit = scrollController?.getScrollValues().limit ?? 0;
-      const docScrollLimit = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
-      const scrollLimit = controllerLimit > 0 ? controllerLimit : docScrollLimit;
+      const controllerLimit = scrollController.getScrollValues().limit;
+      const scrollLimit =
+        controllerLimit > 0 ? controllerLimit : Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
       const centeredTarget = getCenteredScrollTarget(
         nextSectionEl.offsetTop,
         nextSectionEl.offsetHeight,
@@ -225,7 +225,7 @@ export function useGuidedFlow({
         scrollLimit,
       );
 
-      scrollController?.scrollTo(centeredTarget, {
+      scrollController.scrollTo(centeredTarget, {
         immediate: false,
         duration: 1.1,
       });
@@ -236,15 +236,7 @@ export function useGuidedFlow({
     }
 
     setIsStepReady(true);
-  }, [
-    flowStepIndex,
-    isGuidedEnabled,
-    isStepReady,
-    onFreeAdvance,
-    onStartStep,
-    resolvedSectionIds,
-    scrollController,
-  ]);
+  }, [flowStepIndex, isGuidedEnabled, isStepReady, onFreeAdvance, onStartStep, resolvedSectionIds, scrollController]);
 
   return {
     sectionIds: resolvedSectionIds,

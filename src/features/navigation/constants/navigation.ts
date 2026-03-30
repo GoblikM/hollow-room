@@ -10,8 +10,9 @@ export const NAV_SECTIONS = [
 export type SectionId = (typeof NAV_SECTIONS)[number]["id"];
 
 export const NAV_LINKS = NAV_SECTIONS.map(({ id, label }) => ({
-  href: `#${id}`,
+  href: `/#${id}`,
   label,
+  id,
 }));
 
 export const SECTION_IDS = NAV_SECTIONS.map(({ id }) => id);

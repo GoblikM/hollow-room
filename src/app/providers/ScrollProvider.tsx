@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -30,7 +31,9 @@ export type ScrollContextValue = {
 const ScrollContext = createContext<ScrollContextValue | null>(null);
 
 export function useScroll() {
-  return useContext(ScrollContext);
+  const ctx = useContext(ScrollContext);
+  if (!ctx) throw new Error("useScroll must be used within ScrollProvider");
+  return ctx;
 }
 
 export default function ScrollProvider({
@@ -50,7 +53,9 @@ export default function ScrollProvider({
     direction: 0,
     progress: 0,
   });
+  const pathname = usePathname();
 
+  // Create the smoother once on mount.
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -88,6 +93,22 @@ export default function ScrollProvider({
       smootherRef.current = null;
     };
   }, []);
+
+  // On every route change: kill any in-flight scroll tween, jump to top immediately,
+  // then refresh ScrollTrigger so the new page's triggers are measured correctly.
+  useEffect(() => {
+    const smoother = smootherRef.current;
+    if (!smoother) return;
+
+    scrollTweenRef.current?.kill();
+    smoother.scrollTo(0, false);
+    window.scrollTo(0, 0);
+    scrollValuesRef.current = { scroll: 0, limit: 0, velocity: 0, direction: 0, progress: 0 };
+
+    // Refresh after a frame so the new page content has painted.
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(raf);
+  }, [pathname]);
 
   const value: ScrollContextValue = {
     scrollTo(target, options = {}) {

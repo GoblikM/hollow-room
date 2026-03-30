@@ -1,7 +1,7 @@
 "use client";
 
 import BlogPostCard from "@/features/home/components/BlogPostCard";
-import { HOME_ABOUT_TEXT } from "@/features/home/data/aboutSectionContent";
+import { HOME_ABOUT_TEASER } from "@/features/home/data/aboutSectionContent";
 import { HOME_BLOG_SECTION_POSTS } from "@/features/home/data/blogSectionContent";
 import { HOME_CONTACT_SECTION } from "@/features/home/data/contactSectionContent";
 import GameCard from "@/features/home/components/GameCard";
@@ -14,6 +14,7 @@ import { useAudio } from "@/features/audio/context/AudioContext";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
+import Link from "next/link";
 import avatar from "@/assets/avatar.png";
 import { useGuidedFlow } from "@/hooks/useGuidedFlow";
 import { SECTION_IDS, type SectionId } from "@/features/navigation/constants/navigation";
@@ -21,32 +22,17 @@ import { SECTION_IDS, type SectionId } from "@/features/navigation/constants/nav
 const appVersion = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
 export default function Home() {
   const scrollController = useScroll();
-  const { audioRef, isPlaying, setIsPlaying } = useAudio();
+  const { isPlaying, play: playMusic } = useAudio();
 
   useRevealOnScroll();
   useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
   useTypeHeadingsOnScroll(".hero-subtitle", 10);
 
-  const handlePlayMusic = () => {
-    const audioEl = audioRef?.current;
-    if (!audioEl) return;
-
-    void audioEl.play().then(() => {
-      setIsPlaying(true);
-    });
-  };
-
-  const {
-    currentSectionId,
-    isGuidedEnabled,
-    isScrollUnlocked,
-    isStepReady,
-    advance,
-  } = useGuidedFlow({
+  const { currentSectionId, isGuidedEnabled, isScrollUnlocked, isStepReady, advance } = useGuidedFlow({
     sectionIds: SECTION_IDS as SectionId[],
     scrollController,
-    onFreeAdvance: handlePlayMusic,
-    onStartStep: handlePlayMusic,
+    onFreeAdvance: playMusic,
+    onStartStep: playMusic,
   });
 
   const renderFlowButton = (sectionId: SectionId, label: string, slotClassName = "") => {
@@ -59,7 +45,7 @@ export default function Home() {
           <button
             type="button"
             className={`hero-play-trigger${hidden ? " is-hidden" : ""}`}
-            onClick={handlePlayMusic}
+            onClick={playMusic}
             aria-hidden={hidden}
             tabIndex={hidden ? -1 : 0}
           >
@@ -118,7 +104,14 @@ export default function Home() {
               <div className="about-avatar-frame vhs-border">
                 <Image src={avatar} alt="Portrait avatar" className="about-avatar-image" priority />
               </div>
-              <p className="font-mono text-lg leading-relaxed">{HOME_ABOUT_TEXT}</p>
+              <div>
+                <p className="font-mono text-lg leading-relaxed mb-6">{HOME_ABOUT_TEASER}</p>
+                {(!isGuidedEnabled || isScrollUnlocked) && (
+                  <Link href="/about" className="about-cta-link font-mono hover-text-glitch text-glitch-soft">
+                    explore full story -&gt;
+                  </Link>
+                )}
+              </div>
             </div>
             {renderFlowButton("about", "descend deeper ->", "flow-continue-anchor")}
           </div>
@@ -203,23 +196,7 @@ export default function Home() {
               </div>
             </div>
 
-            {isGuidedEnabled && (
-              <div className="hero-play-slot flow-continue-anchor">
-                <button
-                  type="button"
-                  className={`hero-play-trigger${
-                    currentSectionId !== "contact" || !isStepReady || isScrollUnlocked
-                      ? " is-hidden"
-                      : ""
-                  }`}
-                  onClick={advance}
-                  aria-hidden={currentSectionId !== "contact" || !isStepReady || isScrollUnlocked}
-                  tabIndex={currentSectionId !== "contact" || !isStepReady || isScrollUnlocked ? -1 : 0}
-                >
-                  break the seal -&gt;
-                </button>
-              </div>
-            )}
+            {renderFlowButton("contact", "break the seal ->", "flow-continue-anchor")}
           </div>
         </section>
 
