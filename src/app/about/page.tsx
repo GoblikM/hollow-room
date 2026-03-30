@@ -36,11 +36,6 @@ export default function AboutPage() {
           <h1 className="about-hero-title font-pixel text-accent-bright">about me</h1>
           <p className="about-hero-tagline font-mono text-muted">{ABOUT_TAGLINE}</p>
         </div>
-        <div className="scroll-hint" aria-hidden="true">
-          <svg className="scroll-hint-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 13l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
       </section>
 
       {/* Bio */}

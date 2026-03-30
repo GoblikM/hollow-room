@@ -1585,7 +1585,9 @@ body.light-mode .section-reveal {
   border: 1px solid var(--color-outline);
   padding: 0.45rem 0.9rem;
   backdrop-filter: blur(6px);
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .about-fixed-back:hover {
@@ -1614,27 +1616,6 @@ html.desktop-nav-enabled .about-fixed-back {
   justify-content: center;
   text-align: center;
   position: relative;
-}
-
-.scroll-hint {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  translate: -50% 0;
-  color: var(--color-accent-bright);
-  animation: scroll-hint-bounce 1.6s ease-in-out infinite;
-  opacity: 0.7;
-  transition: opacity 0.4s ease;
-}
-
-.scroll-hint-arrow {
-  display: block;
-}
-
-
-@keyframes scroll-hint-bounce {
-  0%, 100% { translate: -50% 0; opacity: 0.7; }
-  50%       { translate: -50% 8px; opacity: 1; }
 }
 
 .about-hero-inner {
@@ -1668,10 +1649,6 @@ html.desktop-nav-enabled .about-fixed-back {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-
-/* Bio */
-
-.about-bio-text {}
 
 /* Timeline */
 
@@ -1815,7 +1792,9 @@ html.desktop-nav-enabled .about-fixed-back {
   padding: 0.15rem 0.5rem;
   border: 1px solid var(--color-accent-dim);
   color: var(--color-fg);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .skill-chip:hover {
@@ -1848,7 +1827,6 @@ html.desktop-nav-enabled .about-fixed-back {
   line-height: 1.6;
   color: var(--color-fg);
 }
-
 
 /* Bottom back link */
 

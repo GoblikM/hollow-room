@@ -94,20 +94,35 @@ export default function ScrollProvider({
     };
   }, []);
 
-  // On every route change: kill any in-flight scroll tween, jump to top immediately,
+  // On every route change: kill any in-flight scroll tween, jump to top immediately, but only if the change is between different pages (not just a hash change), to avoid interfering with normal hash-based scrolling.
   // then refresh ScrollTrigger so the new page's triggers are measured correctly.
   useEffect(() => {
+    // Only run on client
+    if (typeof window === "undefined") return;
     const smoother = smootherRef.current;
     if (!smoother) return;
 
     scrollTweenRef.current?.kill();
-    smoother.scrollTo(0, false);
-    window.scrollTo(0, 0);
-    scrollValuesRef.current = { scroll: 0, limit: 0, velocity: 0, direction: 0, progress: 0 };
 
-    // Refresh after a frame so the new page content has painted.
-    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
-    return () => cancelAnimationFrame(raf);
+    // Wait for DOM to be ready (sections rendered)
+    setTimeout(() => {
+      const hash = window.location.hash;
+      if (hash && hash.length > 1) {
+        // Try to scroll to the section with the given id
+        const el = document.getElementById(hash.slice(1));
+        if (el) {
+          // Use GSAP's scrollTo for immediate jump
+          smoother.scrollTo(el, true);
+        } else {
+          // If not found, fallback to top
+          smoother.scrollTo(0, true);
+        }
+      } else {
+        // No hash: scroll to top
+        smoother.scrollTo(0, false);
+      }
+      ScrollTrigger.refresh();
+    }, 0);
   }, [pathname]);
 
   const value: ScrollContextValue = {
