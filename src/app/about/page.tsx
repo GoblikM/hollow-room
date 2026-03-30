@@ -11,6 +11,7 @@ import Timeline from "@/features/about/components/Timeline";
 import SkillGrid from "@/features/about/components/SkillGrid";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
+import { useSnapScroll } from "@/hooks/useSnapScroll";
 const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
 
 export default function AboutPage() {
@@ -28,7 +29,7 @@ export default function AboutPage() {
   return (
     <main className="page-content about-page">
       {/* Hero */}
-      <section className="about-hero section">
+      <section id="hero" className="about-hero">
         <div className="section-reveal about-hero-inner">
           <div className="about-hero-avatar-frame vhs-border">
             <Image src={avatar} alt="Portrait avatar" className="about-hero-avatar" priority />
@@ -39,7 +40,7 @@ export default function AboutPage() {
       </section>
 
       {/* Bio */}
-      <section className="about-bio section">
+      <section id="bio" className="about-bio section">
         <div className="section-reveal max-w-200 w-full">
           <h2 className="font-pixel text-5xl mb-10 text-accent-bright">who am I</h2>
           <div className="about-bio-text">
@@ -53,7 +54,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="about-timeline section">
+      <section id="timeline" className="about-timeline section">
         <div className="section-reveal max-w-200 w-full">
           <h2 className="font-pixel text-5xl mb-10 text-accent-bright">timeline</h2>
           <Timeline />
@@ -69,7 +70,7 @@ export default function AboutPage() {
       </section>
 
       {/* Interests */}
-      <section className="about-interests section">
+      <section id="interests" className="about-interests section">
         <div className="section-reveal max-w-200 w-full">
           <h2 className="font-pixel text-5xl mb-10 text-accent-bright">interests</h2>
           <div className="interests-grid">

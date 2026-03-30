@@ -1609,13 +1609,14 @@ html.desktop-nav-enabled .about-fixed-back {
 /* Hero */
 
 .about-hero {
-  min-height: 40vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
+  overflow: visible;
 }
 
 .about-hero-inner {
@@ -1965,7 +1966,6 @@ html.desktop-nav-enabled .about-fixed-back {
 }
 
 /* Bottom back link */
-
 
 .about-back {
   text-align: center;
