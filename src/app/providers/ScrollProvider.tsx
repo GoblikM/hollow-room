@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -94,35 +94,40 @@ export default function ScrollProvider({
     };
   }, []);
 
-  // On every route change: kill any in-flight scroll tween, jump to top immediately, but only if the change is between different pages (not just a hash change), to avoid interfering with normal hash-based scrolling.
-  // then refresh ScrollTrigger so the new page's triggers are measured correctly.
-  useEffect(() => {
-    // Only run on client
+  // Synchronously reset scroll to top on non-hash route changes, BEFORE children's
+  // useEffect hooks (e.g. useRevealOnScroll) create their ScrollTriggers.
+  // useLayoutEffect in a parent runs before useEffect in children, so ScrollTriggers
+  // are always created at scroll=0 instead of at the previous page's scroll position,
+  // which would cause reveal animations to fire immediately for off-screen elements.
+  useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     const smoother = smootherRef.current;
     if (!smoother) return;
 
     scrollTweenRef.current?.kill();
 
-    // Wait for DOM to be ready (sections rendered)
-    setTimeout(() => {
+    // Skip the reset when there is a hash — the useEffect below handles that case.
+    const hash = window.location.hash;
+    if (!hash || hash.length <= 1) {
+      smoother.scrollTo(0, false);
+    }
+  }, [pathname]);
+
+  // After children's effects have set up their ScrollTriggers, handle hash-based
+  // navigation and refresh trigger measurements against the final scroll position.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const smoother = smootherRef.current;
+    if (!smoother) return;
+
+    requestAnimationFrame(() => {
       const hash = window.location.hash;
       if (hash && hash.length > 1) {
-        // Try to scroll to the section with the given id
         const el = document.getElementById(hash.slice(1));
-        if (el) {
-          // Use GSAP's scrollTo for immediate jump
-          smoother.scrollTo(el, true);
-        } else {
-          // If not found, fallback to top
-          smoother.scrollTo(0, true);
-        }
-      } else {
-        // No hash: scroll to top
-        smoother.scrollTo(0, false);
+        smoother.scrollTo(el ?? 0, true);
       }
       ScrollTrigger.refresh();
-    }, 0);
+    });
   }, [pathname]);
 
   const value: ScrollContextValue = {
