@@ -197,7 +197,6 @@ export default function Home() {
             {renderFlowButton("contact", "break the seal ->", "flow-continue-anchor")}
           </div>
         </section>
-
       </main>
     </>
   );

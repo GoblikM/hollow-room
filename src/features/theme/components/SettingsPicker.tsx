@@ -6,11 +6,13 @@ import {
   applyDesktopNavEnabled,
   applyMode,
   applyScheme,
+  getInitialDesktopNavEnabled,
   getInitialMode,
   getInitialSchemeId,
   getSchemeById,
 } from "@/features/theme/utils/themeRuntime";
 import { useAudio } from "@/features/audio/context/AudioContext";
+import { useScroll } from "@/app/providers/ScrollProvider";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
 
 export default function SettingsPicker() {
@@ -19,12 +21,13 @@ export default function SettingsPicker() {
   const [openSchemes, setOpenSchemes] = useState(false);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
-  const [desktopNavEnabled, setDesktopNavEnabled] = useState(false);
+  const [desktopNavEnabled, setDesktopNavEnabled] = useState(getInitialDesktopNavEnabled);
   const [isFlowLocked, setIsFlowLocked] = useState(false);
   const [isGuidedEnabled, setIsGuidedEnabled] = useState(false);
   const [flowStepIndex, setFlowStepIndex] = useState(0);
   const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
   const { isPlaying, togglePlayback } = useAudio();
+  const { resize } = useScroll();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,6 +36,12 @@ export default function SettingsPicker() {
     applyMode(mode);
     applyDesktopNavEnabled(desktopNavEnabled);
   }, [activeId, desktopNavEnabled, mode]);
+
+  useEffect(() => {
+    // padding-top on #smooth-content changes when navbar is toggled —
+    // wait one frame for layout to settle, then refresh scroll measurements.
+    requestAnimationFrame(() => resize());
+  }, [desktopNavEnabled, resize]);
 
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
