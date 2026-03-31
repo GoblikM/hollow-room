@@ -11,6 +11,15 @@ jest.mock("@/features/audio/context/AudioContext", () => ({
   }),
 }));
 
+jest.mock("@/app/providers/ScrollProvider", () => ({
+  useScroll: () => ({
+    scrollTo: jest.fn(),
+    subscribe: jest.fn(),
+    resize: jest.fn(),
+    getScrollValues: () => ({ scroll: 0, maxScroll: 0, direction: 0, velocity: 0 }),
+  }),
+}));
+
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {

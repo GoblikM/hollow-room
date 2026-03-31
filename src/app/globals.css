@@ -1572,6 +1572,24 @@ body.light-mode .section-reveal {
   padding-bottom: 6rem;
 }
 
+/* ── Snap-scroll layout overrides ──────────────────────────────────────────
+   Applied whenever .about-snap-layout is present (always on the about page).
+   Sections fill at least the full viewport so snap-scroll works cleanly.
+   Margins between sections are removed because each section is its own
+   "screen" in the snapped flow.
+   ─────────────────────────────────────────────────────────────────────── */
+.about-snap-layout {
+  padding-bottom: 0;
+}
+
+.about-snap-layout .section {
+  min-height: 100svh;
+}
+
+.about-snap-layout .section + .section {
+  margin-top: 0;
+}
+
 .about-fixed-back {
   position: fixed;
   top: 2rem;
@@ -2025,4 +2043,296 @@ html.desktop-nav-enabled .about-fixed-back {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Horizontal timeline — step carousel (desktop)
+   ═══════════════════════════════════════════════════════════════════════════
+
+   One entry fills the full visible area at a time.
+   GSAP slides the track by multiples of the entry width (step-based).
+   Footer shows dot step indicators + ← → nav buttons.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Section ─────────────────────────────────────────────────────────────── */
+
+.about-timeline-section {
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+/* ── Inner wrapper (max-w matches other sections) ────────────────────────── */
+
+.tl-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(2rem, 4vw, 3.5rem) 2rem;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.tl-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tl-hint {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+/* ── Track outer (clips horizontal overflow) ─────────────────────────────── */
+
+.tl-track-outer {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+}
+
+/* ── Track (slides horizontally via GSAP) ────────────────────────────────── */
+
+.tl-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+/* ── Single entry — full-width two-column split ──────────────────────────── */
+
+.tl-entry {
+  /* Each entry exactly fills the visible track-outer width */
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+}
+
+/* Left panel: number, type badge, date */
+.tl-entry-left {
+  width: clamp(140px, 22%, 260px);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-right: 2.5rem;
+  text-align: right;
+}
+
+.tl-entry-num {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--color-outline);
+  letter-spacing: -0.02em;
+}
+
+.tl-entry-type {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.tl-entry-type::after {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tl-entry-type-milestone {
+  color: var(--color-accent-bright);
+}
+
+.tl-entry-type-milestone::after {
+  border-radius: 0;
+  transform: rotate(45deg);
+}
+
+.tl-entry-date {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+/* Vertical divider with node dot */
+.tl-entry-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-outline);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.tl-entry-divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--color-base);
+  border: 1px solid var(--color-accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+.tl-entry-milestone .tl-entry-divider::before {
+  border-color: var(--color-accent-bright);
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--color-accent-bright) 50%, transparent),
+    inset 0 0 4px color-mix(in srgb, var(--color-accent-bright) 20%, transparent);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Right panel: content */
+.tl-entry-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.65rem;
+  padding-left: 2.5rem;
+  min-width: 0;
+  max-width: 48rem;
+}
+
+.tl-entry-title {
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  color: var(--color-accent-bright);
+  line-height: 1.3;
+}
+
+.tl-entry-subtitle {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  letter-spacing: 0.03em;
+}
+
+.tl-entry-desc {
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--color-fg);
+}
+
+.tl-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tl-entry-tag {
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--color-accent-dim);
+  color: var(--color-accent-dim);
+}
+
+.tl-entry-tag::before {
+  content: "#";
+  margin-right: 0.1rem;
+  color: var(--color-accent);
+}
+
+/* ── Footer: dots + nav ──────────────────────────────────────────────────── */
+
+.tl-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+/* Hidden progress bar (kept for GSAP ref, not rendered visually) */
+.tl-progress-fill {
+  display: none;
+}
+
+.tl-dots {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tl-dot {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+  border: 1px solid var(--color-muted);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  flex-shrink: 0;
+}
+
+.tl-dot:hover {
+  border-color: var(--color-accent);
+}
+
+.tl-dot--active {
+  background: var(--color-accent-bright);
+  border-color: var(--color-accent-bright);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--color-accent-bright) 55%, transparent);
+}
+
+.tl-nav-btn {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+  background: none;
+  border: 1px solid var(--color-outline);
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.tl-nav-btn:hover {
+  color: var(--color-accent-bright);
+  border-color: var(--color-accent-bright);
+}
+
+/* ── Mobile: hint text is desktop-only ───────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .tl-hint {
+    display: none;
+  }
 }
