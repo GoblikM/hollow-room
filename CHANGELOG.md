@@ -1,3 +1,23 @@
+## [$npm_package_version] - 2026-03-31
+
+### 🚀 Features
+
+- Add animated pulse effect to theme picker button when playing music
+- New about page.
+- Implement footer component and adjust timeline layout
+- Enhance AboutPage layout with improved section IDs and adjust hero section height
+- Add ScrollArrow component with scroll-based visibility and animation
+
+### 💼 Other
+
+- Some code refacoring, method extractions.
+
+### 🚜 Refactor
+
+- Extract guided flow logic
+- Remove scroll hint and improve scroll behavior on route changes
+- Optimize scroll handling on route changes using useLayoutEffect
+- Update SettingsPicker to use initial desktop navigation state and improve scroll handling
 ## [0.2.1] - 2026-03-29
 
 ### 🐛 Bug Fixes
