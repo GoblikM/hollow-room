@@ -97,6 +97,46 @@ SITE_BASE_PATH=hollow-room npm run build
 
 ---
 
+## Versioning & releases
+
+Versions follow [semantic versioning](https://semver.org/) and are bumped with `npm version`, which also regenerates the changelog automatically via [git-cliff](https://git-cliff.org/).
+
+```bash
+npm run release:patch   # 0.2.2 → 0.2.3  (bug fixes)
+npm run release:minor   # 0.2.2 → 0.3.0  (new features)
+npm run release:major   # 0.2.2 → 1.0.0  (breaking changes)
+```
+
+Each command runs a chain of npm lifecycle hooks (see `package.json`):
+
+1. The version in `package.json` is bumped.
+2. The `version` hook runs `git-cliff`, which regenerates `CHANGELOG.md` from the conventional commit history and stages it.
+3. npm creates the version **commit** (message `vX.Y.Z`) and a matching **git tag**.
+4. The `postversion` hook runs `git push && git push --tags`, sending the commit and tag to the remote.
+
+So a single command bumps the version, rewrites the changelog, commits, tags, and pushes — **never edit `CHANGELOG.md` by hand.**
+
+### Commit messages → changelog
+
+The changelog is generated from [conventional commits](https://www.conventionalcommits.org/), grouped by prefix (configured in `cliff.toml`):
+
+| Commit prefix | Changelog section |
+|---|---|
+| `feat:` | 🚀 Features |
+| `fix:` | 🐛 Bug Fixes |
+| `refactor:` | 🚜 Refactor |
+| `perf:` | ⚡ Performance |
+| `docs:` | 📚 Documentation |
+| `style:` | 🎨 Styling |
+| `test:` | 🧪 Testing |
+| `chore:` / `ci:` | ⚙️ Miscellaneous Tasks |
+| `revert:` | ◀️ Revert |
+| anything else | 💼 Other |
+
+Commits prefixed `chore(deps...)`, `chore(release): prepare for`, `chore(pr)`, and `chore(pull)` are skipped. Mark breaking changes with a `!` (e.g. `feat!:`) or a `BREAKING CHANGE:` footer.
+
+---
+
 ## Contributing
 
 Not a team project, but suggestions and bug reports are welcome. If you spot something broken or have an idea:

@@ -21,19 +21,27 @@ npx jest __tests__/components/Nav.test.tsx
 ## Releasing
 
 ```bash
-npm version patch   # 0.1.7 → 0.1.8  (bumps, regenerates CHANGELOG, pushes commit + tag)
-npm version minor   # 0.1.7 → 0.2.0
-npm version major   # 0.1.7 → 1.0.0
+npm run release:patch   # 0.2.2 → 0.2.3  (bumps, regenerates CHANGELOG, commits, tags, pushes)
+npm run release:minor   # 0.2.2 → 0.3.0
+npm run release:major   # 0.2.2 → 1.0.0
 ```
 
-The `version` npm lifecycle hook runs `git-cliff` automatically — it regenerates `CHANGELOG.md` from conventional commits and stages it before npm creates the version commit and tag. No manual changelog edits needed.
+These wrap `npm version <type> -m "v%s"`. Plain `npm version patch|minor|major` works too — the release scripts just set the commit message to `vX.Y.Z`.
 
-Conventional commit prefixes and how they map to changelog sections:
-- `feat:` → Added
-- `fix:` → Fixed
-- `refactor:`, `perf:` → Changed
-- `chore(deps):` → Changed
-- `docs:`, `chore:`, `test:`, `ci:`, `style:` → skipped (not shown in changelog)
+The `version` npm lifecycle hook runs `git-cliff` automatically — it regenerates `CHANGELOG.md` from conventional commits and stages it before npm creates the version commit and tag. The `postversion` hook then runs `git push && git push --tags`. No manual changelog edits needed.
+
+Conventional commit prefixes and how they map to changelog sections (configured in `cliff.toml`):
+- `feat:` → 🚀 Features
+- `fix:` → 🐛 Bug Fixes
+- `refactor:` → 🚜 Refactor
+- `perf:` → ⚡ Performance
+- `docs:` → 📚 Documentation
+- `style:` → 🎨 Styling
+- `test:` → 🧪 Testing
+- `chore:`, `ci:` → ⚙️ Miscellaneous Tasks
+- `revert:` → ◀️ Revert
+- anything else → 💼 Other
+- skipped: `chore(deps…)`, `chore(release): prepare for`, `chore(pr)`, `chore(pull)`
 
 ## Architecture
 
