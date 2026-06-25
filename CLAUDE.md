@@ -61,10 +61,13 @@ The site is currently a **single-page app** — all sections (home, about, games
 
 **Theme system** — `ThemePicker` (fixed bottom-right) writes CSS custom properties directly to `document.documentElement` and persists scheme + dark/light mode to `localStorage`. Themes (Void, Blood, Toxic, Abyss, Static, Rust) only change accent colors; background/text colors swap between two fixed dark/light palettes.
 
+**CSS structure** — `globals.css` is a thin index: it pulls in Tailwind, the text-glitch `@plugin`, the design tokens (`@theme` / `:root`), and then `@import`s domain partials from `src/app/styles/` (`base`, `utilities`, `scroll-rail`, `nav`, `settings`, `light-mode`, `home`, `contact`, `about`, `timeline`, `game-2048`). Add new component styles to the matching partial — keep `globals.css` to imports + tokens only. Import order is intentional (`base`/`utilities` first, `light-mode` overrides after the things they recolour). Classes are global (no CSS Modules) because JS toggles body/html classes and theme runtime writes vars on the root.
+
 **CSS design tokens** — all colors and fonts are CSS variables defined in `globals.css`:
 - `--color-accent`, `--color-accent-bright`, `--color-accent-dim`, `--color-outline`
 - `--color-base`, `--color-surface`, `--color-surface-2`, `--color-fg`, `--color-muted`
 - `--font-heading` (IM Fell English), `--font-pixel` (Silkscreen), `--font-mono` (Share Tech Mono), `--font-body` (Crimson Text)
+- `--radius` — single shared corner radius for every frame/button site-wide
 
 **Tailwind plugin** — `src/app/plugins/text-glitch-plugin.ts` is a local Tailwind CSS v4 plugin (imported via `@plugin` in `globals.css`) that generates a `@keyframes glitch` animation and utility classes: `.text-glitch`, `.hover-text-glitch`, `.text-glitch-soft`, `.text-glitch-balanced`, `.text-glitch-strong`. Tuned via CSS variables `--tg-rgb-r/g/b`, `--tg-rgb-blur`, `--tg-rgb-duration`.
 

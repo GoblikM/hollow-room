@@ -23,7 +23,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           <Nav activeSection={isHomepage ? activeSection : undefined} />
           {isHomepage && <ScrollRail />}
           {!isHomepage && (
-            <Link href="/" className="about-fixed-back font-mono hover-text-glitch text-glitch-soft">
+            <Link href="/" className="subpage-back font-mono hover-text-glitch text-glitch-soft">
               &lt;- home
             </Link>
           )}

@@ -1,33 +1,19 @@
-"use client";
-
-import React from "react";
-
-const ROWS = 4;
-const COLS = 4;
+import Game2048 from "@/features/2048/Game2048";
+import SolverGuide from "@/features/2048/SolverGuide";
 
 export default function Page() {
-  const [board, setBoard] = React.useState<number[][]>(Array.from({ length: ROWS }, () => Array(COLS).fill(0)));
-
   return (
-    <main className="page-content min-h-screen">
-      <section className="flex flex-col items-center justify-center gap-4 p-8">
-        <h1 className="font-pixel text-5xl text-accent-bright">2048 Solver</h1>
-        <p className="font-mono text-lg text-muted max-w-120 text-center">
-          A 2048 clone with an AI solver. Use arrow keys to play, or watch the AI make moves for you. Can you beat the
-          AI?
-        </p>
-        <div className="w-full max-w-120 aspect-square bg-surface-2 rounded-lg shadow-lg">
-          <div className="grid grid-cols-4 grid-rows-4 w-full h-full">
-            {Array.from({ length: ROWS * COLS }).map((_, index) => (
-              <div
-                key={index}
-                className="border border-surface-3 flex items-center justify-center text-accent-bright font-pixel text-2xl"
-              >
-                {board[Math.floor(index / 4)][index % 4]}
-              </div>
-            ))}
-          </div>
-        </div>
+    <main className="page-content min-h-screen px-4 py-10 md:py-14">
+      <section className="flex flex-col items-center gap-10 md:gap-14">
+        <header className="flex flex-col items-center gap-3 text-center">
+          <h1 className="font-pixel text-3xl md:text-5xl text-accent-bright text-glitch-soft">2048 Solver</h1>
+          <p className="font-mono text-base md:text-lg text-muted max-w-130">
+            A 2048 clone with a built-in AI. Play it yourself with the arrow keys, or hand it over to one of three
+            solvers and watch it run — at the speed you choose.
+          </p>
+        </header>
+        <Game2048 />
+        <SolverGuide />
       </section>
     </main>
   );

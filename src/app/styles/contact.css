@@ -1,0 +1,367 @@
+/* ─── Contact section ────────────────────────────────────────────────────── */
+
+.contact-shell {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.9fr);
+  gap: 1.2rem;
+  padding: 1.15rem;
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--color-surface-2) 94%, transparent),
+      color-mix(in srgb, var(--color-surface) 96%, transparent)
+    ),
+    radial-gradient(130% 160% at 10% 0%, color-mix(in srgb, var(--color-accent-dim) 12%, transparent), transparent 56%);
+}
+
+.contact-shell-left,
+.contact-shell-right {
+  border: 1px solid color-mix(in srgb, var(--color-outline) 78%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  padding: 1rem;
+}
+
+.contact-kicker {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--color-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contact-copy {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-fg) 92%, white);
+}
+
+.contact-email-link {
+  display: grid;
+  gap: 0.3rem;
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--color-outline) 80%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface-2) 82%, transparent),
+    color-mix(in srgb, var(--color-surface) 94%, transparent)
+  );
+  padding: 0.75rem 0.8rem;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.contact-email-link:hover,
+.contact-email-link:focus-visible {
+  border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent-bright) 24%, transparent);
+  transform: translateY(-1px);
+}
+
+.contact-email-label {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--color-muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contact-email-value {
+  font-family: var(--font-pixel);
+  font-size: 0.78rem;
+  color: var(--color-accent-bright);
+  letter-spacing: 0.04em;
+  word-break: break-word;
+}
+
+.contact-links-title {
+  margin: 0;
+  margin-bottom: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contact-links-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.contact-link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--color-outline) 74%, transparent);
+  background: color-mix(in srgb, var(--color-surface-2) 72%, transparent);
+  padding: 0.48rem 0.58rem;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition:
+    color 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.contact-link-chip:hover,
+.contact-link-chip:focus-visible {
+  color: var(--color-accent-bright);
+  border-color: color-mix(in srgb, var(--color-accent) 58%, transparent);
+  transform: translateX(2px);
+}
+
+.contact-link-arrow {
+  color: color-mix(in srgb, var(--color-accent) 76%, white);
+}
+
+.section-reveal {
+  opacity: 0.28;
+  transform: translate3d(0, 72px, 0) scale(0.96);
+  filter: blur(10px) brightness(0.82);
+  will-change: opacity, transform, filter;
+}
+
+body.light-mode .section-reveal {
+  filter: blur(10px);
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 2rem 1.25rem;
+  }
+
+  .section + .section {
+    margin-top: 1.5rem;
+  }
+
+  .section.section-last {
+    min-height: 78vh;
+    padding-bottom: clamp(9rem, 24vh, 14rem);
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1.5rem;
+  }
+
+  .about-avatar-frame {
+    max-width: 190px;
+  }
+
+  .section-intro {
+    margin-top: -1.25rem;
+    min-height: 3.5rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.07em;
+  }
+
+  .hero-title-shell {
+    padding: 0.9rem 0.75rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.6rem, 14vw, 4.5rem);
+  }
+
+  .section-reveal {
+    transform: translate3d(0, 72px, 0) scale(0.96);
+  }
+
+  .contact-shell {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.8rem;
+  }
+
+  .contact-shell-left,
+  .contact-shell-right {
+    padding: 0.8rem;
+  }
+
+  .contact-email-value {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+@keyframes hero-shell-flicker {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 18%, transparent))
+      drop-shadow(0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent));
+  }
+
+  7% {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
+      drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent));
+  }
+
+  7.8% {
+    filter: drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent-bright) 28%, transparent))
+      drop-shadow(0 0 44px color-mix(in srgb, var(--color-accent) 20%, transparent));
+  }
+
+  8.4% {
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
+  }
+
+  31% {
+    filter: drop-shadow(0 0 15px color-mix(in srgb, var(--color-accent-bright) 19%, transparent))
+      drop-shadow(0 0 30px color-mix(in srgb, var(--color-accent) 13%, transparent));
+  }
+
+  31.6% {
+    filter: drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent-bright) 30%, transparent))
+      drop-shadow(0 0 46px color-mix(in srgb, var(--color-accent) 21%, transparent));
+  }
+
+  32.3% {
+    filter: drop-shadow(0 0 11px color-mix(in srgb, var(--color-accent-bright) 12%, transparent))
+      drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent) 9%, transparent));
+  }
+
+  63% {
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 25px color-mix(in srgb, var(--color-accent) 10%, transparent));
+  }
+
+  63.5% {
+    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-accent-bright) 26%, transparent))
+      drop-shadow(0 0 38px color-mix(in srgb, var(--color-accent) 17%, transparent));
+  }
+
+  64.1% {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
+      drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent) 10%, transparent));
+  }
+
+  86% {
+    filter: drop-shadow(0 0 16px color-mix(in srgb, var(--color-accent-bright) 20%, transparent))
+      drop-shadow(0 0 32px color-mix(in srgb, var(--color-accent) 14%, transparent));
+  }
+
+  86.4% {
+    filter: drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent-bright) 29%, transparent))
+      drop-shadow(0 0 45px color-mix(in srgb, var(--color-accent) 20%, transparent));
+  }
+
+  87% {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
+  }
+}
+
+@keyframes heading-caret-blink {
+  0%,
+  46% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-glow-flicker {
+  0%,
+  100% {
+    opacity: 0.72;
+    filter: blur(70px);
+  }
+
+  7% {
+    opacity: 0.66;
+    filter: blur(66px);
+  }
+
+  7.8% {
+    opacity: 0.86;
+    filter: blur(82px);
+  }
+
+  8.4% {
+    opacity: 0.71;
+    filter: blur(71px);
+  }
+
+  31% {
+    opacity: 0.74;
+    filter: blur(72px);
+  }
+
+  31.6% {
+    opacity: 0.88;
+    filter: blur(84px);
+  }
+
+  32.3% {
+    opacity: 0.68;
+    filter: blur(68px);
+  }
+
+  63% {
+    opacity: 0.69;
+    filter: blur(68px);
+  }
+
+  63.5% {
+    opacity: 0.82;
+    filter: blur(79px);
+  }
+
+  64.1% {
+    opacity: 0.71;
+    filter: blur(70px);
+  }
+
+  86% {
+    opacity: 0.73;
+    filter: blur(72px);
+  }
+
+  86.4% {
+    opacity: 0.87;
+    filter: blur(83px);
+  }
+
+  87% {
+    opacity: 0.72;
+    filter: blur(71px);
+  }
+}
+
+@keyframes hero-play-blink {
+  0%,
+  58% {
+    opacity: 1;
+  }
+
+  62%,
+  100% {
+    opacity: 0.45;
+  }
+}

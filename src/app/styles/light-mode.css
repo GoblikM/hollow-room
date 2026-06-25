@@ -1,0 +1,24 @@
+/* ─── Light mode overrides ───────────────────────────────────────────────── */
+
+body.light-mode::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+body.light-mode::after {
+  opacity: 0.52;
+}
+
+body.light-mode .hero-title-shell {
+  animation: none;
+  filter: none;
+}
+
+body.light-mode .hero-title {
+  text-shadow: none;
+}
