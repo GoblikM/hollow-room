@@ -1,8 +1,8 @@
 export const HOME_GAMES_SECTION_ITEMS = [
   {
-    name: "speed typer",
+    name: "2048 solver",
     description:
-      "Test your typing speed against random quotes. Hit Enter to start a new round and track your WPM over time.",
+      "A 2048 clone with an AI solver. Use arrow keys to play, or watch the AI make moves for you. Can you beat the AI?",
   },
   {
     name: "snake 8-bit",

@@ -35,6 +35,12 @@ export default function CustomCursor() {
       if (!interactive) return;
       const from = e.relatedTarget as HTMLElement | null;
       if (!from || !interactive.contains(from)) setHovered(true);
+      // mark link-specific hover target so CSS can style links differently
+      if (interactive.tagName === "A") {
+        document.documentElement.setAttribute("data-cursor-target", "link");
+      } else {
+        document.documentElement.removeAttribute("data-cursor-target");
+      }
     };
 
     const onLeave = (e: PointerEvent) => {
@@ -42,6 +48,10 @@ export default function CustomCursor() {
       if (!interactive) return;
       const to = e.relatedTarget as HTMLElement | null;
       if (!to || !interactive.contains(to)) setHovered(false);
+      // clear link-specific state when leaving
+      if (interactive.tagName === "A") {
+        document.documentElement.removeAttribute("data-cursor-target");
+      }
     };
 
     const onMouseLeave = () => {
