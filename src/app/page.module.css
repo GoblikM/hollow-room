@@ -100,6 +100,7 @@
   border: 1px solid color-mix(in srgb, var(--color-outline) 78%, transparent);
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);
   padding: 1rem;
+  border-radius: var(--radius);
 }
 
 .contactKicker {
@@ -125,6 +126,7 @@
   gap: 0.3rem;
   text-decoration: none;
   border: 1px solid color-mix(in srgb, var(--color-outline) 80%, transparent);
+  border-radius: var(--radius);
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--color-surface-2) 82%, transparent),
@@ -183,6 +185,7 @@
   align-items: center;
   gap: 0.45rem;
   border: 1px solid color-mix(in srgb, var(--color-outline) 74%, transparent);
+  border-radius: var(--radius);
   background: color-mix(in srgb, var(--color-surface-2) 72%, transparent);
   padding: 0.48rem 0.58rem;
   text-decoration: none;

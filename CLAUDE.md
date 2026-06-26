@@ -45,13 +45,16 @@ Conventional commit prefixes and how they map to changelog sections (configured 
 
 ## Architecture
 
-The home page is a **single-page app** — all sections (home, about, games, projects, blog) live in `src/app/page.tsx` as `<section id="...">` elements with in-page hash navigation; section data lives in `src/features/home/data/` (one file per section). Two standalone sub-routes exist: `src/app/about/` (full about page) and `src/app/2048/` (embedded game).
+The home page is a **single-page app** — all sections (home, about, games, projects, blog) live in `src/app/page.tsx` as `<section id="...">` elements with in-page hash navigation. Standalone sub-routes exist: `src/app/about/` (full about page), `src/app/game/2048/` (embedded game), and `src/app/project/evolutionary/` (interactive project page). Each game/project is its own static route folder: a short `page.tsx` that renders the shared `src/shared/ui/DemoPage.tsx` shell (title + blurb header), passing header copy from `src/content/` and the feature component as children. To add a game/project, create a new folder under `src/app/game/` or `src/app/project/` with its own `page.tsx`.
+
+**Content layer** — all user-facing copy lives in `src/content/` (`home.ts`, `about.ts`, `games.ts`, `projects.ts`, `common.ts`), one global dictionary kept out of components. Pages/components import strings from there rather than hardcoding them; `src/content/` holds *only* text/content data (including structural arrays like timeline, skills, card lists), while components own markup and logic.
 
 **Directory structure** — code is organized by domain under `src/features/`. Each feature groups its parts into subfolders (`components/`, `hooks/`, `data/`, `constants/`, `utils/`, `context/`, `logic/`). Component-local styles are co-located CSS Modules (`Component.module.css`); see the CSS structure section below.
 - `features/audio/` — `components/` (`AutoPlayMusic`), `context/` (`AudioContext`)
-- `features/home/` — `components/` (cards: `BlogPostCard`, `GameCard`, `ProjectCard`), `data/` (section content)
-- `features/about/` — `components/` (`Timeline`, `HorizontalTimeline`, `SkillGrid`), `data/`, `hooks/` (`useHorizontalTimelineScroll`)
-- `features/2048/` — `components/` (`Board`, `Game2048`, `SolverGuide` + shared `Game2048.module.css`), `logic/` (`engine`, `solvers`), `hooks/` (`useGame2048`)
+- `features/home/` — `components/` (cards: `BlogPostCard`, `GameCard`, `ProjectCard`); copy in `src/content/home.ts`
+- `features/about/` — `components/` (`Timeline`, `HorizontalTimeline`, `SkillGrid`), `hooks/` (`useHorizontalTimelineScroll`); copy in `src/content/about.ts`
+- `features/projects/` — per-project folders (`evolutionary/` with tabbed algorithms); copy in `src/content/projects.ts`
+- `features/games/` — per-game folders, e.g. `2048/` (`components/` `Board`, `Game2048`, `SolverGuide` + shared `Game2048.module.css`; `logic/` `engine`, `solvers`; `hooks/` `useGame2048`)
 - `features/navigation/` — `components/` (`Nav`, `ScrollRail`), `constants/` (section IDs)
 - `features/theme/` — `components/` (`SettingsPicker`), `constants/` (palette), `utils/` (theme runtime)
 - `hooks/` — *app-wide* animation/scroll hooks: `useRevealOnScroll`, `useTypeHeadingsOnScroll`, `useGuidedFlow`, `useSnapScroll`, `useActiveSection` (feature-specific hooks live under the feature)
