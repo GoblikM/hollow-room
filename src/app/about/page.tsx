@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
-import { ABOUT_BIO, ABOUT_TAGLINE } from "@/features/about/data/bioContent";
-import { INTERESTS } from "@/features/about/data/interestsData";
+import { ABOUT_BIO, ABOUT_HERO, ABOUT_HEADINGS, INTERESTS } from "@/content/about";
 import HorizontalTimeline from "@/features/about/components/HorizontalTimeline";
 import SkillGrid from "@/features/about/components/SkillGrid";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
@@ -98,8 +97,8 @@ export default function AboutPage() {
               priority
             />
           </div>
-          <h1 className={`${styles.aboutHeroTitle} font-pixel text-accent-bright`}>about me</h1>
-          <p className={`${styles.aboutHeroTagline} font-mono text-muted`}>{ABOUT_TAGLINE}</p>
+          <h1 className={`${styles.aboutHeroTitle} font-pixel text-accent-bright`}>{ABOUT_HERO.title}</h1>
+          <p className={`${styles.aboutHeroTagline} font-mono text-muted`}>{ABOUT_HERO.tagline}</p>
           <ScrollArrow />
         </div>
       </section>
@@ -107,7 +106,7 @@ export default function AboutPage() {
       {/* ── Bio ──────────────────────────────────────────────────────────── */}
       <section id="bio" className="about-bio section">
         <div className="section-reveal max-w-200 w-full">
-          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">who am I</h2>
+          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ABOUT_HEADINGS.bio}</h2>
           <div className="about-bio-text">
             {ABOUT_BIO.map((paragraph, i) => (
               <p key={i} className="font-mono text-lg leading-relaxed mb-6">
@@ -133,7 +132,7 @@ export default function AboutPage() {
       {/* ── Skills ───────────────────────────────────────────────────────── */}
       <section id="skills" className="about-skills section">
         <div className="section-reveal max-w-200 w-full">
-          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">tech stack</h2>
+          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ABOUT_HEADINGS.skills}</h2>
           <SkillGrid />
         </div>
       </section>
@@ -141,7 +140,7 @@ export default function AboutPage() {
       {/* ── Interests ────────────────────────────────────────────────────── */}
       <section id="interests" className="about-interests section section-last">
         <div className="section-reveal max-w-200 w-full">
-          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">interests</h2>
+          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ABOUT_HEADINGS.interests}</h2>
           <div className={styles.interestsGrid}>
             {INTERESTS.map((interest) => (
               <div

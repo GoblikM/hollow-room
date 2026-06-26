@@ -1,14 +1,20 @@
 "use client";
 
 import BlogPostCard from "@/features/home/components/BlogPostCard";
-import { HOME_ABOUT_TEASER } from "@/features/home/data/aboutSectionContent";
-import { HOME_BLOG_SECTION_POSTS } from "@/features/home/data/blogSectionContent";
-import { HOME_CONTACT_SECTION } from "@/features/home/data/contactSectionContent";
+import {
+  HOME_ABOUT_TEASER,
+  HOME_ABOUT_CTA,
+  HOME_HERO,
+  HOME_SECTION_HEADINGS,
+  HOME_SECTION_INTRO,
+  HOME_FLOW_BUTTONS,
+  HOME_CONTACT,
+  HOME_BLOG_POSTS,
+} from "@/content/home";
 import GameCard from "@/features/home/components/GameCard";
-import { HOME_GAMES_SECTION_ITEMS } from "@/features/home/data/gamesSectionContent";
+import { GAMES } from "@/content/games";
 import ProjectCard from "@/features/home/components/ProjectCard";
-import { HOME_PROJECTS_SECTION_ITEMS } from "@/features/home/data/projectsSectionContent";
-import { HOME_SECTION_INTRO } from "@/features/home/data/sectionIntroContent";
+import { PROJECTS } from "@/content/projects";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
@@ -48,7 +54,7 @@ export default function Home() {
             aria-hidden={hidden}
             tabIndex={hidden ? -1 : 0}
           >
-            click to play -&gt;
+            {HOME_FLOW_BUTTONS.home}
           </button>
         </div>
       );
@@ -84,20 +90,20 @@ export default function Home() {
           <div className="relative z-10 text-center">
             <div className={styles.heroTitleShell}>
               <h1 className={`${styles.heroTitle} text-7xl mb-6 text-glitch text-glitch-soft font-pixel text-accent-bright tracking-[0.04em]`}>
-                hollow-room
+                {HOME_HERO.title}
               </h1>
             </div>
             <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-muted">
-              blog &amp; portfolio &mdash; coming soon here
+              {HOME_HERO.subtitle}
             </p>
-            {renderFlowButton("home", "click to play ->")}
+            {renderFlowButton("home", HOME_FLOW_BUTTONS.home)}
           </div>
         </section>
 
         {/* About section */}
         <section id="about" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">about</h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.about}</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.about}</p>
             <div className={styles.aboutLayout}>
               <div className={`${styles.aboutAvatarFrame} vhs-border`}>
@@ -107,81 +113,78 @@ export default function Home() {
                 <p className="font-mono text-lg leading-relaxed mb-6">{HOME_ABOUT_TEASER}</p>
                 {(!isGuidedEnabled || isScrollUnlocked) && (
                   <Link href="/about" className={`${styles.aboutCtaLink} font-mono hover-text-glitch text-glitch-soft`}>
-                    explore full story -&gt;
+                    {HOME_ABOUT_CTA}
                   </Link>
                 )}
               </div>
             </div>
-            {renderFlowButton("about", "descend deeper ->", "flow-continue-anchor")}
+            {renderFlowButton("about", HOME_FLOW_BUTTONS.about, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Games section */}
         <section id="games" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">games</h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.games}</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.games}</p>
             <div className={styles.cardGrid}>
-              {HOME_GAMES_SECTION_ITEMS.map((game) => (
+              {GAMES.map((game) => (
                 <GameCard key={game.name} {...game} />
               ))}
             </div>
-            {renderFlowButton("games", "step through static ->", "flow-continue-anchor")}
+            {renderFlowButton("games", HOME_FLOW_BUTTONS.games, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Projects section */}
         <section id="projects" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">projects</h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.projects}</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.projects}</p>
             <div className={styles.cardGrid}>
-              {HOME_PROJECTS_SECTION_ITEMS.map((project) => (
+              {PROJECTS.map((project) => (
                 <ProjectCard key={project.name} {...project} />
               ))}
             </div>
-            {renderFlowButton("projects", "keep drifting ->", "flow-continue-anchor")}
+            {renderFlowButton("projects", HOME_FLOW_BUTTONS.projects, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Blog section */}
         <section id="blog" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">blog</h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.blog}</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.blog}</p>
             <div>
-              {HOME_BLOG_SECTION_POSTS.map((post) => (
+              {HOME_BLOG_POSTS.map((post) => (
                 <BlogPostCard key={post.title} {...post} />
               ))}
             </div>
-            {renderFlowButton("blog", "open final gate ->", "flow-continue-anchor")}
+            {renderFlowButton("blog", HOME_FLOW_BUTTONS.blog, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Contact section */}
         <section id="contact" className="section section-last">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">contact</h2>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.contact}</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.contact}</p>
 
             <div className={`${styles.contactShell} vhs-border`}>
               <div className={styles.contactShellLeft}>
-                <p className={styles.contactKicker}>reach out</p>
-                <p className={styles.contactCopy}>
-                  Open for collabs, game jams, and weird web experiments. If you have an idea, send a message and
-                  I&apos;ll get back to you.
-                </p>
+                <p className={styles.contactKicker}>{HOME_CONTACT.kicker}</p>
+                <p className={styles.contactCopy}>{HOME_CONTACT.copy}</p>
 
-                <a className={styles.contactEmailLink} href={`mailto:${HOME_CONTACT_SECTION.email}`}>
-                  <span className={styles.contactEmailLabel}>email</span>
-                  <span className={styles.contactEmailValue}>{HOME_CONTACT_SECTION.email}</span>
+                <a className={styles.contactEmailLink} href={`mailto:${HOME_CONTACT.email}`}>
+                  <span className={styles.contactEmailLabel}>{HOME_CONTACT.emailLabel}</span>
+                  <span className={styles.contactEmailValue}>{HOME_CONTACT.email}</span>
                 </a>
               </div>
 
               <div className={styles.contactShellRight}>
-                <p className={styles.contactLinksTitle}>social links</p>
+                <p className={styles.contactLinksTitle}>{HOME_CONTACT.socialsLabel}</p>
                 <ul className={styles.contactLinksList}>
-                  {HOME_CONTACT_SECTION.socials.map((social) => (
+                  {HOME_CONTACT.socials.map((social) => (
                     <li key={social.label}>
                       <a href={social.href} target="_blank" rel="noreferrer" className={styles.contactLinkChip}>
                         <span className={styles.contactLinkArrow} aria-hidden="true">
@@ -195,7 +198,7 @@ export default function Home() {
               </div>
             </div>
 
-            {renderFlowButton("contact", "break the seal ->", "flow-continue-anchor")}
+            {renderFlowButton("contact", HOME_FLOW_BUTTONS.contact, "flow-continue-anchor")}
           </div>
         </section>
       </main>

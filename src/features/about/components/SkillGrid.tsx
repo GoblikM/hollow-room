@@ -1,4 +1,4 @@
-import { SKILL_CATEGORIES } from "@/features/about/data/skillsData";
+import { SKILL_CATEGORIES } from "@/content/about";
 import styles from "./SkillGrid.module.css";
 
 export default function SkillGrid() {

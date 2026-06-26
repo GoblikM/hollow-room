@@ -1,6 +1,6 @@
 "use client";
 
-import { TIMELINE_ENTRIES, type TimelineEntry } from "@/features/about/data/timelineData";
+import { TIMELINE_ENTRIES, type TimelineEntry } from "@/content/about";
 import styles from "./Timeline.module.css";
 
 function TimelineCard({ entry }: { entry: TimelineEntry }) {

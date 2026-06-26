@@ -1,7 +1,7 @@
 "use client";
 
 import { type RefObject } from "react";
-import { TIMELINE_ENTRIES, type TimelineEntry, type TimelineEntryType } from "@/features/about/data/timelineData";
+import { TIMELINE_ENTRIES, type TimelineEntry, type TimelineEntryType } from "@/content/about";
 import Timeline from "@/features/about/components/Timeline";
 import styles from "./HorizontalTimeline.module.css";
 

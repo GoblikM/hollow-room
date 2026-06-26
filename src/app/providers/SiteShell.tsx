@@ -9,6 +9,7 @@ import SettingsPicker from "@/features/theme/components/SettingsPicker";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { usePathname } from "next/navigation";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
+import { NAV_BACK_HOME } from "@/content/common";
 import Footer from "@/shared/ui/Footer";
 
 export default function SiteShell({ children }: { children: ReactNode }) {
@@ -24,7 +25,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
           {isHomepage && <ScrollRail />}
           {!isHomepage && (
             <Link href="/" className="subpage-back font-mono hover-text-glitch text-glitch-soft">
-              &lt;- home
+              {NAV_BACK_HOME}
             </Link>
           )}
           <SettingsPicker />
