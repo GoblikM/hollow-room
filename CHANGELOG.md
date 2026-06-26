@@ -1,4 +1,15 @@
-## [$npm_package_version] - 2026-03-31
+## [$npm_package_version] - 2026-06-26
+
+### 🚀 Features
+
+- Update GameCard component and add 2048 solver page with custom cursor styles
+- Add evolutionary optimization project page
+
+### 🚜 Refactor
+
+- Centralize all site copy into a global src/content layer
+- Restructure game routes and cards
+## [0.2.2] - 2026-03-31
 
 ### 🚀 Features
 
