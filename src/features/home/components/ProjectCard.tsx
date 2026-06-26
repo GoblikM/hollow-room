@@ -1,11 +1,14 @@
+import Link from "next/link";
+
 type ProjectCardProps = {
   name: string;
   description: string;
   tags: string[];
+  slug?: string;
 };
 
-export default function ProjectCard({ name, description, tags }: ProjectCardProps) {
-  return (
+export default function ProjectCard({ name, description, tags, slug }: ProjectCardProps) {
+  const card = (
     <article className="pixel-border bg-surface p-5">
       <h3 className="font-pixel text-xs mb-2 text-accent-bright">{name}</h3>
       <p className="font-mono text-[0.8rem] leading-[1.6] mb-4">{description}</p>
@@ -18,4 +21,6 @@ export default function ProjectCard({ name, description, tags }: ProjectCardProp
       </ul>
     </article>
   );
+
+  return slug ? <Link href={`/project/${slug}`}>{card}</Link> : card;
 }
