@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Game2048.module.css";
 
 type Method = {
   rank: string;
@@ -67,36 +68,36 @@ const METHODS: Method[] = [
 
 export default function SolverGuide() {
   return (
-    <section className="g2048-guide" aria-label="How the solvers work">
-      <header className="g2048-guide-head">
-        <p className="g2048-eyebrow">The field</p>
-        <h2 className="g2048-guide-title font-pixel text-glitch-soft">How the solvers think</h2>
-        <p className="g2048-guide-sub">
+    <section className={styles.g2048Guide} aria-label="How the solvers work">
+      <header className={styles.g2048GuideHead}>
+        <p className={styles.g2048Eyebrow}>The field</p>
+        <h2 className={`${styles.g2048GuideTitle} font-pixel text-glitch-soft`}>How the solvers think</h2>
+        <p className={styles.g2048GuideSub}>
           Three ways to play the same game — from blind luck to statistical brute force. Pick one in the panel above and
           watch the gap widen.
         </p>
       </header>
 
-      <ol className="g2048-ladder">
+      <ol className={styles.g2048Ladder}>
         {METHODS.map((m) => (
-          <li key={m.name} className="g2048-entry">
-            <div className="g2048-entry-rank font-pixel" aria-hidden>
+          <li key={m.name} className={styles.g2048Entry}>
+            <div className={`${styles.g2048EntryRank} font-pixel`} aria-hidden>
               {m.rank}
             </div>
 
-            <div className="g2048-entry-main">
-              <h3 className="g2048-entry-name font-heading">{m.name}</h3>
-              <p className="g2048-entry-tag font-pixel">{m.tagline}</p>
-              <p className="g2048-entry-body font-mono">{m.body}</p>
+            <div>
+              <h3 className={`${styles.g2048EntryName} font-heading`}>{m.name}</h3>
+              <p className={`${styles.g2048EntryTag} font-pixel`}>{m.tagline}</p>
+              <p className={`${styles.g2048EntryBody} font-mono`}>{m.body}</p>
 
-              <div className="g2048-entry-meta">
-                <div className="g2048-metric">
-                  <span className="g2048-metric-label font-pixel">Avg score</span>
-                  <span className="g2048-metric-value font-mono">{m.avgScore}</span>
+              <div className={styles.g2048EntryMeta}>
+                <div className={styles.g2048Metric}>
+                  <span className={`${styles.g2048MetricLabel} font-pixel`}>Avg score</span>
+                  <span className={`${styles.g2048MetricValue} font-mono`}>{m.avgScore}</span>
                 </div>
-                <div className="g2048-metric">
-                  <span className="g2048-metric-label font-pixel">2048 rate</span>
-                  <span className="g2048-pips" role="img" aria-label={m.reachLabel}>
+                <div className={styles.g2048Metric}>
+                  <span className={`${styles.g2048MetricLabel} font-pixel`}>2048 rate</span>
+                  <span className={styles.g2048Pips} role="img" aria-label={m.reachLabel}>
                     {[0, 1, 2].map((i) => (
                       <i key={i} data-on={i < m.reach || undefined} />
                     ))}
@@ -105,21 +106,21 @@ export default function SolverGuide() {
               </div>
             </div>
 
-            <div className="g2048-entry-peak">
-              <div className="g2048-guide-tile" aria-hidden>
-                <div className="g2048-tile-inner" data-value={m.peakTile}>
+            <div className={styles.g2048EntryPeak}>
+              <div className={styles.g2048GuideTile} aria-hidden>
+                <div className={styles.g2048TileInner} data-value={m.peakTile}>
                   {m.peakTile}
                 </div>
               </div>
-              <span className="g2048-peak-label font-pixel">Typical peak</span>
+              <span className={`${styles.g2048PeakLabel} font-pixel`}>Typical peak</span>
             </div>
           </li>
         ))}
       </ol>
 
-      <aside className="g2048-colophon">
-        <span className="g2048-colophon-tab font-pixel">Origin</span>
-        <p className="g2048-colophon-text font-mono">
+      <aside className={styles.g2048Colophon}>
+        <span className={`${styles.g2048ColophonTab} font-pixel`}>Origin</span>
+        <p className={`${styles.g2048ColophonText} font-mono`}>
           Built as coursework for my <strong>Soft Computing &amp; Data Mining</strong> module at university. The game
           logic and all three solvers began life as a Python notebook — since ported to TypeScript so the whole thing
           runs live, right here in your browser.

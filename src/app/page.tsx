@@ -18,6 +18,7 @@ import Link from "next/link";
 import avatar from "@/assets/avatar.png";
 import { useGuidedFlow } from "@/hooks/useGuidedFlow";
 import { SECTION_IDS, type SectionId } from "@/features/navigation/constants/navigation";
+import styles from "./page.module.css";
 export default function Home() {
   const scrollController = useScroll();
   const { isPlaying, play: playMusic } = useAudio();
@@ -81,8 +82,8 @@ export default function Home() {
         >
           {/* Hero content */}
           <div className="relative z-10 text-center">
-            <div className="hero-title-shell">
-              <h1 className="hero-title text-7xl mb-6 text-glitch text-glitch-soft font-pixel text-accent-bright tracking-[0.04em]">
+            <div className={styles.heroTitleShell}>
+              <h1 className={`${styles.heroTitle} text-7xl mb-6 text-glitch text-glitch-soft font-pixel text-accent-bright tracking-[0.04em]`}>
                 hollow-room
               </h1>
             </div>
@@ -98,14 +99,14 @@ export default function Home() {
           <div className="section-reveal max-w-200 w-full">
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">about</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.about}</p>
-            <div className="about-layout">
-              <div className="about-avatar-frame vhs-border">
-                <Image src={avatar} alt="Portrait avatar" className="about-avatar-image" priority />
+            <div className={styles.aboutLayout}>
+              <div className={`${styles.aboutAvatarFrame} vhs-border`}>
+                <Image src={avatar} alt="Portrait avatar" className={styles.aboutAvatarImage} priority />
               </div>
               <div>
                 <p className="font-mono text-lg leading-relaxed mb-6">{HOME_ABOUT_TEASER}</p>
                 {(!isGuidedEnabled || isScrollUnlocked) && (
-                  <Link href="/about" className="about-cta-link font-mono hover-text-glitch text-glitch-soft">
+                  <Link href="/about" className={`${styles.aboutCtaLink} font-mono hover-text-glitch text-glitch-soft`}>
                     explore full story -&gt;
                   </Link>
                 )}
@@ -120,7 +121,7 @@ export default function Home() {
           <div className="section-reveal max-w-200 w-full">
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">games</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.games}</p>
-            <div className="card-grid">
+            <div className={styles.cardGrid}>
               {HOME_GAMES_SECTION_ITEMS.map((game) => (
                 <GameCard key={game.name} {...game} />
               ))}
@@ -134,7 +135,7 @@ export default function Home() {
           <div className="section-reveal max-w-200 w-full">
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">projects</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.projects}</p>
-            <div className="card-grid">
+            <div className={styles.cardGrid}>
               {HOME_PROJECTS_SECTION_ITEMS.map((project) => (
                 <ProjectCard key={project.name} {...project} />
               ))}
@@ -163,27 +164,27 @@ export default function Home() {
             <h2 className="font-pixel text-5xl mb-10 text-accent-bright">contact</h2>
             <p className="section-intro">{HOME_SECTION_INTRO.contact}</p>
 
-            <div className="contact-shell vhs-border">
-              <div className="contact-shell-left">
-                <p className="contact-kicker">reach out</p>
-                <p className="contact-copy">
+            <div className={`${styles.contactShell} vhs-border`}>
+              <div className={styles.contactShellLeft}>
+                <p className={styles.contactKicker}>reach out</p>
+                <p className={styles.contactCopy}>
                   Open for collabs, game jams, and weird web experiments. If you have an idea, send a message and
                   I&apos;ll get back to you.
                 </p>
 
-                <a className="contact-email-link" href={`mailto:${HOME_CONTACT_SECTION.email}`}>
-                  <span className="contact-email-label">email</span>
-                  <span className="contact-email-value">{HOME_CONTACT_SECTION.email}</span>
+                <a className={styles.contactEmailLink} href={`mailto:${HOME_CONTACT_SECTION.email}`}>
+                  <span className={styles.contactEmailLabel}>email</span>
+                  <span className={styles.contactEmailValue}>{HOME_CONTACT_SECTION.email}</span>
                 </a>
               </div>
 
-              <div className="contact-shell-right">
-                <p className="contact-links-title">social links</p>
-                <ul className="contact-links-list">
+              <div className={styles.contactShellRight}>
+                <p className={styles.contactLinksTitle}>social links</p>
+                <ul className={styles.contactLinksList}>
                   {HOME_CONTACT_SECTION.socials.map((social) => (
                     <li key={social.label}>
-                      <a href={social.href} target="_blank" rel="noreferrer" className="contact-link-chip">
-                        <span className="contact-link-arrow" aria-hidden="true">
+                      <a href={social.href} target="_blank" rel="noreferrer" className={styles.contactLinkChip}>
+                        <span className={styles.contactLinkArrow} aria-hidden="true">
                           &gt;
                         </span>
                         <span>{social.label}</span>

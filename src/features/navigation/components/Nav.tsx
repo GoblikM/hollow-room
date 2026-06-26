@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { MouseEvent } from "react";
+import styles from "./Nav.module.css";
 
 export const NAV_HEIGHT = 56;
 
@@ -63,11 +64,11 @@ function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps)
 
 function SubPageNav() {
   return (
-    <nav className="nav-root nav-root-subpage" aria-label="Page navigation">
-      <div aria-hidden="true" className="nav-ambient-glow" />
-      <div aria-hidden="true" className="nav-gradient-strip" />
-      <div className="nav-inner">
-        <Link href="/#about" className="nav-back-link hover-text-glitch text-glitch-soft font-mono">
+    <nav className={styles.navRoot} aria-label="Page navigation">
+      <div aria-hidden="true" className={styles.navAmbientGlow} />
+      <div aria-hidden="true" className={styles.navGradientStrip} />
+      <div className={styles.navInner}>
+        <Link href="/#about" className={`${styles.navBackLink} hover-text-glitch text-glitch-soft font-mono`}>
           &lt;- home
         </Link>
       </div>
@@ -98,16 +99,21 @@ export default function Nav({ activeSection = "home" }: NavProps) {
   }
 
   return (
-    <nav className="nav-root">
-      <div aria-hidden="true" className="nav-ambient-glow" />
-      <div aria-hidden="true" className="nav-gradient-strip" />
+    <nav className={styles.navRoot}>
+      <div aria-hidden="true" className={styles.navAmbientGlow} />
+      <div aria-hidden="true" className={styles.navGradientStrip} />
 
-      <div className="nav-inner">
-        <Link href="/" aria-label="hollow-room home" className="nav-logo logo-link" onClick={handleLogoClick}>
+      <div className={styles.navInner}>
+        <Link
+          href="/"
+          aria-label="hollow-room home"
+          className={`${styles.navLogo} ${styles.logoLink}`}
+          onClick={handleLogoClick}
+        >
           HOLLOW-ROOM
         </Link>
 
-        <ul role="list" className="nav-desktop-links">
+        <ul role="list" className={styles.navDesktopLinks}>
           {NAV_LINKS.map(({ href, label }) => (
             <li key={href}>
               <NavLink href={href} label={label} active={isActive(href)} />
@@ -120,7 +126,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
           aria-expanded={menuOpen}
           aria-controls="nav-mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
-          className={menuOpen ? "nav-hamburger nav-hamburger-open" : "nav-hamburger"}
+          className={menuOpen ? `${styles.navHamburger} ${styles.navHamburgerOpen}` : styles.navHamburger}
         >
           {menuOpen ? (
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -135,8 +141,8 @@ export default function Nav({ activeSection = "home" }: NavProps) {
       </div>
 
       {menuOpen && (
-        <div id="nav-mobile-menu" className="nav-mobile-menu">
-          <ul role="list" className="nav-mobile-links">
+        <div id="nav-mobile-menu" className={styles.navMobileMenu}>
+          <ul role="list" className={styles.navMobileLinks}>
             {NAV_LINKS.map(({ href, label }) => (
               <li key={href}>
                 <NavLink href={href} label={label} active={isActive(href)} mobile onClick={() => setMenuOpen(false)} />

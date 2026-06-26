@@ -1,6 +1,10 @@
-/* ─── Section backgrounds ────────────────────────────────────────────────── */
+/* Global home/section layer — primitives JS queries by string (.section,
+   .section-reveal, .section-intro, .hero-subtitle, .typing-heading) and the
+   guided-flow play button (shared with SettingsPicker). Component-local home
+   visuals live in src/app/page.module.css. */
 
-/* Shared section base */
+/* ─── Section base ───────────────────────────────────────────────────────── */
+
 .section {
   background-color: transparent;
   min-height: 70vh;
@@ -20,40 +24,18 @@
   padding-bottom: clamp(14rem, 28vh, 22rem);
 }
 
-.footer-section {
-  background-color: transparent;
-}
-
-/* ─── Home hero ──────────────────────────────────────────────────────────── */
-
 .page-content {
   position: relative;
   z-index: 1;
 }
 
-.hero-title-shell {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem 1.75rem;
-  isolation: isolate;
-  animation: hero-shell-flicker 7.3s linear infinite;
-}
-
-.hero-title {
-  position: relative;
-  z-index: 1;
-  text-shadow:
-    0 0 16px color-mix(in srgb, var(--color-accent-bright) 42%, transparent),
-    0 0 40px color-mix(in srgb, var(--color-accent) 32%, transparent),
-    0 0 84px color-mix(in srgb, var(--color-accent-dim) 22%, transparent);
-  will-change: transform;
-}
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
 
 .hero-subtitle {
   text-shadow: 0 0 18px color-mix(in srgb, var(--color-accent) 12%, transparent);
 }
+
+/* ─── Guided-flow play button (rendered by page.tsx + SettingsPicker hint) ── */
 
 .hero-play-slot {
   min-height: 2.15rem;
@@ -100,14 +82,7 @@
   outline: none;
 }
 
-body.guided-flow-pending .scroll-rail-label {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-body.guided-flow-pending .ui-desktop-nav-row .theme-switch-track {
-  opacity: 0.42;
-}
+/* ─── Typing heading caret (class toggled on headings by JS) ─────────────── */
 
 .typing-heading {
   position: relative;
@@ -131,46 +106,214 @@ body.guided-flow-pending .ui-desktop-nav-row .theme-switch-track {
   color: var(--color-accent-bright);
 }
 
-.about-layout {
-  display: grid;
-  grid-template-columns: minmax(180px, 240px) 1fr;
-  gap: 2rem;
-  align-items: center;
+/* ─── Scroll reveal (queried by useRevealOnScroll) ───────────────────────── */
+
+.section-reveal {
+  opacity: 0.28;
+  transform: translate3d(0, 72px, 0) scale(0.96);
+  filter: blur(10px) brightness(0.82);
+  will-change: opacity, transform, filter;
 }
 
-.about-avatar-frame {
-  width: 100%;
-  max-width: 240px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: var(--color-accent-bright);
+body.light-mode .section-reveal {
+  filter: blur(10px);
 }
 
-.about-avatar-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .section {
+    padding: 2rem 1.25rem;
+  }
+
+  .section + .section {
+    margin-top: 1.5rem;
+  }
+
+  .section.section-last {
+    min-height: 78vh;
+    padding-bottom: clamp(9rem, 24vh, 14rem);
+  }
+
+  .section-intro {
+    margin-top: -1.25rem;
+    min-height: 3.5rem;
+    font-size: 0.76rem;
+    letter-spacing: 0.07em;
+  }
+
+  .section-reveal {
+    transform: translate3d(0, 72px, 0) scale(0.96);
+  }
 }
 
-/* ─── Card grid ──────────────────────────────────────────────────────────── */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1.25rem;
+@media (prefers-reduced-motion: reduce) {
+  .section-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
 }
 
-/* ─── About CTA link (homepage teaser) ─────────────────────────────────── */
+/* ─── Keyframes (referenced by both global + module classes) ─────────────── */
 
-.about-cta-link {
-  display: inline-block;
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  color: var(--color-accent-bright);
-  text-decoration: none;
-  transition: color 0.2s ease;
+@keyframes hero-shell-flicker {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 18%, transparent))
+      drop-shadow(0 0 28px color-mix(in srgb, var(--color-accent) 12%, transparent));
+  }
+
+  7% {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
+      drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent) 10%, transparent));
+  }
+
+  7.8% {
+    filter: drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent-bright) 28%, transparent))
+      drop-shadow(0 0 44px color-mix(in srgb, var(--color-accent) 20%, transparent));
+  }
+
+  8.4% {
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
+  }
+
+  31% {
+    filter: drop-shadow(0 0 15px color-mix(in srgb, var(--color-accent-bright) 19%, transparent))
+      drop-shadow(0 0 30px color-mix(in srgb, var(--color-accent) 13%, transparent));
+  }
+
+  31.6% {
+    filter: drop-shadow(0 0 24px color-mix(in srgb, var(--color-accent-bright) 30%, transparent))
+      drop-shadow(0 0 46px color-mix(in srgb, var(--color-accent) 21%, transparent));
+  }
+
+  32.3% {
+    filter: drop-shadow(0 0 11px color-mix(in srgb, var(--color-accent-bright) 12%, transparent))
+      drop-shadow(0 0 22px color-mix(in srgb, var(--color-accent) 9%, transparent));
+  }
+
+  63% {
+    filter: drop-shadow(0 0 13px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 25px color-mix(in srgb, var(--color-accent) 10%, transparent));
+  }
+
+  63.5% {
+    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--color-accent-bright) 26%, transparent))
+      drop-shadow(0 0 38px color-mix(in srgb, var(--color-accent) 17%, transparent));
+  }
+
+  64.1% {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-bright) 14%, transparent))
+      drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent) 10%, transparent));
+  }
+
+  86% {
+    filter: drop-shadow(0 0 16px color-mix(in srgb, var(--color-accent-bright) 20%, transparent))
+      drop-shadow(0 0 32px color-mix(in srgb, var(--color-accent) 14%, transparent));
+  }
+
+  86.4% {
+    filter: drop-shadow(0 0 23px color-mix(in srgb, var(--color-accent-bright) 29%, transparent))
+      drop-shadow(0 0 45px color-mix(in srgb, var(--color-accent) 20%, transparent));
+  }
+
+  87% {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-accent-bright) 16%, transparent))
+      drop-shadow(0 0 26px color-mix(in srgb, var(--color-accent) 11%, transparent));
+  }
 }
 
-.about-cta-link:hover {
-  color: var(--color-fg);
+@keyframes heading-caret-blink {
+  0%,
+  46% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-glow-flicker {
+  0%,
+  100% {
+    opacity: 0.72;
+    filter: blur(70px);
+  }
+
+  7% {
+    opacity: 0.66;
+    filter: blur(66px);
+  }
+
+  7.8% {
+    opacity: 0.86;
+    filter: blur(82px);
+  }
+
+  8.4% {
+    opacity: 0.71;
+    filter: blur(71px);
+  }
+
+  31% {
+    opacity: 0.74;
+    filter: blur(72px);
+  }
+
+  31.6% {
+    opacity: 0.88;
+    filter: blur(84px);
+  }
+
+  32.3% {
+    opacity: 0.68;
+    filter: blur(68px);
+  }
+
+  63% {
+    opacity: 0.69;
+    filter: blur(68px);
+  }
+
+  63.5% {
+    opacity: 0.82;
+    filter: blur(79px);
+  }
+
+  64.1% {
+    opacity: 0.71;
+    filter: blur(70px);
+  }
+
+  86% {
+    opacity: 0.73;
+    filter: blur(72px);
+  }
+
+  86.4% {
+    opacity: 0.87;
+    filter: blur(83px);
+  }
+
+  87% {
+    opacity: 0.72;
+    filter: blur(71px);
+  }
+}
+
+@keyframes hero-play-blink {
+  0%,
+  58% {
+    opacity: 1;
+  }
+
+  62%,
+  100% {
+    opacity: 0.45;
+  }
 }

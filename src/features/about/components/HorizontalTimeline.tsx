@@ -3,6 +3,7 @@
 import { type RefObject } from "react";
 import { TIMELINE_ENTRIES, type TimelineEntry, type TimelineEntryType } from "@/features/about/data/timelineData";
 import Timeline from "@/features/about/components/Timeline";
+import styles from "./HorizontalTimeline.module.css";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
@@ -22,38 +23,39 @@ function TimelineEntry({
   index: number;
 }) {
   const num = String(index + 1).padStart(2, "0");
+  const isMilestone = entry.type === "milestone";
 
   return (
     <div
-      className={`tl-entry tl-entry-${entry.type}`}
+      className={`${styles.tlEntry}${isMilestone ? ` ${styles.tlEntryMilestone}` : ""}`}
       role="listitem"
       aria-label={`${entry.date} — ${entry.title}`}
     >
       {/* Left: number, type, date */}
-      <div className="tl-entry-left">
-        <span className="tl-entry-num font-pixel">{num}</span>
-        <span className={`tl-entry-type tl-entry-type-${entry.type} font-mono`}>
+      <div className={styles.tlEntryLeft}>
+        <span className={`${styles.tlEntryNum} font-pixel`}>{num}</span>
+        <span className={`${styles.tlEntryType}${isMilestone ? ` ${styles.tlEntryTypeMilestone}` : ""} font-mono`}>
           {TYPE_LABELS[entry.type]}
         </span>
-        <time className="tl-entry-date font-mono">{entry.date}</time>
+        <time className={`${styles.tlEntryDate} font-mono`}>{entry.date}</time>
       </div>
 
       {/* Vertical divider with accent node */}
-      <div className="tl-entry-divider" aria-hidden="true" />
+      <div className={styles.tlEntryDivider} aria-hidden="true" />
 
       {/* Right: content */}
-      <div className="tl-entry-right">
-        <h3 className="tl-entry-title font-pixel hover-text-glitch text-glitch-soft">
+      <div className={styles.tlEntryRight}>
+        <h3 className={`${styles.tlEntryTitle} font-pixel hover-text-glitch text-glitch-soft`}>
           {entry.title}
         </h3>
         {entry.subtitle && (
-          <span className="tl-entry-subtitle font-mono">{entry.subtitle}</span>
+          <span className={`${styles.tlEntrySubtitle} font-mono`}>{entry.subtitle}</span>
         )}
-        <p className="tl-entry-desc font-mono">{entry.description}</p>
+        <p className={`${styles.tlEntryDesc} font-mono`}>{entry.description}</p>
         {entry.tags && entry.tags.length > 0 && (
-          <ul className="tl-entry-tags" aria-label="Technologies">
+          <ul className={styles.tlEntryTags} aria-label="Technologies">
             {entry.tags.map((tag) => (
-              <li key={tag} className="tl-entry-tag font-mono">
+              <li key={tag} className={`${styles.tlEntryTag} font-mono`}>
                 {tag}
               </li>
             ))}
@@ -89,19 +91,19 @@ function DesktopTimeline({
     <section
       id="timeline"
       ref={sectionRef}
-      className="about-timeline-section"
+      className={styles.aboutTimelineSection}
       aria-label="Career timeline"
     >
-      <div className="max-w-200 w-full tl-wrapper">
+      <div className={`max-w-200 w-full ${styles.tlWrapper}`}>
         {/* Header */}
-        <header className="tl-header section-reveal">
+        <header className={`${styles.tlHeader} section-reveal`}>
           <h2 className="font-pixel text-5xl text-accent-bright">timeline</h2>
-          <p className="tl-hint font-mono">scroll to advance →</p>
+          <p className={`${styles.tlHint} font-mono`}>scroll to advance →</p>
         </header>
 
         {/* Track area — one entry visible at a time */}
-        <div className="tl-track-outer">
-          <div className="tl-track" ref={trackRef} role="list">
+        <div className={styles.tlTrackOuter}>
+          <div className={styles.tlTrack} ref={trackRef} role="list">
             {TIMELINE_ENTRIES.map((entry, i) => (
               <TimelineEntry key={entry.id} entry={entry} index={i} />
             ))}
@@ -109,21 +111,21 @@ function DesktopTimeline({
         </div>
 
         {/* Footer: prev/next + dot indicators */}
-        <footer className="tl-footer">
+        <footer className={styles.tlFooter}>
           <button
-            className="tl-nav-btn font-mono"
+            className={`${styles.tlNavBtn} font-mono`}
             aria-label="Previous timeline entry"
             onClick={onPrev}
           >
             ←
           </button>
 
-          <div className="tl-dots" role="tablist" aria-label="Timeline entries">
+          <div className={styles.tlDots} role="tablist" aria-label="Timeline entries">
             {TIMELINE_ENTRIES.map((_, i) => (
               <button
                 key={i}
                 ref={(el) => { dotsRef.current[i] = el; }}
-                className="tl-dot"
+                className={styles.tlDot}
                 role="tab"
                 aria-label={`Entry ${i + 1}`}
                 onClick={() => onStepTo(i)}
@@ -132,10 +134,10 @@ function DesktopTimeline({
           </div>
 
           {/* Hidden div for GSAP progressRef — not rendered visually */}
-          <div ref={progressRef} className="tl-progress-fill" aria-hidden="true" />
+          <div ref={progressRef} className={styles.tlProgressFill} aria-hidden="true" />
 
           <button
-            className="tl-nav-btn font-mono"
+            className={`${styles.tlNavBtn} font-mono`}
             aria-label="Next timeline entry"
             onClick={onNext}
           >

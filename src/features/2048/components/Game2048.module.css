@@ -1,8 +1,10 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   2048 Solver
+   2048 Solver — shared module for Board, Game2048 and SolverGuide.
+   (.g2048TileInner is reused by SolverGuide's peak-tile badges, and .g2048Btn by
+   both the panel and the d-pad, so these components share one module.)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.g2048-layout {
+.g2048Layout {
   display: flex;
   flex-wrap: wrap;
   gap: 2.75rem;
@@ -11,7 +13,7 @@
 }
 
 /* ── Board ──────────────────────────────────────────────────────────────── */
-.g2048-board {
+.g2048Board {
   --gap: 0.7rem;
   --cell: clamp(58px, 18vw, 92px);
   --step: calc(var(--cell) + var(--gap));
@@ -35,7 +37,7 @@
     0 12px 40px rgba(5, 5, 8, 0.7);
 }
 
-.g2048-cells {
+.g2048Cells {
   position: absolute;
   inset: var(--gap);
   display: grid;
@@ -44,18 +46,18 @@
   gap: var(--gap);
 }
 
-.g2048-cell {
+.g2048Cell {
   background: var(--color-surface-2);
   border-radius: var(--radius);
   box-shadow: inset 0 0 0 1px rgba(42, 31, 74, 0.6);
 }
 
-.g2048-tiles {
+.g2048Tiles {
   position: absolute;
   inset: var(--gap);
 }
 
-.g2048-tile {
+.g2048Tile {
   position: absolute;
   top: 0;
   left: 0;
@@ -67,7 +69,7 @@
   will-change: transform;
 }
 
-.g2048-tile-inner {
+.g2048TileInner {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,60 +107,60 @@
   }
 }
 
-.g2048-tile-inner[data-new] {
+.g2048TileInner[data-new] {
   animation: g2048-spawn 160ms cubic-bezier(0.2, 0.82, 0.25, 1);
 }
 
-.g2048-tile-inner[data-merged] {
+.g2048TileInner[data-merged] {
   animation: g2048-pop 170ms ease-out;
 }
 
 /* Tile colour ramp — derived entirely from the active accent scheme so tiles
    recolour with the theme. Climbs surface → dim → accent → bright, then pushes
    toward white with a growing glow on the high tiles. */
-.g2048-tile-inner[data-value="2"] {
+.g2048TileInner[data-value="2"] {
   background: color-mix(in srgb, var(--color-accent-dim) 20%, var(--color-surface-2));
 }
-.g2048-tile-inner[data-value="4"] {
+.g2048TileInner[data-value="4"] {
   background: color-mix(in srgb, var(--color-accent-dim) 50%, var(--color-surface-2));
 }
-.g2048-tile-inner[data-value="8"] {
+.g2048TileInner[data-value="8"] {
   background: var(--color-accent-dim);
 }
-.g2048-tile-inner[data-value="16"] {
+.g2048TileInner[data-value="16"] {
   background: color-mix(in srgb, var(--color-accent) 55%, var(--color-accent-dim));
 }
-.g2048-tile-inner[data-value="32"] {
+.g2048TileInner[data-value="32"] {
   background: var(--color-accent);
 }
-.g2048-tile-inner[data-value="64"] {
+.g2048TileInner[data-value="64"] {
   background: color-mix(in srgb, var(--color-accent-bright) 55%, var(--color-accent));
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.18),
     0 0 12px var(--g2048-glow);
 }
-.g2048-tile-inner[data-value="128"] {
+.g2048TileInner[data-value="128"] {
   background: var(--color-accent-bright);
   color: var(--g2048-ink-dark);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.25),
     0 0 16px var(--g2048-glow);
 }
-.g2048-tile-inner[data-value="256"] {
+.g2048TileInner[data-value="256"] {
   background: color-mix(in srgb, var(--color-accent-bright) 88%, white);
   color: var(--g2048-ink-dark);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.32),
     0 0 20px var(--g2048-glow);
 }
-.g2048-tile-inner[data-value="512"] {
+.g2048TileInner[data-value="512"] {
   background: color-mix(in srgb, var(--color-accent-bright) 75%, white);
   color: var(--g2048-ink-dark);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.4),
     0 0 24px var(--g2048-glow);
 }
-.g2048-tile-inner[data-value="1024"] {
+.g2048TileInner[data-value="1024"] {
   background: color-mix(in srgb, var(--color-accent-bright) 62%, white);
   color: var(--g2048-ink-dark);
   font-size: clamp(0.7rem, 3vw, 1.15rem);
@@ -166,8 +168,8 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.5),
     0 0 28px var(--g2048-glow);
 }
-.g2048-tile-inner[data-value="2048"],
-.g2048-tile-inner[data-value="4096"] {
+.g2048TileInner[data-value="2048"],
+.g2048TileInner[data-value="4096"] {
   background: color-mix(in srgb, var(--color-accent-bright) 50%, white);
   color: var(--g2048-ink-dark);
   font-size: clamp(0.7rem, 3vw, 1.15rem);
@@ -177,7 +179,7 @@
 }
 
 /* ── Win / lose overlay ─────────────────────────────────────────────────── */
-.g2048-overlay {
+.g2048Overlay {
   position: absolute;
   inset: 0;
   display: flex;
@@ -192,14 +194,14 @@
 }
 
 /* ── Stats ──────────────────────────────────────────────────────────────── */
-.g2048-stats {
+.g2048Stats {
   display: flex;
   gap: 0.85rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.g2048-stat {
+.g2048Stat {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -211,7 +213,7 @@
   border-radius: var(--radius);
 }
 
-.g2048-stat-label {
+.g2048StatLabel {
   font-family: var(--font-pixel);
   font-size: 0.68rem;
   letter-spacing: 0.08em;
@@ -219,14 +221,14 @@
   color: var(--color-muted);
 }
 
-.g2048-stat-value {
+.g2048StatValue {
   font-family: var(--font-mono);
   font-size: 1.35rem;
   color: var(--color-accent-bright);
 }
 
 /* ── Control panel ──────────────────────────────────────────────────────── */
-.g2048-panel {
+.g2048Panel {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
@@ -241,22 +243,22 @@
     inset 0 0 16px rgba(124, 58, 237, 0.08);
 }
 
-.g2048-field {
+.g2048Field {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
 }
 
-.g2048-field[data-disabled] {
+.g2048Field[data-disabled] {
   opacity: 0.4;
 }
 
 /* Reserve two lines so swapping solvers can't reflow the panel height. */
-.g2048-solver-blurb {
+.g2048SolverBlurb {
   min-height: 2.1em;
 }
 
-.g2048-btn {
+.g2048Btn {
   font-family: var(--font-pixel);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
@@ -273,38 +275,38 @@
     box-shadow 0.18s ease;
 }
 
-.g2048-btn:hover:not(:disabled) {
+.g2048Btn:hover:not(:disabled) {
   color: var(--color-accent-bright);
   border-color: var(--color-accent-bright);
   box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
 }
 
-.g2048-btn:disabled {
+.g2048Btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
 
-.g2048-btn-primary {
+.g2048BtnPrimary {
   background: var(--color-accent-dim);
   border-color: var(--color-accent);
   color: #f0e8ff;
 }
 
-.g2048-btn-active {
+.g2048BtnActive {
   background: var(--color-danger);
   border-color: #c0392b;
   color: #ffd9d9;
 }
 
 /* Segmented solver picker */
-.g2048-segment {
+.g2048Segment {
   display: flex;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius);
   overflow: hidden;
 }
 
-.g2048-seg-btn {
+.g2048SegBtn {
   flex: 1;
   font-family: var(--font-pixel);
   font-size: 0.62rem;
@@ -320,21 +322,21 @@
     background 0.18s ease;
 }
 
-.g2048-seg-btn:last-child {
+.g2048SegBtn:last-child {
   border-right: none;
 }
 
-.g2048-seg-btn:hover {
+.g2048SegBtn:hover {
   color: var(--color-accent-bright);
 }
 
-.g2048-seg-btn[data-active] {
+.g2048SegBtn[data-active] {
   color: #f0e8ff;
   background: var(--color-accent);
 }
 
 /* Range slider */
-.g2048-range {
+.g2048Range {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -345,7 +347,7 @@
   cursor: pointer;
 }
 
-.g2048-range::-webkit-slider-thumb {
+.g2048Range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
@@ -356,7 +358,7 @@
   cursor: pointer;
 }
 
-.g2048-range::-moz-range-thumb {
+.g2048Range::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border: none;
@@ -367,7 +369,7 @@
 }
 
 /* Manual D-pad */
-.g2048-dpad {
+.g2048Dpad {
   display: grid;
   grid-template-areas:
     ". u ."
@@ -377,24 +379,24 @@
   max-width: 11rem;
 }
 
-.g2048-dpad .g2048-btn {
+.g2048Dpad .g2048Btn {
   font-size: 1.05rem;
   padding: 0.45rem;
 }
 
 @media (max-width: 720px) {
-  .g2048-layout {
+  .g2048Layout {
     flex-direction: column;
     align-items: center;
   }
-  .g2048-panel {
+  .g2048Panel {
     max-width: 22rem;
   }
 }
 
 /* ── Solver guide — a ranked ledger of the three methods ────────────────── */
-.g2048-guide {
-  /* Peak-tile badges reuse .g2048-tile-inner, so they need the same tokens the
+.g2048Guide {
+  /* Peak-tile badges reuse .g2048TileInner, so they need the same tokens the
      board defines for ink colour and glow. */
   --g2048-ink-light: #f4f1fb;
   --g2048-ink-dark: #08060e;
@@ -409,14 +411,14 @@
   border-top: 1px solid color-mix(in srgb, var(--color-outline) 80%, transparent);
 }
 
-.g2048-guide-head {
+.g2048GuideHead {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   text-align: center;
 }
 
-.g2048-eyebrow {
+.g2048Eyebrow {
   font-family: var(--font-pixel);
   font-size: 0.72rem;
   letter-spacing: 0.42em;
@@ -425,13 +427,13 @@
   color: var(--color-accent-bright);
 }
 
-.g2048-guide-title {
+.g2048GuideTitle {
   font-size: clamp(1.4rem, 4.5vw, 2.1rem);
   color: var(--color-fg);
   line-height: 1.1;
 }
 
-.g2048-guide-sub {
+.g2048GuideSub {
   font-family: var(--font-mono);
   font-size: 0.95rem;
   line-height: 1.65;
@@ -441,7 +443,7 @@
 }
 
 /* Ledger entries */
-.g2048-ladder {
+.g2048Ladder {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -449,7 +451,7 @@
   flex-direction: column;
 }
 
-.g2048-entry {
+.g2048Entry {
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 0 2.25rem;
@@ -458,33 +460,33 @@
   border-top: 1px solid color-mix(in srgb, var(--color-outline) 55%, transparent);
 }
 
-.g2048-entry:first-child {
+.g2048Entry:first-child {
   border-top: none;
 }
 
 /* Rank numerals brighten down the list to reinforce the escalation. */
-.g2048-entry-rank {
+.g2048EntryRank {
   font-size: clamp(1.5rem, 5vw, 2.4rem);
   line-height: 0.85;
   color: color-mix(in srgb, var(--color-accent) 45%, transparent);
 }
 
-.g2048-entry:nth-child(2) .g2048-entry-rank {
+.g2048Entry:nth-child(2) .g2048EntryRank {
   color: color-mix(in srgb, var(--color-accent-bright) 65%, transparent);
 }
 
-.g2048-entry:nth-child(3) .g2048-entry-rank {
+.g2048Entry:nth-child(3) .g2048EntryRank {
   color: var(--color-accent-bright);
   text-shadow: 0 0 14px color-mix(in srgb, var(--color-accent-bright) 45%, transparent);
 }
 
-.g2048-entry-name {
+.g2048EntryName {
   font-size: clamp(1.45rem, 4vw, 1.95rem);
   line-height: 1;
   color: var(--color-fg);
 }
 
-.g2048-entry-tag {
+.g2048EntryTag {
   margin-top: 0.45rem;
   font-size: 0.68rem;
   letter-spacing: 0.22em;
@@ -492,7 +494,7 @@
   color: var(--color-accent-bright);
 }
 
-.g2048-entry-body {
+.g2048EntryBody {
   margin-top: 1.1rem;
   max-width: 38rem;
   font-size: 0.95rem;
@@ -500,45 +502,45 @@
   color: color-mix(in srgb, var(--color-fg) 88%, transparent);
 }
 
-.g2048-entry-body em {
+.g2048EntryBody em {
   font-style: normal;
   color: var(--color-accent-bright);
 }
 
-.g2048-entry-meta {
+.g2048EntryMeta {
   display: flex;
   flex-wrap: wrap;
   gap: 2.75rem;
   margin-top: 1.6rem;
 }
 
-.g2048-metric {
+.g2048Metric {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-.g2048-metric-label {
+.g2048MetricLabel {
   font-size: 0.62rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-muted);
 }
 
-.g2048-metric-value {
+.g2048MetricValue {
   font-size: 1.5rem;
   line-height: 1;
   color: var(--color-accent-bright);
 }
 
-.g2048-pips {
+.g2048Pips {
   display: inline-flex;
   gap: 0.35rem;
   align-items: center;
   height: 1.3rem;
 }
 
-.g2048-pips i {
+.g2048Pips i {
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 1px;
@@ -546,29 +548,29 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-outline) 90%, transparent);
 }
 
-.g2048-pips i[data-on] {
+.g2048Pips i[data-on] {
   background: var(--color-accent-bright);
   box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent-bright) 55%, transparent);
 }
 
 /* Signature: the peak tile, rendered in the game's own tile style. */
-.g2048-entry-peak {
+.g2048EntryPeak {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.55rem;
 }
 
-.g2048-guide-tile {
+.g2048GuideTile {
   width: clamp(56px, 13vw, 74px);
   height: clamp(56px, 13vw, 74px);
 }
 
-.g2048-guide .g2048-tile-inner {
+.g2048Guide .g2048TileInner {
   font-size: clamp(0.7rem, 2.4vw, 1rem);
 }
 
-.g2048-peak-label {
+.g2048PeakLabel {
   font-size: 0.6rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -576,7 +578,7 @@
 }
 
 /* Colophon — a filed note with a folder tab */
-.g2048-colophon {
+.g2048Colophon {
   position: relative;
   margin-top: 0.75rem;
   padding: 2.1rem 1.9rem 1.8rem;
@@ -586,7 +588,7 @@
   border-radius: var(--radius);
 }
 
-.g2048-colophon-tab {
+.g2048ColophonTab {
   position: absolute;
   top: -0.72rem;
   left: 1.25rem;
@@ -601,24 +603,24 @@
   box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent-bright) 40%, transparent);
 }
 
-.g2048-colophon-text {
+.g2048ColophonText {
   font-size: 0.92rem;
   line-height: 1.7;
   color: var(--color-muted);
   max-width: 44rem;
 }
 
-.g2048-colophon-text strong {
+.g2048ColophonText strong {
   font-weight: 600;
   color: var(--color-accent-bright);
 }
 
 @media (max-width: 640px) {
-  .g2048-entry {
+  .g2048Entry {
     grid-template-columns: auto 1fr;
     gap: 0.4rem 1rem;
   }
-  .g2048-entry-peak {
+  .g2048EntryPeak {
     grid-column: 1 / -1;
     flex-direction: row;
     align-items: center;

@@ -1,0 +1,231 @@
+/* Vertical timeline — mobile fallback layout (Timeline.tsx). */
+
+.timelineContainer {
+  position: relative;
+  width: 100%;
+}
+
+.timelineEntries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Central vertical axis */
+.timelineEntries::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-accent-dim) 3%,
+    var(--color-accent-dim) 97%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timelineEntry {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.25rem 0;
+  position: relative;
+}
+
+.timelineSide {
+  flex: 1;
+  min-width: 0;
+}
+
+.timelineCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-outline);
+  padding: 0.85rem 1rem;
+  position: relative;
+}
+
+.timelineEntryMilestone .timelineCard {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+
+/* Horizontal connector: left-slot card connects on its right edge */
+.timelineSideLeft:not(.isEmpty) .timelineCard::after {
+  content: "";
+  position: absolute;
+  right: -1.5rem;
+  top: 1.1rem;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--color-accent-dim);
+  pointer-events: none;
+}
+
+/* Horizontal connector: right-slot card connects on its left edge */
+.timelineSideRight:not(.isEmpty) .timelineCard::before {
+  content: "";
+  position: absolute;
+  left: -1.5rem;
+  top: 1.1rem;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--color-accent-dim);
+  pointer-events: none;
+}
+
+.timelineNodeCol {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.timelineNode {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-base);
+  border: 1px solid var(--color-accent);
+  position: relative;
+}
+
+.timelineEntryMilestone .timelineNode {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-color: var(--color-accent-bright);
+  background: color-mix(in srgb, var(--color-accent) 15%, var(--color-base));
+  box-shadow:
+    0 0 10px var(--color-accent-dim),
+    inset 0 0 8px color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.timelineNodeNum {
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.timelineEntryMilestone .timelineNodeNum {
+  color: var(--color-accent-bright);
+}
+
+.timelineNodeDiamond {
+  font-size: 0.4rem;
+  color: var(--color-accent-bright);
+  line-height: 1;
+  margin-top: 0.2rem;
+}
+
+.timelineDate {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+
+.timelineTitle {
+  font-size: 0.88rem;
+  color: var(--color-accent-bright);
+  margin-bottom: 0.2rem;
+  line-height: 1.3;
+}
+
+.timelineSubtitle {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+}
+
+.timelineDescription {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--color-fg);
+}
+
+.timelineTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+}
+
+.timelineTag {
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--color-accent-dim);
+  color: var(--color-accent-dim);
+}
+
+.timelineTag::before {
+  content: "#";
+  margin-right: 0.1rem;
+  color: var(--color-accent);
+}
+
+/* Mobile: collapse to single left-anchored column */
+@media (max-width: 640px) {
+  .timelineEntries::before {
+    left: 1.25rem;
+    transform: none;
+  }
+
+  .timelineEntry {
+    gap: 0.75rem;
+  }
+
+  .timelineSideLeft.isEmpty,
+  .timelineSideRight.isEmpty {
+    display: none;
+  }
+
+  .timelineNodeCol {
+    order: 0;
+    flex-shrink: 0;
+  }
+
+  .timelineSideLeft,
+  .timelineSideRight {
+    order: 1;
+  }
+
+  /* Swap right-side connector to left for mobile */
+  .timelineSideLeft:not(.isEmpty) .timelineCard::after {
+    display: none;
+  }
+
+  .timelineSideLeft:not(.isEmpty) .timelineCard::before {
+    content: "";
+    position: absolute;
+    left: -0.75rem;
+    top: 1.1rem;
+    width: 0.75rem;
+    height: 1px;
+    background: var(--color-accent-dim);
+  }
+
+  .timelineSideRight:not(.isEmpty) .timelineCard::before {
+    left: -0.75rem;
+    width: 0.75rem;
+  }
+}

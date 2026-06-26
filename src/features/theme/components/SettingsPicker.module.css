@@ -1,6 +1,6 @@
 /* ─── Theme picker ────────────────────────────────────────────────────────── */
 
-.theme-picker-btn {
+.themePickerBtn {
   position: relative;
   width: 48px;
   height: 48px;
@@ -15,12 +15,12 @@
   transition: border-color 0.15s;
 }
 
-.theme-picker-btn:hover {
+.themePickerBtn:hover {
   border-color: var(--color-accent);
 }
 
-.theme-picker-btn.is-playing::before,
-.theme-picker-btn.is-playing::after {
+.themePickerBtn.isPlaying::before,
+.themePickerBtn.isPlaying::after {
   content: "";
   position: absolute;
   inset: -6px;
@@ -32,7 +32,7 @@
   box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent-bright) 40%, transparent);
 }
 
-.theme-picker-btn.is-playing::after {
+.themePickerBtn.isPlaying::after {
   inset: -12px;
   animation-delay: 0.9s;
   border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
@@ -52,7 +52,7 @@
   }
 }
 
-.theme-picker-panel {
+.themePickerPanel {
   position: absolute;
   bottom: 3.5rem;
   right: 0;
@@ -69,7 +69,7 @@
 
 /* ─── Color schemes collapsible ──────────────────────────────────────────── */
 
-.schemes-toggle-btn {
+.schemesToggleBtn {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,17 +89,17 @@
   margin-bottom: 0.38rem;
 }
 
-.schemes-toggle-btn:hover {
+.schemesToggleBtn:hover {
   color: var(--color-accent-bright);
 }
 
-.schemes-toggle-icon {
+.schemesToggleIcon {
   flex-shrink: 0;
   fill: currentColor;
   transition: transform 0.2s ease;
 }
 
-.schemes-list {
+.schemesList {
   display: grid;
   gap: 0.32rem;
   padding-bottom: 0.4rem;
@@ -107,7 +107,7 @@
   border-bottom: 1px solid color-mix(in srgb, var(--color-outline) 50%, transparent);
 }
 
-.theme-swatch {
+.themeSwatch {
   display: flex;
   align-items: center;
   gap: 0.45rem;
@@ -123,11 +123,11 @@
   transition: color 0.16s ease;
 }
 
-.theme-swatch:hover {
+.themeSwatch:hover {
   color: var(--color-fg);
 }
 
-.theme-toggle-row {
+.themeToggleRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -142,13 +142,13 @@
   text-align: left;
 }
 
-.theme-toggle-meta {
+.themeToggleMeta {
   min-width: 0;
   display: grid;
   gap: 0.16rem;
 }
 
-.theme-toggle-title {
+.themeToggleTitle {
   font-size: 0.69rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -156,13 +156,13 @@
   color: var(--color-fg);
 }
 
-.theme-switch {
+.themeSwitch {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
 }
 
-.theme-switch-input {
+.themeSwitchInput {
   position: absolute;
   opacity: 0;
   width: 1px;
@@ -170,7 +170,7 @@
   pointer-events: none;
 }
 
-.theme-switch-track {
+.themeSwitchTrack {
   position: relative;
   width: 2rem;
   height: 1.06rem;
@@ -185,7 +185,7 @@
     box-shadow 0.16s ease;
 }
 
-.theme-switch-thumb {
+.themeSwitchThumb {
   position: absolute;
   left: 2px;
   top: 50%;
@@ -207,7 +207,7 @@
     box-shadow 0.18s ease;
 }
 
-.theme-switch-input:checked + .theme-switch-track {
+.themeSwitchInput:checked + .themeSwitchTrack {
   border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
   background: color-mix(in srgb, var(--color-accent) 36%, var(--color-surface-2));
   box-shadow:
@@ -215,7 +215,7 @@
     0 0 12px color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 
-.theme-switch-input:checked + .theme-switch-track .theme-switch-thumb {
+.themeSwitchInput:checked + .themeSwitchTrack .themeSwitchThumb {
   left: calc(100% - 2px - 0.74rem);
   background: linear-gradient(
     180deg,
@@ -227,12 +227,18 @@
     0 0 10px color-mix(in srgb, var(--color-accent-bright) 32%, transparent);
 }
 
-.theme-switch-input:focus-visible + .theme-switch-track {
+.themeSwitchInput:focus-visible + .themeSwitchTrack {
   outline: 1px solid color-mix(in srgb, var(--color-accent-bright) 70%, white);
   outline-offset: 3px;
 }
 
-.theme-swatch-circle {
+/* Guided-flow lock dims the desktop-navbar switch
+   (relocated from home.css; .ui-desktop-nav-row stays a global class). */
+:global(body.guided-flow-pending .ui-desktop-nav-row) .themeSwitchTrack {
+  opacity: 0.42;
+}
+
+.themeSwatchCircle {
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -240,17 +246,17 @@
   border: 2px solid transparent;
 }
 
-.theme-swatch-circle.active {
+.themeSwatchCircle.active {
   border-color: var(--color-accent-bright);
 }
 
-.theme-swatch:has(.theme-swatch-circle.active) {
+.themeSwatch:has(.themeSwatchCircle.active) {
   color: var(--color-accent-bright);
 }
 
 /* ─── Mode toggle (dark / light) ─────────────────────────────────────────── */
 
-.mode-toggle-row {
+.modeToggleRow {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
@@ -262,7 +268,7 @@
     0 0 0 1px color-mix(in srgb, black 16%, transparent);
 }
 
-.mode-toggle-btn {
+.modeToggleBtn {
   position: relative;
   padding: 0.42rem 0.4rem;
   font-family: var(--font-mono);
@@ -281,17 +287,17 @@
     box-shadow 0.16s ease;
 }
 
-.mode-toggle-btn:last-child {
+.modeToggleBtn:last-child {
   border-right: 0;
 }
 
-.mode-toggle-btn:hover,
-.mode-toggle-btn:focus-visible {
+.modeToggleBtn:hover,
+.modeToggleBtn:focus-visible {
   color: var(--color-fg);
   background: color-mix(in srgb, var(--color-surface-2) 88%, transparent);
 }
 
-.mode-toggle-btn.active {
+.modeToggleBtn.active {
   background:
     repeating-linear-gradient(
       180deg,
@@ -313,7 +319,7 @@
 
 /* ─── Audio control row ──────────────────────────────────────────────────── */
 
-.audio-control-row {
+.audioControlRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -328,7 +334,7 @@
   text-align: left;
 }
 
-.dev-reset-btn {
+.devResetBtn {
   margin-top: 0.3rem;
   width: 100%;
   border: 1px dashed color-mix(in srgb, var(--color-danger) 65%, var(--color-outline));
@@ -345,8 +351,8 @@
     background 0.15s ease;
 }
 
-.dev-reset-btn:hover,
-.dev-reset-btn:focus-visible {
+.devResetBtn:hover,
+.devResetBtn:focus-visible {
   border-color: color-mix(in srgb, var(--color-danger) 90%, white);
   background: color-mix(in srgb, var(--color-danger) 26%, var(--color-surface-2));
   outline: none;

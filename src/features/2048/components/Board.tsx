@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { GameState, SIZE } from "./engine";
+import { GameState, SIZE } from "../logic/engine";
+import styles from "./Game2048.module.css";
 
 type BoardProps = {
   state: GameState;
@@ -21,28 +22,28 @@ export default function Board({ state, onRestart, onKeepPlaying, slideMs }: Boar
 
   return (
     <div
-      className="g2048-board"
+      className={styles.g2048Board}
       role="grid"
       aria-label="2048 board"
       style={{ "--g2048-move-ms": `${slideMs}ms` } as React.CSSProperties}
     >
       {/* Background grid */}
-      <div className="g2048-cells" aria-hidden>
+      <div className={styles.g2048Cells} aria-hidden>
         {Array.from({ length: SIZE * SIZE }).map((_, i) => (
-          <div key={i} className="g2048-cell" />
+          <div key={i} className={styles.g2048Cell} />
         ))}
       </div>
 
       {/* Tiles — keyed by stable id so React reuses nodes and CSS animates moves */}
-      <div className="g2048-tiles" aria-hidden>
+      <div className={styles.g2048Tiles} aria-hidden>
         {state.tiles.map((t) => (
           <div
             key={t.id}
-            className="g2048-tile"
+            className={styles.g2048Tile}
             style={{ "--r": t.row, "--c": t.col } as React.CSSProperties}
           >
             <div
-              className="g2048-tile-inner"
+              className={styles.g2048TileInner}
               data-value={valueAttr(t.value)}
               data-new={t.isNew || undefined}
               data-merged={t.merged || undefined}
@@ -54,17 +55,17 @@ export default function Board({ state, onRestart, onKeepPlaying, slideMs }: Boar
       </div>
 
       {finished && (
-        <div className="g2048-overlay">
+        <div className={styles.g2048Overlay}>
           <p className="font-pixel text-2xl text-accent-bright text-glitch-soft">
             {state.over ? "GAME OVER" : "YOU WIN"}
           </p>
           <div className="flex gap-3">
             {state.won && state.over === false && (
-              <button className="g2048-btn" onClick={onKeepPlaying}>
+              <button className={styles.g2048Btn} onClick={onKeepPlaying}>
                 Keep going
               </button>
             )}
-            <button className="g2048-btn g2048-btn-primary" onClick={onRestart}>
+            <button className={`${styles.g2048Btn} ${styles.g2048BtnPrimary}`} onClick={onRestart}>
               {state.over ? "Try again" : "New game"}
             </button>
           </div>

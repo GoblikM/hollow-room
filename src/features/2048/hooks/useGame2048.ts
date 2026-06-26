@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Direction, emptyGame, GameState, move as applyMove, newGame } from "./engine";
-import { chooseMove, SolverId } from "./solvers";
+import { Direction, emptyGame, GameState, move as applyMove, newGame } from "../logic/engine";
+import { chooseMove, SolverId } from "../logic/solvers";
 
 const KEY_MAP: Record<string, Direction> = {
   ArrowUp: "up",

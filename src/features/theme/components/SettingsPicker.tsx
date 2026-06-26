@@ -14,6 +14,7 @@ import {
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
+import styles from "./SettingsPicker.module.css";
 
 export default function SettingsPicker() {
   const isDev = process.env.NODE_ENV !== "production";
@@ -144,12 +145,12 @@ export default function SettingsPicker() {
   return (
     <div ref={containerRef} className="fixed bottom-6 right-6 z-1000 overflow-visible">
       {open && (
-        <div className="theme-picker-panel">
-          <div className="mode-toggle-row">
+        <div className={styles.themePickerPanel}>
+          <div className={styles.modeToggleRow}>
             {(["dark", "light"] as const).map((m) => (
               <button
                 key={m}
-                className={`mode-toggle-btn${mode === m ? " active" : ""}`}
+                className={`${styles.modeToggleBtn}${mode === m ? ` ${styles.active}` : ""}`}
                 onClick={() => handleModeChange(m)}
               >
                 {m.toUpperCase()}
@@ -157,24 +158,24 @@ export default function SettingsPicker() {
             ))}
           </div>
 
-          <button className="schemes-toggle-btn" onClick={() => setOpenSchemes((v) => !v)} aria-expanded={openSchemes}>
-            <span className="schemes-toggle-title">Color schemes</span>
-            <svg className="schemes-toggle-icon" width="14" height="14" viewBox="0 0 12 12" fill="currentColor">
+          <button className={styles.schemesToggleBtn} onClick={() => setOpenSchemes((v) => !v)} aria-expanded={openSchemes}>
+            <span>Color schemes</span>
+            <svg className={styles.schemesToggleIcon} width="14" height="14" viewBox="0 0 12 12" fill="currentColor">
               <polygon points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
             </svg>
           </button>
 
           {openSchemes && (
-            <div className="schemes-list">
+            <div className={styles.schemesList}>
               {SCHEMES.map((scheme) => (
                 <button
                   key={scheme.id}
-                  className="theme-swatch"
+                  className={styles.themeSwatch}
                   onClick={() => handleSwatchClick(scheme)}
                   aria-label={scheme.label}
                 >
                   <span
-                    className={`theme-swatch-circle${activeId === scheme.id ? " active" : ""}`}
+                    className={`${styles.themeSwatchCircle}${activeId === scheme.id ? ` ${styles.active}` : ""}`}
                     style={{ backgroundColor: scheme.accent }}
                   />
                   <span>{scheme.label}</span>
@@ -183,40 +184,40 @@ export default function SettingsPicker() {
             </div>
           )}
 
-          <div className="theme-toggle-row ui-desktop-nav-row">
-            <span className="theme-toggle-meta">
-              <span className="theme-toggle-title">Desktop navbar</span>
+          <div className={`${styles.themeToggleRow} ui-desktop-nav-row`}>
+            <span className={styles.themeToggleMeta}>
+              <span className={styles.themeToggleTitle}>Desktop navbar</span>
             </span>
 
-            <label className="theme-switch" aria-label="Toggle desktop navbar">
+            <label className={styles.themeSwitch} aria-label="Toggle desktop navbar">
               <input
-                className="theme-switch-input"
+                className={styles.themeSwitchInput}
                 type="checkbox"
                 checked={desktopNavEnabled}
                 disabled={isFlowLocked}
                 onChange={handleDesktopNavToggle}
               />
-              <span className="theme-switch-track" aria-hidden="true">
-                <span className="theme-switch-thumb" />
+              <span className={styles.themeSwitchTrack} aria-hidden="true">
+                <span className={styles.themeSwitchThumb} />
               </span>
             </label>
           </div>
 
-          <div className="audio-control-row">
-            <span className="theme-toggle-meta">
-              <span className="theme-toggle-title">Music</span>
+          <div className={styles.audioControlRow}>
+            <span className={styles.themeToggleMeta}>
+              <span className={styles.themeToggleTitle}>Music</span>
             </span>
 
-            <label className="theme-switch" aria-label="Toggle music">
-              <input className="theme-switch-input" type="checkbox" checked={isPlaying} onChange={handleMusicToggle} />
-              <span className="theme-switch-track" aria-hidden="true">
-                <span className="theme-switch-thumb" />
+            <label className={styles.themeSwitch} aria-label="Toggle music">
+              <input className={styles.themeSwitchInput} type="checkbox" checked={isPlaying} onChange={handleMusicToggle} />
+              <span className={styles.themeSwitchTrack} aria-hidden="true">
+                <span className={styles.themeSwitchThumb} />
               </span>
             </label>
           </div>
 
           {isDev && (
-            <button type="button" className="dev-reset-btn" onClick={handleDevResetStorage}>
+            <button type="button" className={styles.devResetBtn} onClick={handleDevResetStorage}>
               DEV: clear localStorage
             </button>
           )}
@@ -234,7 +235,7 @@ export default function SettingsPicker() {
           </button>
         )}
         <button
-          className={`theme-picker-btn${isPlaying ? " is-playing" : ""}`}
+          className={`${styles.themePickerBtn}${isPlaying ? ` ${styles.isPlaying}` : ""}`}
           onClick={handleToggleSettingsPanel}
           aria-label="Pick color scheme"
           aria-expanded={open}

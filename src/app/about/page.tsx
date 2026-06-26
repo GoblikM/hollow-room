@@ -11,9 +11,10 @@ import SkillGrid from "@/features/about/components/SkillGrid";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import { useSnapScroll } from "@/hooks/useSnapScroll";
-import { useHorizontalTimelineScroll } from "@/hooks/useHorizontalTimelineScroll";
+import { useHorizontalTimelineScroll } from "@/features/about/hooks/useHorizontalTimelineScroll";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import ScrollArrow from "@/shared/ui/ScrollArrow";
+import styles from "./page.module.css";
 
 const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
 const DESKTOP_BREAKPOINT = 768;
@@ -87,18 +88,18 @@ export default function AboutPage() {
   return (
     <main className="page-content about-page about-snap-layout">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section id="hero" className="about-hero">
-        <div className="section-reveal about-hero-inner">
-          <div className="about-hero-avatar-frame vhs-border">
+      <section id="hero" className={styles.aboutHero}>
+        <div className={`section-reveal ${styles.aboutHeroInner}`}>
+          <div className={`${styles.aboutHeroAvatarFrame} vhs-border`}>
             <Image
               src={avatar}
               alt="Portrait avatar"
-              className="about-hero-avatar"
+              className={styles.aboutHeroAvatar}
               priority
             />
           </div>
-          <h1 className="about-hero-title font-pixel text-accent-bright">about me</h1>
-          <p className="about-hero-tagline font-mono text-muted">{ABOUT_TAGLINE}</p>
+          <h1 className={`${styles.aboutHeroTitle} font-pixel text-accent-bright`}>about me</h1>
+          <p className={`${styles.aboutHeroTagline} font-mono text-muted`}>{ABOUT_TAGLINE}</p>
           <ScrollArrow />
         </div>
       </section>
@@ -141,14 +142,14 @@ export default function AboutPage() {
       <section id="interests" className="about-interests section section-last">
         <div className="section-reveal max-w-200 w-full">
           <h2 className="font-pixel text-5xl mb-10 text-accent-bright">interests</h2>
-          <div className="interests-grid">
+          <div className={styles.interestsGrid}>
             {INTERESTS.map((interest) => (
               <div
                 key={interest.label}
-                className="interest-card vhs-border section-reveal"
+                className={`${styles.interestCard} vhs-border section-reveal`}
               >
-                <h3 className="interest-label font-pixel">{interest.label}</h3>
-                <p className="interest-detail font-mono">{interest.detail}</p>
+                <h3 className={`${styles.interestLabel} font-pixel`}>{interest.label}</h3>
+                <p className={`${styles.interestDetail} font-mono`}>{interest.detail}</p>
               </div>
             ))}
           </div>

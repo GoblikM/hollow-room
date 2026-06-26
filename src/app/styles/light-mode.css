@@ -14,11 +14,5 @@ body.light-mode::after {
   opacity: 0.52;
 }
 
-body.light-mode .hero-title-shell {
-  animation: none;
-  filter: none;
-}
-
-body.light-mode .hero-title {
-  text-shadow: none;
-}
+/* Light-mode overrides for the hero title now live in src/app/page.module.css
+   (co-located with the .heroTitle / .heroTitleShell module classes). */

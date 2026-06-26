@@ -1,6 +1,6 @@
 /* ─── Scroll rail ───────────────────────────────────────────────────────── */
 
-.scroll-rail {
+.scrollRail {
   position: fixed;
   right: clamp(4.25rem, 10vw, 9rem);
   top: 50%;
@@ -14,8 +14,8 @@
   --scroll-rail-axis-x: 11px;
 }
 
-.scroll-rail-track,
-.scroll-rail-fill {
+.scrollRailTrack,
+.scrollRailFill {
   position: absolute;
   left: var(--scroll-rail-axis-x);
   top: 0;
@@ -25,14 +25,14 @@
   border-radius: 999px;
 }
 
-.scroll-rail-track {
+.scrollRailTrack {
   background: color-mix(in srgb, var(--color-outline) 82%, transparent);
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--color-surface) 26%, transparent),
     0 0 16px color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 
-.scroll-rail-fill {
+.scrollRailFill {
   height: calc(var(--scroll-progress, 0) * 100%);
   background: linear-gradient(
     180deg,
@@ -44,7 +44,7 @@
     0 0 22px color-mix(in srgb, var(--color-accent) 16%, transparent);
 }
 
-.scroll-rail-ball {
+.scrollRailBall {
   position: absolute;
   left: var(--scroll-rail-axis-x);
   top: calc(var(--scroll-progress, 0) * (100% - 14px));
@@ -59,7 +59,7 @@
     0 0 22px color-mix(in srgb, var(--color-accent) 20%, transparent);
 }
 
-.scroll-rail-ball::after {
+.scrollRailBall::after {
   content: "";
   position: absolute;
   inset: 3px;
@@ -75,7 +75,7 @@
     0 0 16px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
-.scroll-rail-labels {
+.scrollRailLabels {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -83,14 +83,14 @@
   list-style: none;
 }
 
-.scroll-rail-label-item {
+.scrollRailLabelItem {
   position: absolute;
   inset-inline: 0;
   top: calc(var(--rail-stop, 0) * 100%);
   transform: translateY(-50%);
 }
 
-.scroll-rail-label {
+.scrollRailLabel {
   position: relative;
   margin: 0;
   margin-left: 1.05rem;
@@ -104,7 +104,7 @@
   opacity: 0.88;
 }
 
-.scroll-rail-label::before {
+.scrollRailLabel::before {
   content: "";
   position: absolute;
   left: -0.83rem;
@@ -119,14 +119,14 @@
     width 0.18s ease;
 }
 
-.scroll-rail-label:focus-visible {
+.scrollRailLabel:focus-visible {
   opacity: 1;
   transform: translateX(1px);
   outline: 1px solid color-mix(in srgb, var(--color-accent-bright) 70%, white);
   outline-offset: 2px;
 }
 
-.scroll-rail-label-active {
+.scrollRailLabelActive {
   text-shadow:
     0 0 8px color-mix(in srgb, var(--color-accent-bright) 32%, transparent),
     0 0 18px color-mix(in srgb, var(--color-accent) 20%, transparent);
@@ -134,8 +134,29 @@
   opacity: 1;
 }
 
-.scroll-rail-label-active::before {
+.scrollRailLabelActive::before {
   width: 0.5rem;
   background: color-mix(in srgb, var(--color-accent-bright) 82%, transparent);
   box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+
+/* Guided-flow lock (state class toggled on <body> by JS) */
+:global(body.guided-flow-pending) .scrollRailLabel {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Hidden on small screens and when the desktop nav bar is enabled
+   (relocated from nav.css since .scrollRail is now module-scoped). */
+@media (max-width: 640px) {
+  .scrollRail {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  :global(body.desktop-nav-enabled) .scrollRail,
+  :global(html.desktop-nav-enabled) .scrollRail {
+    display: none;
+  }
 }

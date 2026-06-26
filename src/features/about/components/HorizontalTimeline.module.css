@@ -1,15 +1,8 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   Horizontal timeline — step carousel (desktop)
-   ═══════════════════════════════════════════════════════════════════════════
+/* Horizontal timeline — step carousel (desktop, HorizontalTimeline.tsx).
+   The active-dot state class (.tl-dot--active) is toggled by JS and stays
+   global in src/app/styles/about.css. */
 
-   One entry fills the full visible area at a time.
-   GSAP slides the track by multiples of the entry width (step-based).
-   Footer shows dot step indicators + ← → nav buttons.
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* ── Section ─────────────────────────────────────────────────────────────── */
-
-.about-timeline-section {
+.aboutTimelineSection {
   height: 100svh;
   overflow: hidden;
   display: flex;
@@ -17,9 +10,7 @@
   justify-content: center;
 }
 
-/* ── Inner wrapper (max-w matches other sections) ────────────────────────── */
-
-.tl-wrapper {
+.tlWrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -28,9 +19,7 @@
   box-sizing: border-box;
 }
 
-/* ── Header ──────────────────────────────────────────────────────────────── */
-
-.tl-header {
+.tlHeader {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -39,7 +28,7 @@
   flex-wrap: wrap;
 }
 
-.tl-hint {
+.tlHint {
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -47,27 +36,20 @@
   flex-shrink: 0;
 }
 
-/* ── Track outer (clips horizontal overflow) ─────────────────────────────── */
-
-.tl-track-outer {
+.tlTrackOuter {
   flex: 1;
   overflow: hidden;
   position: relative;
   min-height: 0;
 }
 
-/* ── Track (slides horizontally via GSAP) ────────────────────────────────── */
-
-.tl-track {
+.tlTrack {
   display: flex;
   height: 100%;
   will-change: transform;
 }
 
-/* ── Single entry — full-width two-column split ──────────────────────────── */
-
-.tl-entry {
-  /* Each entry exactly fills the visible track-outer width */
+.tlEntry {
   width: 100%;
   flex-shrink: 0;
   display: flex;
@@ -76,8 +58,7 @@
   height: 100%;
 }
 
-/* Left panel: number, type badge, date */
-.tl-entry-left {
+.tlEntryLeft {
   width: clamp(140px, 22%, 260px);
   flex-shrink: 0;
   display: flex;
@@ -89,14 +70,14 @@
   text-align: right;
 }
 
-.tl-entry-num {
+.tlEntryNum {
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1;
   color: var(--color-outline);
   letter-spacing: -0.02em;
 }
 
-.tl-entry-type {
+.tlEntryType {
   font-size: 0.6rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -107,7 +88,7 @@
   gap: 0.4rem;
 }
 
-.tl-entry-type::after {
+.tlEntryType::after {
   content: "";
   display: inline-block;
   width: 4px;
@@ -117,23 +98,22 @@
   flex-shrink: 0;
 }
 
-.tl-entry-type-milestone {
+.tlEntryTypeMilestone {
   color: var(--color-accent-bright);
 }
 
-.tl-entry-type-milestone::after {
+.tlEntryTypeMilestone::after {
   border-radius: 0;
   transform: rotate(45deg);
 }
 
-.tl-entry-date {
+.tlEntryDate {
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   color: var(--color-muted);
 }
 
-/* Vertical divider with node dot */
-.tl-entry-divider {
+.tlEntryDivider {
   width: 1px;
   align-self: stretch;
   background: var(--color-outline);
@@ -141,7 +121,7 @@
   position: relative;
 }
 
-.tl-entry-divider::before {
+.tlEntryDivider::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -154,7 +134,7 @@
   box-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 45%, transparent);
 }
 
-.tl-entry-milestone .tl-entry-divider::before {
+.tlEntryMilestone .tlEntryDivider::before {
   border-color: var(--color-accent-bright);
   box-shadow:
     0 0 14px color-mix(in srgb, var(--color-accent-bright) 50%, transparent),
@@ -162,8 +142,7 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-/* Right panel: content */
-.tl-entry-right {
+.tlEntryRight {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -174,26 +153,26 @@
   max-width: 48rem;
 }
 
-.tl-entry-title {
+.tlEntryTitle {
   font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   color: var(--color-accent-bright);
   line-height: 1.3;
 }
 
-.tl-entry-subtitle {
+.tlEntrySubtitle {
   display: block;
   font-size: 0.72rem;
   color: var(--color-muted);
   letter-spacing: 0.03em;
 }
 
-.tl-entry-desc {
+.tlEntryDesc {
   font-size: 0.82rem;
   line-height: 1.8;
   color: var(--color-fg);
 }
 
-.tl-entry-tags {
+.tlEntryTags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
@@ -202,7 +181,7 @@
   padding: 0;
 }
 
-.tl-entry-tag {
+.tlEntryTag {
   font-size: 0.58rem;
   letter-spacing: 0.04em;
   padding: 0.1rem 0.4rem;
@@ -210,27 +189,24 @@
   color: var(--color-accent-dim);
 }
 
-.tl-entry-tag::before {
+.tlEntryTag::before {
   content: "#";
   margin-right: 0.1rem;
   color: var(--color-accent);
 }
 
-/* ── Footer: dots + nav ──────────────────────────────────────────────────── */
-
-.tl-footer {
+.tlFooter {
   display: flex;
   align-items: center;
   gap: 1rem;
   flex-shrink: 0;
 }
 
-/* Hidden progress bar (kept for GSAP ref, not rendered visually) */
-.tl-progress-fill {
+.tlProgressFill {
   display: none;
 }
 
-.tl-dots {
+.tlDots {
   flex: 1;
   display: flex;
   align-items: center;
@@ -238,7 +214,7 @@
   gap: 0.5rem;
 }
 
-.tl-dot {
+.tlDot {
   width: 6px;
   height: 6px;
   background: transparent;
@@ -252,17 +228,11 @@
   flex-shrink: 0;
 }
 
-.tl-dot:hover {
+.tlDot:hover {
   border-color: var(--color-accent);
 }
 
-.tl-dot--active {
-  background: var(--color-accent-bright);
-  border-color: var(--color-accent-bright);
-  box-shadow: 0 0 6px color-mix(in srgb, var(--color-accent-bright) 55%, transparent);
-}
-
-.tl-nav-btn {
+.tlNavBtn {
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   color: var(--color-muted);
@@ -278,15 +248,13 @@
   line-height: 1.4;
 }
 
-.tl-nav-btn:hover {
+.tlNavBtn:hover {
   color: var(--color-accent-bright);
   border-color: var(--color-accent-bright);
 }
 
-/* ── Mobile: hint text is desktop-only ───────────────────────────────────── */
-
 @media (max-width: 767px) {
-  .tl-hint {
+  .tlHint {
     display: none;
   }
 }

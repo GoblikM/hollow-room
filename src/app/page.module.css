@@ -1,0 +1,246 @@
+/* Home page (single-page app) — component-local presentational classes.
+   Layout/animation primitives that JS queries by string (.section, .section-reveal,
+   .section-intro, .hero-subtitle, .typing-heading) and the guided-flow play button
+   stay global in src/app/styles/home.css. */
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+
+.heroTitleShell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1.75rem;
+  isolation: isolate;
+  animation: hero-shell-flicker 7.3s linear infinite;
+}
+
+.heroTitle {
+  position: relative;
+  z-index: 1;
+  text-shadow:
+    0 0 16px color-mix(in srgb, var(--color-accent-bright) 42%, transparent),
+    0 0 40px color-mix(in srgb, var(--color-accent) 32%, transparent),
+    0 0 84px color-mix(in srgb, var(--color-accent-dim) 22%, transparent);
+  will-change: transform;
+}
+
+:global(body.light-mode) .heroTitleShell {
+  animation: none;
+  filter: none;
+}
+
+:global(body.light-mode) .heroTitle {
+  text-shadow: none;
+}
+
+/* ─── About teaser ───────────────────────────────────────────────────────── */
+
+.aboutLayout {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.aboutAvatarFrame {
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-accent-bright);
+}
+
+.aboutAvatarImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aboutCtaLink {
+  display: inline-block;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-bright);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.aboutCtaLink:hover {
+  color: var(--color-fg);
+}
+
+/* ─── Card grid ──────────────────────────────────────────────────────────── */
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ─── Contact section ────────────────────────────────────────────────────── */
+
+.contactShell {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(220px, 0.9fr);
+  gap: 1.2rem;
+  padding: 1.15rem;
+  background:
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--color-surface-2) 94%, transparent),
+      color-mix(in srgb, var(--color-surface) 96%, transparent)
+    ),
+    radial-gradient(130% 160% at 10% 0%, color-mix(in srgb, var(--color-accent-dim) 12%, transparent), transparent 56%);
+}
+
+.contactShellLeft,
+.contactShellRight {
+  border: 1px solid color-mix(in srgb, var(--color-outline) 78%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  padding: 1rem;
+}
+
+.contactKicker {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--color-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contactCopy {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-fg) 92%, white);
+}
+
+.contactEmailLink {
+  display: grid;
+  gap: 0.3rem;
+  text-decoration: none;
+  border: 1px solid color-mix(in srgb, var(--color-outline) 80%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-surface-2) 82%, transparent),
+    color-mix(in srgb, var(--color-surface) 94%, transparent)
+  );
+  padding: 0.75rem 0.8rem;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.contactEmailLink:hover,
+.contactEmailLink:focus-visible {
+  border-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent-bright) 24%, transparent);
+  transform: translateY(-1px);
+}
+
+.contactEmailLabel {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--color-muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contactEmailValue {
+  font-family: var(--font-pixel);
+  font-size: 0.78rem;
+  color: var(--color-accent-bright);
+  letter-spacing: 0.04em;
+  word-break: break-word;
+}
+
+.contactLinksTitle {
+  margin: 0;
+  margin-bottom: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contactLinksList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.contactLinkChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--color-outline) 74%, transparent);
+  background: color-mix(in srgb, var(--color-surface-2) 72%, transparent);
+  padding: 0.48rem 0.58rem;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition:
+    color 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.contactLinkChip:hover,
+.contactLinkChip:focus-visible {
+  color: var(--color-accent-bright);
+  border-color: color-mix(in srgb, var(--color-accent) 58%, transparent);
+  transform: translateX(2px);
+}
+
+.contactLinkArrow {
+  color: color-mix(in srgb, var(--color-accent) 76%, white);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .aboutLayout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 1.5rem;
+  }
+
+  .aboutAvatarFrame {
+    max-width: 190px;
+  }
+
+  .heroTitleShell {
+    padding: 0.9rem 0.75rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.6rem, 14vw, 4.5rem);
+  }
+
+  .contactShell {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.8rem;
+  }
+
+  .contactShellLeft,
+  .contactShellRight {
+    padding: 0.8rem;
+  }
+
+  .contactEmailValue {
+    font-size: 0.72rem;
+  }
+}

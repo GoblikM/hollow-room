@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { NAV_LINKS, SECTION_IDS } from "@/features/navigation/constants/navigation";
+import styles from "./ScrollRail.module.css";
 import {
   collectSectionMetrics,
   findCenterSection,
@@ -150,12 +151,12 @@ export default function ScrollRail({
   }
 
   return (
-    <nav className="scroll-rail" aria-label={ariaLabel}>
-      <div className="scroll-rail-track" />
-      <div className="scroll-rail-fill" />
-      <div className="scroll-rail-ball" />
+    <nav className={styles.scrollRail} aria-label={ariaLabel}>
+      <div className={styles.scrollRailTrack} />
+      <div className={styles.scrollRailFill} />
+      <div className={styles.scrollRailBall} />
 
-      <ol className="scroll-rail-labels">
+      <ol className={styles.scrollRailLabels}>
         {resolvedSections.map((section, index) => {
           const sectionId = section.id;
           const isActive = activeCenterSection === sectionId;
@@ -165,11 +166,11 @@ export default function ScrollRail({
           };
 
           return (
-            <li key={sectionId} className="scroll-rail-label-item" style={railStopStyle}>
+            <li key={sectionId} className={styles.scrollRailLabelItem} style={railStopStyle}>
               <button
                 type="button"
-                className={`scroll-rail-label nav-link hover-text-glitch text-glitch-soft ${
-                  isActive ? "scroll-rail-label-active nav-link-active" : ""
+                className={`${styles.scrollRailLabel} nav-link hover-text-glitch text-glitch-soft ${
+                  isActive ? `${styles.scrollRailLabelActive} nav-link-active` : ""
                 }`}
                 aria-current={isActive ? "location" : undefined}
                 aria-disabled={isFlowLocked}

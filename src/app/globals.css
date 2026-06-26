@@ -3,15 +3,10 @@
 /* Domain partials — see src/app/styles/ */
 @import "./styles/base.css";
 @import "./styles/utilities.css";
-@import "./styles/scroll-rail.css";
 @import "./styles/nav.css";
-@import "./styles/settings.css";
 @import "./styles/light-mode.css";
 @import "./styles/home.css";
-@import "./styles/contact.css";
 @import "./styles/about.css";
-@import "./styles/timeline.css";
-@import "./styles/game-2048.css";
 
 @plugin "./plugins/text-glitch-plugin.ts";
 

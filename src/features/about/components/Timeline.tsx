@@ -1,22 +1,23 @@
 "use client";
 
 import { TIMELINE_ENTRIES, type TimelineEntry } from "@/features/about/data/timelineData";
+import styles from "./Timeline.module.css";
 
 function TimelineCard({ entry }: { entry: TimelineEntry }) {
   return (
-    <div className="timeline-card">
-      <span className="timeline-date font-mono">{entry.date}</span>
-      <h3 className="timeline-title font-pixel hover-text-glitch text-glitch-soft">
+    <div className={styles.timelineCard}>
+      <span className={`${styles.timelineDate} font-mono`}>{entry.date}</span>
+      <h3 className={`${styles.timelineTitle} font-pixel hover-text-glitch text-glitch-soft`}>
         {entry.title}
       </h3>
       {entry.subtitle && (
-        <span className="timeline-subtitle font-mono">{entry.subtitle}</span>
+        <span className={`${styles.timelineSubtitle} font-mono`}>{entry.subtitle}</span>
       )}
-      <p className="timeline-description font-mono">{entry.description}</p>
+      <p className={`${styles.timelineDescription} font-mono`}>{entry.description}</p>
       {entry.tags && entry.tags.length > 0 && (
-        <ul className="timeline-tags">
+        <ul className={styles.timelineTags}>
           {entry.tags.map((tag) => (
-            <li key={tag} className="timeline-tag font-mono">
+            <li key={tag} className={`${styles.timelineTag} font-mono`}>
               {tag}
             </li>
           ))}
@@ -28,33 +29,38 @@ function TimelineCard({ entry }: { entry: TimelineEntry }) {
 
 export default function Timeline() {
   return (
-    <div className="timeline-container">
-      <ol className="timeline-entries">
+    <div className={styles.timelineContainer}>
+      <ol className={styles.timelineEntries}>
         {TIMELINE_ENTRIES.map((entry, index) => {
           const isLeft = index % 2 === 0;
           const num = String(index + 1).padStart(2, "0");
+          const milestone = entry.type === "milestone" ? ` ${styles.timelineEntryMilestone}` : "";
 
           return (
             <li
               key={entry.id}
-              className={`timeline-entry timeline-entry-${entry.type} section-reveal`}
+              className={`${styles.timelineEntry}${milestone} section-reveal`}
             >
-              <div className={`timeline-side timeline-side-left${isLeft ? "" : " is-empty"}`}>
+              <div
+                className={`${styles.timelineSide} ${styles.timelineSideLeft}${isLeft ? "" : ` ${styles.isEmpty}`}`}
+              >
                 {isLeft && <TimelineCard entry={entry} />}
               </div>
 
-              <div className="timeline-node-col">
-                <div className="timeline-node">
-                  <span className="timeline-node-num font-pixel">{num}</span>
+              <div className={styles.timelineNodeCol}>
+                <div className={styles.timelineNode}>
+                  <span className={`${styles.timelineNodeNum} font-pixel`}>{num}</span>
                   {entry.type === "milestone" && (
-                    <span className="timeline-node-diamond" aria-hidden="true">
+                    <span className={styles.timelineNodeDiamond} aria-hidden="true">
                       ◆
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className={`timeline-side timeline-side-right${!isLeft ? "" : " is-empty"}`}>
+              <div
+                className={`${styles.timelineSide} ${styles.timelineSideRight}${!isLeft ? "" : ` ${styles.isEmpty}`}`}
+              >
                 {!isLeft && <TimelineCard entry={entry} />}
               </div>
             </li>

@@ -1,5 +1,5 @@
-import Game2048 from "@/features/2048/Game2048";
-import SolverGuide from "@/features/2048/SolverGuide";
+import Game2048 from "@/features/2048/components/Game2048";
+import SolverGuide from "@/features/2048/components/SolverGuide";
 
 export default function Page() {
   return (
