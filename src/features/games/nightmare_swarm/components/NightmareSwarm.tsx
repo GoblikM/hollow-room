@@ -6,8 +6,11 @@ import styles from "./NightmareSwarm.module.css";
 const PUBLIC_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 // The Unity WebGL build ships its own loader/index.html under public/. We embed
-// it in an iframe so the engine's own loader runs unchanged.
-const BUILD_URL = `${PUBLIC_BASE_PATH}/ns_web_build/index.html`;
+// it in an iframe so the engine's own loader runs unchanged. Point at the
+// directory (trailing slash, no index.html): Vercel serves the dir but 404s an
+// explicit /index.html, and the trailing slash keeps the build's relative asset
+// paths resolving correctly on both Vercel and GitHub Pages.
+const BUILD_URL = `${PUBLIC_BASE_PATH}/ns_web_build/`;
 
 // Injected into the iframe document after it loads so the Unity canvas fills the
 // frame and no scrollbars appear. Done from here (not the build's index.html) so
