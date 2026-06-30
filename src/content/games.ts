@@ -11,7 +11,7 @@ export const GAMES = [
   {
     name: "Nightmare Swarm",
     description:
-      "A Unity-based game inspired by the Vampire Survivors genre. This is a work-in-progress, so for now you can only see a placeholder page.",
+      "A Unity-based game inspired by the Vampire Survivors genre. Survive the swarm — play it right here in the browser.",
     slug: "nightmare_swarm",
   },
 ];
@@ -26,6 +26,6 @@ export const GAME_PAGE_CONTENT = {
   nightmare_swarm: {
     title: "Nightmare Swarm",
     blurb:
-      "A Unity-based game inspired by the Vampire Survivors genre. This is a work-in-progress, so for now you can only see a placeholder page.",
+      "A Unity WebGL game inspired by the Vampire Survivors genre. Hold off the endless swarm for as long as you can — it runs straight in your browser. Best on desktop.",
   },
 } as const;
