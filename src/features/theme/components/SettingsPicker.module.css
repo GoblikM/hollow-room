@@ -261,11 +261,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
   margin-bottom: 0.58rem;
-  border: 1px solid color-mix(in srgb, var(--color-outline) 78%, transparent);
   background: color-mix(in srgb, var(--color-surface-2) 82%, transparent);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, white 6%, transparent),
-    0 0 0 1px color-mix(in srgb, black 16%, transparent);
 }
 
 .modeToggleBtn {
@@ -277,7 +273,7 @@
   text-transform: uppercase;
   background: color-mix(in srgb, var(--color-surface) 78%, transparent);
   border: 0;
-  border-right: 1px solid color-mix(in srgb, var(--color-outline) 70%, transparent);
+  border-radius: var(--radius);
   color: var(--color-muted);
   cursor: pointer;
   transition:
@@ -294,7 +290,6 @@
 .modeToggleBtn:hover,
 .modeToggleBtn:focus-visible {
   color: var(--color-fg);
-  background: color-mix(in srgb, var(--color-surface-2) 88%, transparent);
 }
 
 .modeToggleBtn.active {
