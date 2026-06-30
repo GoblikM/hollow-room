@@ -1,4 +1,12 @@
-## [$npm_package_version] - 2026-06-26
+## [$npm_package_version] - 2026-06-30
+
+### 🚀 Features
+
+- Embed Nightmare Swarm WebGL build
+- Add web build of the game to the project.
+- Add fullscreen to Nightmare Swarm embed
+- Add Nightmare Swarm controls & origin colophon
+## [0.3.0] - 2026-06-26
 
 ### 🚀 Features
 
