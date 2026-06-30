@@ -2,6 +2,11 @@
 
 ### 🐛 Bug Fixes
 
+- Serve Nightmare Swarm embed via directory URL with trailingSlash
+## [0.3.3] - 2026-06-30
+
+### 🐛 Bug Fixes
+
 - Correct Nightmare Swarm build asset casing for case-sensitive hosts
 ## [0.3.2] - 2026-06-30
 
