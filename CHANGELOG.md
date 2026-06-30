@@ -1,5 +1,24 @@
 ## [$npm_package_version] - 2026-06-30
 
+### 🚀 Features
+
+- Add skip button to guided tour and block card clicks during it
+- Fix hydration mismatch and update about content
+- Add language picker to SettingsPicker
+
+### 🐛 Bug Fixes
+
+- Use external store for About breakpoint state
+
+### 🚜 Refactor
+
+- Refine settings mode toggle styling
+
+### ⚙️ Miscellaneous Tasks
+
+- Ignore personal source files
+## [0.3.4] - 2026-06-30
+
 ### 🐛 Bug Fixes
 
 - Serve Nightmare Swarm embed via directory URL with trailingSlash
