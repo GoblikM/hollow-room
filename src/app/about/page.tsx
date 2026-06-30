@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
@@ -17,15 +17,24 @@ import styles from "./page.module.css";
 
 const GUIDED_FLOW_COMPLETED_KEY = "ui-guided-flow-completed";
 const DESKTOP_BREAKPOINT = 768;
+const DESKTOP_QUERY = `(min-width: ${DESKTOP_BREAKPOINT}px)`;
+
+// Read the desktop/mobile breakpoint as an external store. useSyncExternalStore
+// hydrates with the server snapshot (false → mobile, matching the static HTML)
+// then resyncs to the real value — no hydration mismatch, and no setState in an
+// effect.
+function subscribeDesktop(callback: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+const getDesktopSnapshot = () => window.matchMedia(DESKTOP_QUERY).matches;
+const getDesktopServerSnapshot = () => false;
 
 export default function AboutPage() {
   const router = useRouter();
 
-  // Start false so the first client render matches the statically-exported HTML
-  // (server has no window → mobile layout). The real value is set after mount in
-  // the responsive effect below; initialising from window here would hydrate a
-  // desktop tree onto server-rendered mobile HTML and mismatch.
-  const [isDesktop, setIsDesktop] = useState(false);
+  const isDesktop = useSyncExternalStore(subscribeDesktop, getDesktopSnapshot, getDesktopServerSnapshot);
 
   const { scrollTo, getScrollValues } = useScroll();
 
@@ -38,15 +47,6 @@ export default function AboutPage() {
       router.replace("/#about");
     }
   }, [router]);
-
-  // ── Responsive detection ───────────────────────────────────────────────────
-  useEffect(() => {
-    const mq = window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT}px)`);
-    setIsDesktop(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
 
   // ── Dot indicator update (DOM-direct, no re-render) ─────────────────────────
   function handleTimelineUpdate(currentIndex: number) {
