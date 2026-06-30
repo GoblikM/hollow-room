@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Static assets — includes the generated Unity WebGL build (minified
+    // loader/engine JS) which is third-party and not ours to lint.
+    "public/**",
   ]),
 ]);
 
