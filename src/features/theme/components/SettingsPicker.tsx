@@ -16,10 +16,24 @@ import { useScroll } from "@/app/providers/ScrollProvider";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
 import styles from "./SettingsPicker.module.css";
 
+const LANGUAGES = [
+  { id: "en", label: "English" },
+  { id: "cz", label: "Čeština" },
+] as const;
+
+type Lang = (typeof LANGUAGES)[number]["id"];
+
+function getInitialLang(): Lang {
+  if (typeof window === "undefined") return "en";
+  return localStorage.getItem("ui-lang") === "cz" ? "cz" : "en";
+}
+
 export default function SettingsPicker() {
   const isDev = process.env.NODE_ENV !== "production";
   const [open, setOpen] = useState(false);
   const [openSchemes, setOpenSchemes] = useState(false);
+  const [openLang, setOpenLang] = useState(false);
+  const [lang, setLang] = useState<Lang>(getInitialLang);
   const [activeId, setActiveId] = useState(getInitialSchemeId);
   const [mode, setMode] = useState<ThemeMode>(getInitialMode);
   const [desktopNavEnabled, setDesktopNavEnabled] = useState(getInitialDesktopNavEnabled);
@@ -37,6 +51,10 @@ export default function SettingsPicker() {
     applyMode(mode);
     applyDesktopNavEnabled(desktopNavEnabled);
   }, [activeId, desktopNavEnabled, mode]);
+
+  useEffect(() => {
+    document.documentElement.lang = lang === "cz" ? "cs" : "en";
+  }, [lang]);
 
   useEffect(() => {
     // padding-top on #smooth-content changes when navbar is toggled —
@@ -100,6 +118,14 @@ export default function SettingsPicker() {
     applyScheme(scheme);
     setActiveId(scheme.id);
     localStorage.setItem("theme-scheme", scheme.id);
+  }
+
+  function handleLangChange(next: Lang) {
+    setLang(next);
+    localStorage.setItem("ui-lang", next);
+    // <html lang> is synced by the effect on `lang`. Other parts of the app can
+    // subscribe to this event to switch their copy.
+    window.dispatchEvent(new CustomEvent("languageChanged", { detail: { lang: next } }));
   }
 
   function handleModeChange(m: ThemeMode) {
@@ -179,6 +205,32 @@ export default function SettingsPicker() {
                     style={{ backgroundColor: scheme.accent }}
                   />
                   <span>{scheme.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          <button className={styles.schemesToggleBtn} onClick={() => setOpenLang((v) => !v)} aria-expanded={openLang}>
+            <span>Language</span>
+            <svg className={styles.schemesToggleIcon} width="14" height="14" viewBox="0 0 12 12" fill="currentColor">
+              <polygon points={openLang ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
+            </svg>
+          </button>
+
+          {openLang && (
+            <div className={styles.schemesList}>
+              {LANGUAGES.map((l) => (
+                <button
+                  key={l.id}
+                  className={styles.themeSwatch}
+                  onClick={() => handleLangChange(l.id)}
+                  aria-label={l.label}
+                >
+                  <span
+                    className={`${styles.themeSwatchCircle}${lang === l.id ? ` ${styles.active}` : ""}`}
+                    style={{ backgroundColor: "var(--color-accent)" }}
+                  />
+                  <span>{l.label}</span>
                 </button>
               ))}
             </div>
