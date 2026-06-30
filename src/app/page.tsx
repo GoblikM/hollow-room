@@ -6,6 +6,7 @@ import ProjectCard from "@/features/home/components/ProjectCard";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { useContent } from "@/features/i18n/useContent";
+import { useLang } from "@/features/i18n/LanguageProvider";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
@@ -19,10 +20,11 @@ export default function Home() {
   const scrollController = useScroll();
   const { isPlaying, play: playMusic } = useAudio();
   const { home, games, projects } = useContent();
+  const lang = useLang();
 
-  useRevealOnScroll();
-  useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
-  useTypeHeadingsOnScroll(".hero-subtitle", 10);
+  useRevealOnScroll(".section-reveal", lang);
+  useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34, lang);
+  useTypeHeadingsOnScroll(".hero-subtitle", 10, lang);
 
   const { currentSectionId, isGuidedEnabled, isScrollUnlocked, isStepReady, advance, skip } = useGuidedFlow({
     sectionIds: SECTION_IDS as SectionId[],

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { NAV_LINKS, SECTION_IDS } from "@/features/navigation/constants/navigation";
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./ScrollRail.module.css";
 import {
   collectSectionMetrics,
@@ -18,11 +19,6 @@ export type ScrollRailSection = {
   label: string;
 };
 
-const DEFAULT_SECTIONS: ScrollRailSection[] = NAV_LINKS.map(({ id, label }) => ({
-  id,
-  label,
-}));
-
 type ScrollRailProps = {
   sections?: ScrollRailSection[];
   revealSectionId?: string | null;
@@ -32,11 +28,20 @@ type ScrollRailProps = {
 export default function ScrollRail({
   sections,
   revealSectionId = "about",
-  ariaLabel = "Section navigation rail",
+  ariaLabel,
 }: ScrollRailProps) {
   const scrollController = useScroll();
+  const { ui } = useContent();
   const [isFlowLocked, setIsFlowLocked] = useState(false);
-  const resolvedSections = useMemo(() => (sections && sections.length > 0 ? sections : DEFAULT_SECTIONS), [sections]);
+  const defaultSections = useMemo<ScrollRailSection[]>(
+    () => NAV_LINKS.map(({ id }) => ({ id, label: ui.nav.sections[id] })),
+    [ui],
+  );
+  const resolvedSections = useMemo(
+    () => (sections && sections.length > 0 ? sections : defaultSections),
+    [sections, defaultSections],
+  );
+  const resolvedAriaLabel = ariaLabel ?? ui.nav.railAria;
   const sectionIds = useMemo(() => {
     if (resolvedSections.length === 0) return SECTION_IDS;
     return resolvedSections.map((section) => section.id);
@@ -151,7 +156,7 @@ export default function ScrollRail({
   }
 
   return (
-    <nav className={styles.scrollRail} aria-label={ariaLabel}>
+    <nav className={styles.scrollRail} aria-label={resolvedAriaLabel}>
       <div className={styles.scrollRailTrack} />
       <div className={styles.scrollRailFill} />
       <div className={styles.scrollRailBall} />

@@ -20,6 +20,7 @@ type UiContent = {
     openMenu: string;
     closeMenu: string;
     pageNav: string;
+    railAria: string;
   };
   footer: { rights: string };
   settings: {
@@ -90,6 +91,7 @@ const en: UiContent = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     pageNav: "Page navigation",
+    railAria: "Section navigation rail",
   },
   footer: { rights: "All rights reserved." },
   settings: {
@@ -208,6 +210,7 @@ const cz: UiContent = {
     openMenu: "Otevřít menu",
     closeMenu: "Zavřít menu",
     pageNav: "Navigace stránky",
+    railAria: "Lišta navigace sekcí",
   },
   footer: { rights: "Všechna práva vyhrazena." },
   settings: {

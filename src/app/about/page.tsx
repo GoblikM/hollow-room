@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
 import { useContent } from "@/features/i18n/useContent";
+import { useLang } from "@/features/i18n/LanguageProvider";
 import HorizontalTimeline from "@/features/about/components/HorizontalTimeline";
 import SkillGrid from "@/features/about/components/SkillGrid";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
@@ -37,6 +38,7 @@ export default function AboutPage() {
   const isDesktop = useSyncExternalStore(subscribeDesktop, getDesktopSnapshot, getDesktopServerSnapshot);
 
   const { about } = useContent();
+  const lang = useLang();
   const { scrollTo, getScrollValues } = useScroll();
 
   // Holds DOM refs for dot step indicators inside HorizontalTimeline.
@@ -83,8 +85,8 @@ export default function AboutPage() {
   });
 
   // ── Reveal & typing animations ─────────────────────────────────────────────
-  useRevealOnScroll();
-  useTypeHeadingsOnScroll(".about-page .section-reveal h2", 28);
+  useRevealOnScroll(".section-reveal", lang);
+  useTypeHeadingsOnScroll(".about-page .section-reveal h2", 28, lang);
 
   return (
     <main className="page-content about-page about-snap-layout">
