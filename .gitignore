@@ -41,4 +41,6 @@ next-env.d.ts
 
 # template project files
 /template_projects
+# other source files/personal files
+/other_sources
 # local formatter overrides
