@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { EVOLUTIONARY_ALGORITHMS } from "./algorithms";
+import { ALGORITHM_COMPONENTS } from "./algorithms";
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./EvolutionaryProject.module.css";
 
 export default function EvolutionaryProject() {
-  const [activeId, setActiveId] = useState(EVOLUTIONARY_ALGORITHMS[0].id);
-  const active = EVOLUTIONARY_ALGORITHMS.find((algo) => algo.id === activeId) ?? EVOLUTIONARY_ALGORITHMS[0];
-  const ActiveDemo = active.Component;
+  const { projects, ui } = useContent();
+  const algorithms = projects.algorithms;
+  const [activeId, setActiveId] = useState(algorithms[0].id);
+  const active = algorithms.find((algo) => algo.id === activeId) ?? algorithms[0];
+  const ActiveDemo = ALGORITHM_COMPONENTS[active.id];
 
   return (
     <div className={styles.shell}>
-      <nav className={styles.tabs} aria-label="Algorithms">
-        {EVOLUTIONARY_ALGORITHMS.map((algo) => (
+      <nav className={styles.tabs} aria-label={ui.misc.algorithms}>
+        {algorithms.map((algo) => (
           <button
             key={algo.id}
             type="button"
@@ -28,7 +31,7 @@ export default function EvolutionaryProject() {
       <p className={styles.tagline}>{active.tagline}</p>
 
       <div className={styles.stage}>
-        <ActiveDemo />
+        {ActiveDemo && <ActiveDemo />}
       </div>
     </div>
   );

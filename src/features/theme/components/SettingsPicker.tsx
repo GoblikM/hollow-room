@@ -14,6 +14,7 @@ import {
 import { useAudio } from "@/features/audio/context/AudioContext";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { SECTION_IDS } from "@/features/navigation/constants/navigation";
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./SettingsPicker.module.css";
 
 const LANGUAGES = [
@@ -43,6 +44,7 @@ export default function SettingsPicker() {
   const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
   const { isPlaying, togglePlayback } = useAudio();
   const { resize } = useScroll();
+  const { ui } = useContent();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -185,7 +187,7 @@ export default function SettingsPicker() {
           </div>
 
           <button className={styles.schemesToggleBtn} onClick={() => setOpenSchemes((v) => !v)} aria-expanded={openSchemes}>
-            <span>Color schemes</span>
+            <span>{ui.settings.colorSchemes}</span>
             <svg className={styles.schemesToggleIcon} width="14" height="14" viewBox="0 0 12 12" fill="currentColor">
               <polygon points={openSchemes ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
             </svg>
@@ -211,7 +213,7 @@ export default function SettingsPicker() {
           )}
 
           <button className={styles.schemesToggleBtn} onClick={() => setOpenLang((v) => !v)} aria-expanded={openLang}>
-            <span>Language</span>
+            <span>{ui.settings.language}</span>
             <svg className={styles.schemesToggleIcon} width="14" height="14" viewBox="0 0 12 12" fill="currentColor">
               <polygon points={openLang ? "10 2 2 10 2 2" : "2 2 10 2 6 8"} />
             </svg>
@@ -238,10 +240,10 @@ export default function SettingsPicker() {
 
           <div className={`${styles.themeToggleRow} ui-desktop-nav-row`}>
             <span className={styles.themeToggleMeta}>
-              <span className={styles.themeToggleTitle}>Desktop navbar</span>
+              <span className={styles.themeToggleTitle}>{ui.settings.desktopNavbar}</span>
             </span>
 
-            <label className={styles.themeSwitch} aria-label="Toggle desktop navbar">
+            <label className={styles.themeSwitch} aria-label={ui.settings.toggleDesktopNav}>
               <input
                 className={styles.themeSwitchInput}
                 type="checkbox"
@@ -257,10 +259,10 @@ export default function SettingsPicker() {
 
           <div className={styles.audioControlRow}>
             <span className={styles.themeToggleMeta}>
-              <span className={styles.themeToggleTitle}>Music</span>
+              <span className={styles.themeToggleTitle}>{ui.settings.music}</span>
             </span>
 
-            <label className={styles.themeSwitch} aria-label="Toggle music">
+            <label className={styles.themeSwitch} aria-label={ui.settings.toggleMusic}>
               <input className={styles.themeSwitchInput} type="checkbox" checked={isPlaying} onChange={handleMusicToggle} />
               <span className={styles.themeSwitchTrack} aria-hidden="true">
                 <span className={styles.themeSwitchThumb} />
@@ -270,7 +272,7 @@ export default function SettingsPicker() {
 
           {isDev && (
             <button type="button" className={styles.devResetBtn} onClick={handleDevResetStorage}>
-              DEV: clear localStorage
+              {ui.settings.devReset}
             </button>
           )}
         </div>
@@ -280,16 +282,16 @@ export default function SettingsPicker() {
           <button
             type="button"
             className="hero-play-trigger absolute right-full mr-1 whitespace-nowrap z-1001"
-            aria-label="Settings panel hint"
+            aria-label={ui.settings.settingsHint}
             tabIndex={-1}
           >
-            open settings &gt;
+            {ui.settings.openSettings}
           </button>
         )}
         <button
           className={`${styles.themePickerBtn}${isPlaying ? ` ${styles.isPlaying}` : ""}`}
           onClick={handleToggleSettingsPanel}
-          aria-label="Pick color scheme"
+          aria-label={ui.settings.pickScheme}
           aria-expanded={open}
         >
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="text-accent-bright">

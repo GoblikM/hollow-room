@@ -1,6 +1,7 @@
 "use client";
 
-import { TIMELINE_ENTRIES, type TimelineEntry } from "@/content/about";
+import { type TimelineEntry } from "@/content/about";
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./Timeline.module.css";
 
 function TimelineCard({ entry }: { entry: TimelineEntry }) {
@@ -28,10 +29,11 @@ function TimelineCard({ entry }: { entry: TimelineEntry }) {
 }
 
 export default function Timeline() {
+  const { about } = useContent();
   return (
     <div className={styles.timelineContainer}>
       <ol className={styles.timelineEntries}>
-        {TIMELINE_ENTRIES.map((entry, index) => {
+        {about.timeline.map((entry, index) => {
           const isLeft = index % 2 === 0;
           const num = String(index + 1).padStart(2, "0");
           const milestone = entry.type === "milestone" ? ` ${styles.timelineEntryMilestone}` : "";

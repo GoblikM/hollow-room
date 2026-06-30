@@ -1,17 +1,10 @@
 "use client";
 
 import { type RefObject } from "react";
-import { TIMELINE_ENTRIES, type TimelineEntry, type TimelineEntryType } from "@/content/about";
+import { type TimelineEntry } from "@/content/about";
+import { useContent } from "@/features/i18n/useContent";
 import Timeline from "@/features/about/components/Timeline";
 import styles from "./HorizontalTimeline.module.css";
-
-// ── Helpers ────────────────────────────────────────────────────────────────
-
-const TYPE_LABELS: Record<TimelineEntryType, string> = {
-  education: "education",
-  work: "work",
-  milestone: "milestone",
-};
 
 // ── Single entry ───────────────────────────────────────────────────────────
 
@@ -22,6 +15,7 @@ function TimelineEntry({
   entry: TimelineEntry;
   index: number;
 }) {
+  const { ui } = useContent();
   const num = String(index + 1).padStart(2, "0");
   const isMilestone = entry.type === "milestone";
 
@@ -35,7 +29,7 @@ function TimelineEntry({
       <div className={styles.tlEntryLeft}>
         <span className={`${styles.tlEntryNum} font-pixel`}>{num}</span>
         <span className={`${styles.tlEntryType}${isMilestone ? ` ${styles.tlEntryTypeMilestone}` : ""} font-mono`}>
-          {TYPE_LABELS[entry.type]}
+          {ui.timeline.types[entry.type]}
         </span>
         <time className={`${styles.tlEntryDate} font-mono`}>{entry.date}</time>
       </div>
@@ -53,7 +47,7 @@ function TimelineEntry({
         )}
         <p className={`${styles.tlEntryDesc} font-mono`}>{entry.description}</p>
         {entry.tags && entry.tags.length > 0 && (
-          <ul className={styles.tlEntryTags} aria-label="Technologies">
+          <ul className={styles.tlEntryTags} aria-label={ui.timeline.technologies}>
             {entry.tags.map((tag) => (
               <li key={tag} className={`${styles.tlEntryTag} font-mono`}>
                 {tag}
@@ -87,26 +81,27 @@ function DesktopTimeline({
   onNext,
   onStepTo,
 }: DesktopProps) {
+  const { about, ui } = useContent();
   return (
     <section
       id="timeline"
       ref={sectionRef}
       className={styles.aboutTimelineSection}
-      aria-label="Career timeline"
+      aria-label={ui.timeline.careerTimeline}
     >
       <div className={`max-w-200 w-full ${styles.tlWrapper}`}>
         {/* Header — no section-reveal: this desktop subtree mounts after the
             reveal pass has run (isDesktop flips post-mount), so it would stay
             stuck in the blurred initial state. The entries animate on scroll. */}
         <header className={styles.tlHeader}>
-          <h2 className="font-pixel text-5xl text-accent-bright">timeline</h2>
-          <p className={`${styles.tlHint} font-mono`}>scroll to advance →</p>
+          <h2 className="font-pixel text-5xl text-accent-bright">{ui.timeline.heading}</h2>
+          <p className={`${styles.tlHint} font-mono`}>{ui.timeline.hint}</p>
         </header>
 
         {/* Track area — one entry visible at a time */}
         <div className={styles.tlTrackOuter}>
           <div className={styles.tlTrack} ref={trackRef} role="list">
-            {TIMELINE_ENTRIES.map((entry, i) => (
+            {about.timeline.map((entry, i) => (
               <TimelineEntry key={entry.id} entry={entry} index={i} />
             ))}
           </div>
@@ -116,20 +111,20 @@ function DesktopTimeline({
         <footer className={styles.tlFooter}>
           <button
             className={`${styles.tlNavBtn} font-mono`}
-            aria-label="Previous timeline entry"
+            aria-label={ui.timeline.prev}
             onClick={onPrev}
           >
             ←
           </button>
 
-          <div className={styles.tlDots} role="tablist" aria-label="Timeline entries">
-            {TIMELINE_ENTRIES.map((_, i) => (
+          <div className={styles.tlDots} role="tablist" aria-label={ui.timeline.entries}>
+            {about.timeline.map((_, i) => (
               <button
                 key={i}
                 ref={(el) => { dotsRef.current[i] = el; }}
                 className={styles.tlDot}
                 role="tab"
-                aria-label={`Entry ${i + 1}`}
+                aria-label={`${ui.timeline.entry} ${i + 1}`}
                 onClick={() => onStepTo(i)}
               />
             ))}
@@ -140,7 +135,7 @@ function DesktopTimeline({
 
           <button
             className={`${styles.tlNavBtn} font-mono`}
-            aria-label="Next timeline entry"
+            aria-label={ui.timeline.next}
             onClick={onNext}
           >
             →
@@ -154,10 +149,11 @@ function DesktopTimeline({
 // ── Mobile vertical fallback ───────────────────────────────────────────────
 
 function MobileTimeline() {
+  const { ui } = useContent();
   return (
     <section id="timeline" className="about-timeline section">
       <div className="section-reveal max-w-200 w-full">
-        <h2 className="font-pixel text-5xl mb-10 text-accent-bright">timeline</h2>
+        <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ui.timeline.heading}</h2>
         <Timeline />
       </div>
     </section>

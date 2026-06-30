@@ -1,22 +1,11 @@
 "use client";
 
 import BlogPostCard from "@/features/home/components/BlogPostCard";
-import {
-  HOME_ABOUT_TEASER,
-  HOME_ABOUT_CTA,
-  HOME_HERO,
-  HOME_SECTION_HEADINGS,
-  HOME_SECTION_INTRO,
-  HOME_FLOW_BUTTONS,
-  HOME_CONTACT,
-  HOME_BLOG_POSTS,
-} from "@/content/home";
 import GameCard from "@/features/home/components/GameCard";
-import { GAMES } from "@/content/games";
 import ProjectCard from "@/features/home/components/ProjectCard";
-import { PROJECTS } from "@/content/projects";
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { useAudio } from "@/features/audio/context/AudioContext";
+import { useContent } from "@/features/i18n/useContent";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
@@ -29,6 +18,7 @@ import styles from "./page.module.css";
 export default function Home() {
   const scrollController = useScroll();
   const { isPlaying, play: playMusic } = useAudio();
+  const { home, games, projects } = useContent();
 
   useRevealOnScroll();
   useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
@@ -55,7 +45,7 @@ export default function Home() {
             aria-hidden={hidden}
             tabIndex={hidden ? -1 : 0}
           >
-            {HOME_FLOW_BUTTONS.home}
+            {home.flowButtons.home}
           </button>
         </div>
       );
@@ -91,101 +81,101 @@ export default function Home() {
           <div className="relative z-10 text-center">
             <div className={styles.heroTitleShell}>
               <h1 className={`${styles.heroTitle} text-7xl mb-6 text-glitch text-glitch-soft font-pixel text-accent-bright tracking-[0.04em]`}>
-                {HOME_HERO.title}
+                {home.hero.title}
               </h1>
             </div>
             <p className="hero-subtitle font-mono text-lg tracking-widest uppercase text-muted">
-              {HOME_HERO.subtitle}
+              {home.hero.subtitle}
             </p>
-            {renderFlowButton("home", HOME_FLOW_BUTTONS.home)}
+            {renderFlowButton("home", home.flowButtons.home)}
           </div>
         </section>
 
         {/* About section */}
         <section id="about" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.about}</h2>
-            <p className="section-intro">{HOME_SECTION_INTRO.about}</p>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{home.sectionHeadings.about}</h2>
+            <p className="section-intro">{home.sectionIntro.about}</p>
             <div className={styles.aboutLayout}>
               <div className={`${styles.aboutAvatarFrame} vhs-border`}>
                 <Image src={avatar} alt="Portrait avatar" className={styles.aboutAvatarImage} priority />
               </div>
               <div>
-                <p className="font-mono text-lg leading-relaxed mb-6">{HOME_ABOUT_TEASER}</p>
+                <p className="font-mono text-lg leading-relaxed mb-6">{home.aboutTeaser}</p>
                 {(!isGuidedEnabled || isScrollUnlocked) && (
                   <Link href="/about" className={`${styles.aboutCtaLink} font-mono hover-text-glitch text-glitch-soft`}>
-                    {HOME_ABOUT_CTA}
+                    {home.aboutCta}
                   </Link>
                 )}
               </div>
             </div>
-            {renderFlowButton("about", HOME_FLOW_BUTTONS.about, "flow-continue-anchor")}
+            {renderFlowButton("about", home.flowButtons.about, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Games section */}
         <section id="games" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.games}</h2>
-            <p className="section-intro">{HOME_SECTION_INTRO.games}</p>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{home.sectionHeadings.games}</h2>
+            <p className="section-intro">{home.sectionIntro.games}</p>
             <div className={styles.cardGrid}>
-              {GAMES.map((game) => (
-                <GameCard key={game.name} {...game} />
+              {games.cards.map((game) => (
+                <GameCard key={game.slug} {...game} />
               ))}
             </div>
-            {renderFlowButton("games", HOME_FLOW_BUTTONS.games, "flow-continue-anchor")}
+            {renderFlowButton("games", home.flowButtons.games, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Projects section */}
         <section id="projects" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.projects}</h2>
-            <p className="section-intro">{HOME_SECTION_INTRO.projects}</p>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{home.sectionHeadings.projects}</h2>
+            <p className="section-intro">{home.sectionIntro.projects}</p>
             <div className={styles.cardGrid}>
-              {PROJECTS.map((project) => (
+              {projects.cards.map((project) => (
                 <ProjectCard key={project.name} {...project} />
               ))}
             </div>
-            {renderFlowButton("projects", HOME_FLOW_BUTTONS.projects, "flow-continue-anchor")}
+            {renderFlowButton("projects", home.flowButtons.projects, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Blog section */}
         <section id="blog" className="section">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.blog}</h2>
-            <p className="section-intro">{HOME_SECTION_INTRO.blog}</p>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{home.sectionHeadings.blog}</h2>
+            <p className="section-intro">{home.sectionIntro.blog}</p>
             <div>
-              {HOME_BLOG_POSTS.map((post) => (
+              {home.blogPosts.map((post) => (
                 <BlogPostCard key={post.title} {...post} />
               ))}
             </div>
-            {renderFlowButton("blog", HOME_FLOW_BUTTONS.blog, "flow-continue-anchor")}
+            {renderFlowButton("blog", home.flowButtons.blog, "flow-continue-anchor")}
           </div>
         </section>
 
         {/* Contact section */}
         <section id="contact" className="section section-last">
           <div className="section-reveal max-w-200 w-full">
-            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{HOME_SECTION_HEADINGS.contact}</h2>
-            <p className="section-intro">{HOME_SECTION_INTRO.contact}</p>
+            <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{home.sectionHeadings.contact}</h2>
+            <p className="section-intro">{home.sectionIntro.contact}</p>
 
             <div className={`${styles.contactShell} vhs-border`}>
               <div className={styles.contactShellLeft}>
-                <p className={styles.contactKicker}>{HOME_CONTACT.kicker}</p>
-                <p className={styles.contactCopy}>{HOME_CONTACT.copy}</p>
+                <p className={styles.contactKicker}>{home.contact.kicker}</p>
+                <p className={styles.contactCopy}>{home.contact.copy}</p>
 
-                <a className={styles.contactEmailLink} href={`mailto:${HOME_CONTACT.email}`}>
-                  <span className={styles.contactEmailLabel}>{HOME_CONTACT.emailLabel}</span>
-                  <span className={styles.contactEmailValue}>{HOME_CONTACT.email}</span>
+                <a className={styles.contactEmailLink} href={`mailto:${home.contact.email}`}>
+                  <span className={styles.contactEmailLabel}>{home.contact.emailLabel}</span>
+                  <span className={styles.contactEmailValue}>{home.contact.email}</span>
                 </a>
               </div>
 
               <div className={styles.contactShellRight}>
-                <p className={styles.contactLinksTitle}>{HOME_CONTACT.socialsLabel}</p>
+                <p className={styles.contactLinksTitle}>{home.contact.socialsLabel}</p>
                 <ul className={styles.contactLinksList}>
-                  {HOME_CONTACT.socials.map((social) => (
+                  {home.contact.socials.map((social) => (
                     <li key={social.label}>
                       <a href={social.href} target="_blank" rel="noreferrer" className={styles.contactLinkChip}>
                         <span className={styles.contactLinkArrow} aria-hidden="true">
@@ -199,7 +189,7 @@ export default function Home() {
               </div>
             </div>
 
-            {renderFlowButton("contact", HOME_FLOW_BUTTONS.contact, "flow-continue-anchor")}
+            {renderFlowButton("contact", home.flowButtons.contact, "flow-continue-anchor")}
           </div>
         </section>
       </main>
@@ -211,7 +201,7 @@ export default function Home() {
         typeof document !== "undefined" &&
         createPortal(
           <button type="button" className={styles.skipTour} onClick={skip}>
-            {HOME_FLOW_BUTTONS.skip}
+            {home.flowButtons.skip}
           </button>,
           document.body,
         )}

@@ -1,10 +1,13 @@
+"use client";
+
 import DemoPage from "@/shared/ui/DemoPage";
 import EvolutionaryProject from "@/features/projects/evolutionary/EvolutionaryProject";
-import { PROJECT_PAGE_CONTENT } from "@/content/projects";
+import { useContent } from "@/features/i18n/useContent";
 
 export default function Page() {
+  const { projects } = useContent();
   return (
-    <DemoPage {...PROJECT_PAGE_CONTENT.evolutionary}>
+    <DemoPage {...projects.pages.evolutionary}>
       <EvolutionaryProject />
     </DemoPage>
   );

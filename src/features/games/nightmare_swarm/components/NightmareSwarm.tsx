@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./NightmareSwarm.module.css";
 
 const PUBLIC_BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -20,9 +21,9 @@ const EMBED_CSS = `
   #unity-canvas { width: 100% !important; height: 100% !important; }
 `;
 
-const CONTROLS: { action: string; keys: string[] }[] = [{ action: "Move", keys: ["W", "A", "S", "D"] }, { action : "Attack", keys: ["Auto"] }, { action: "Pause", keys: ["Esc"] }];
-
 export default function NightmareSwarm() {
+  const { ui } = useContent();
+  const ns = ui.nightmareSwarm;
   const frameRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -65,17 +66,17 @@ export default function NightmareSwarm() {
           type="button"
           onClick={toggleFullscreen}
           className={styles.fullscreenBtn}
-          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-          title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+          aria-label={isFullscreen ? ns.fullscreenExit : ns.fullscreenEnter}
+          title={isFullscreen ? ns.fullscreenExit : ns.fullscreenEnter}
         >
           {isFullscreen ? "✕" : "⛶"}
         </button>
       </div>
 
-      <section className={styles.controls} aria-label="Controls">
-        <h2 className={`${styles.controlsTitle} font-pixel text-glitch-soft`}>Controls</h2>
+      <section className={styles.controls} aria-label={ns.controlsTitle}>
+        <h2 className={`${styles.controlsTitle} font-pixel text-glitch-soft`}>{ns.controlsTitle}</h2>
         <ul className={styles.controlsList}>
-          {CONTROLS.map((c) => (
+          {ns.controls.map((c) => (
             <li key={c.action} className={styles.controlRow}>
               <span className={`${styles.controlAction} font-mono`}>{c.action}</span>
               <span className={styles.keys}>
@@ -91,12 +92,8 @@ export default function NightmareSwarm() {
       </section>
 
       <aside className={styles.colophon}>
-        <span className={`${styles.colophonTab} font-pixel`}>Origin</span>
-        <p className={`${styles.colophonText} font-mono`}>
-          Built as coursework for my <strong>Computer Game Development </strong>module at university. It&apos;s an
-          early, rough prototype rather than a finished game — made in Unity to learn the engine and the basics of game
-          feel.
-        </p>
+        <span className={`${styles.colophonTab} font-pixel`}>{ns.originTab}</span>
+        <p className={`${styles.colophonText} font-mono`}>{ns.originText}</p>
       </aside>
     </div>
   );

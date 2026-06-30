@@ -1,10 +1,13 @@
-import { SKILL_CATEGORIES } from "@/content/about";
+"use client";
+
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./SkillGrid.module.css";
 
 export default function SkillGrid() {
+  const { about } = useContent();
   return (
     <div className={styles.skillGrid}>
-      {SKILL_CATEGORIES.map((category) => (
+      {about.skills.map((category) => (
         <div key={category.name} className={`${styles.skillCard} pixel-border section-reveal`}>
           <h3 className={`${styles.skillCardTitle} font-pixel`}>{category.name}</h3>
           <ul className={styles.skillChips}>

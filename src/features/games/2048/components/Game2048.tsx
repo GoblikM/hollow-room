@@ -5,6 +5,7 @@ import Board from "./Board";
 import { maxTile } from "../logic/engine";
 import { SOLVERS } from "../logic/solvers";
 import { MANUAL_SLIDE_MS, SPEEDS, useGame2048 } from "../hooks/useGame2048";
+import { useContent } from "@/features/i18n/useContent";
 import styles from "./Game2048.module.css";
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {
@@ -18,6 +19,8 @@ function Stat({ label, value }: { label: string; value: React.ReactNode }) {
 
 export default function Game2048() {
   const g = useGame2048();
+  const { ui } = useContent();
+  const t = ui.game2048;
   const { state } = g;
   const slideMs = g.running ? SPEEDS[g.speedIndex].slideMs : MANUAL_SLIDE_MS;
 
@@ -26,39 +29,36 @@ export default function Game2048() {
       {/* ── Board column ─────────────────────────────────────────────── */}
       <div className="flex flex-col items-center gap-6">
         <div className={styles.g2048Stats}>
-          <Stat label="Score" value={state.score} />
-          <Stat label="Best" value={state.best} />
-          <Stat label="Moves" value={state.moves} />
-          <Stat label="Max" value={maxTile(state)} />
+          <Stat label={t.stats.score} value={state.score} />
+          <Stat label={t.stats.best} value={state.best} />
+          <Stat label={t.stats.moves} value={state.moves} />
+          <Stat label={t.stats.max} value={maxTile(state)} />
         </div>
 
         <Board state={state} onRestart={g.reset} onKeepPlaying={g.keepPlaying} slideMs={slideMs} />
 
-        <p className="font-mono text-sm text-muted text-center max-w-100">
-          Use <span className="text-accent-bright">arrow keys</span> or{" "}
-          <span className="text-accent-bright">WASD</span> to play. Auto-solving disables manual input.
-        </p>
+        <p className="font-mono text-sm text-muted text-center max-w-100">{t.playHint}</p>
       </div>
 
       {/* ── Controls column ──────────────────────────────────────────── */}
       <div className={styles.g2048Panel}>
-        <h2 className="font-pixel text-sm text-accent-bright mb-1">Controls</h2>
+        <h2 className="font-pixel text-sm text-accent-bright mb-1">{t.controls}</h2>
 
         <div className="flex gap-2">
           <button
             className={`${styles.g2048Btn} flex-1 ${g.running ? styles.g2048BtnActive : styles.g2048BtnPrimary}`}
             onClick={g.toggleRunning}
           >
-            {g.running ? "■ Stop" : "▶ Auto-solve"}
+            {g.running ? t.stop : t.autoSolve}
           </button>
           <button className={styles.g2048Btn} onClick={g.reset}>
-            ↻ New
+            {t.newGame}
           </button>
         </div>
 
         {/* Solver picker */}
         <div className={styles.g2048Field}>
-          <label className={styles.g2048StatLabel}>Solver</label>
+          <label className={styles.g2048StatLabel}>{t.solverLabel}</label>
           <div className={styles.g2048Segment}>
             {SOLVERS.map((s) => (
               <button
@@ -67,19 +67,19 @@ export default function Game2048() {
                 data-active={g.solver === s.id || undefined}
                 onClick={() => g.setSolver(s.id)}
               >
-                {s.label}
+                {t.solvers[s.id].label}
               </button>
             ))}
           </div>
           <p className={`${styles.g2048SolverBlurb} font-mono text-[0.8rem] text-muted leading-snug`}>
-            {SOLVERS.find((s) => s.id === g.solver)?.blurb}
+            {t.solvers[g.solver].blurb}
           </p>
         </div>
 
         {/* Speed */}
         <div className={styles.g2048Field}>
           <label className={styles.g2048StatLabel}>
-            Speed <span className="text-accent-bright">{SPEEDS[g.speedIndex].label}</span>
+            {t.speedLabel} <span className="text-accent-bright">{SPEEDS[g.speedIndex].label}</span>
           </label>
           <input
             className={styles.g2048Range}
@@ -96,7 +96,7 @@ export default function Game2048() {
             stable; disabled unless the Monte Carlo solver is active. */}
         <div className={styles.g2048Field} data-disabled={g.solver !== "montecarlo" || undefined}>
           <label className={styles.g2048StatLabel}>
-            Rollouts / move <span className="text-accent-bright">{g.simulations}</span>
+            {t.rollouts} <span className="text-accent-bright">{g.simulations}</span>
           </label>
           <input
             className={styles.g2048Range}
@@ -108,14 +108,12 @@ export default function Game2048() {
             disabled={g.solver !== "montecarlo"}
             onChange={(e) => g.setSimulations(Number(e.target.value))}
           />
-          <p className="font-mono text-[0.8rem] text-muted leading-snug">
-            More rollouts play smarter but think slower. Monte Carlo only.
-          </p>
+          <p className="font-mono text-[0.8rem] text-muted leading-snug">{t.rolloutsHint}</p>
         </div>
 
         {/* Manual D-pad — handy on touch screens */}
         <div className={styles.g2048Field}>
-          <label className={styles.g2048StatLabel}>Manual</label>
+          <label className={styles.g2048StatLabel}>{t.manual}</label>
           <div className={styles.g2048Dpad}>
             <button className={styles.g2048Btn} onClick={() => g.doMove("up")} disabled={g.running} style={{ gridArea: "u" }}>
               ↑

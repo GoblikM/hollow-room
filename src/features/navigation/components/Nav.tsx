@@ -2,6 +2,7 @@
 
 import { useScroll } from "@/app/providers/ScrollProvider";
 import { NAV_LINKS } from "@/features/navigation/constants/navigation";
+import { useContent } from "@/features/i18n/useContent";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -63,13 +64,14 @@ function NavLink({ href, label, active, mobile = false, onClick }: NavLinkProps)
 }
 
 function SubPageNav() {
+  const { ui } = useContent();
   return (
-    <nav className={styles.navRoot} aria-label="Page navigation">
+    <nav className={styles.navRoot} aria-label={ui.nav.pageNav}>
       <div aria-hidden="true" className={styles.navAmbientGlow} />
       <div aria-hidden="true" className={styles.navGradientStrip} />
       <div className={styles.navInner}>
         <Link href="/#about" className={`${styles.navBackLink} hover-text-glitch text-glitch-soft font-mono`}>
-          &lt;- home
+          {ui.nav.back}
         </Link>
       </div>
     </nav>
@@ -80,6 +82,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrollController = useScroll();
   const pathname = usePathname();
+  const { ui } = useContent();
   const isHomepage = pathname === "/" || pathname === "";
 
   if (!isHomepage) {
@@ -106,7 +109,7 @@ export default function Nav({ activeSection = "home" }: NavProps) {
       <div className={styles.navInner}>
         <Link
           href="/"
-          aria-label="hollow-room home"
+          aria-label={ui.nav.logoAria}
           className={`${styles.navLogo} ${styles.logoLink}`}
           onClick={handleLogoClick}
         >
@@ -114,15 +117,15 @@ export default function Nav({ activeSection = "home" }: NavProps) {
         </Link>
 
         <ul role="list" className={styles.navDesktopLinks}>
-          {NAV_LINKS.map(({ href, label }) => (
+          {NAV_LINKS.map(({ href, id }) => (
             <li key={href}>
-              <NavLink href={href} label={label} active={isActive(href)} />
+              <NavLink href={href} label={ui.nav.sections[id]} active={isActive(href)} />
             </li>
           ))}
         </ul>
 
         <button
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? ui.nav.closeMenu : ui.nav.openMenu}
           aria-expanded={menuOpen}
           aria-controls="nav-mobile-menu"
           onClick={() => setMenuOpen((v) => !v)}
@@ -143,9 +146,15 @@ export default function Nav({ activeSection = "home" }: NavProps) {
       {menuOpen && (
         <div id="nav-mobile-menu" className={styles.navMobileMenu}>
           <ul role="list" className={styles.navMobileLinks}>
-            {NAV_LINKS.map(({ href, label }) => (
+            {NAV_LINKS.map(({ href, id }) => (
               <li key={href}>
-                <NavLink href={href} label={label} active={isActive(href)} mobile onClick={() => setMenuOpen(false)} />
+                <NavLink
+                  href={href}
+                  label={ui.nav.sections[id]}
+                  active={isActive(href)}
+                  mobile
+                  onClick={() => setMenuOpen(false)}
+                />
               </li>
             ))}
           </ul>

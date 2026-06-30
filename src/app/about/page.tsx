@@ -4,7 +4,7 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import avatar from "@/assets/avatar.png";
-import { ABOUT_BIO, ABOUT_HERO, ABOUT_HEADINGS, INTERESTS } from "@/content/about";
+import { useContent } from "@/features/i18n/useContent";
 import HorizontalTimeline from "@/features/about/components/HorizontalTimeline";
 import SkillGrid from "@/features/about/components/SkillGrid";
 import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
@@ -36,6 +36,7 @@ export default function AboutPage() {
 
   const isDesktop = useSyncExternalStore(subscribeDesktop, getDesktopSnapshot, getDesktopServerSnapshot);
 
+  const { about } = useContent();
   const { scrollTo, getScrollValues } = useScroll();
 
   // Holds DOM refs for dot step indicators inside HorizontalTimeline.
@@ -98,8 +99,8 @@ export default function AboutPage() {
               priority
             />
           </div>
-          <h1 className={`${styles.aboutHeroTitle} font-pixel text-accent-bright`}>{ABOUT_HERO.title}</h1>
-          <p className={`${styles.aboutHeroTagline} font-mono text-muted`}>{ABOUT_HERO.tagline}</p>
+          <h1 className={`${styles.aboutHeroTitle} font-pixel text-accent-bright`}>{about.hero.title}</h1>
+          <p className={`${styles.aboutHeroTagline} font-mono text-muted`}>{about.hero.tagline}</p>
           <ScrollArrow />
         </div>
       </section>
@@ -107,9 +108,9 @@ export default function AboutPage() {
       {/* ── Bio ──────────────────────────────────────────────────────────── */}
       <section id="bio" className="about-bio section">
         <div className="section-reveal max-w-200 w-full">
-          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ABOUT_HEADINGS.bio}</h2>
+          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{about.headings.bio}</h2>
           <div className="about-bio-text">
-            {ABOUT_BIO.map((paragraph, i) => (
+            {about.bio.map((paragraph, i) => (
               <p key={i} className="font-mono text-lg leading-relaxed mb-6">
                 {paragraph}
               </p>
@@ -133,7 +134,7 @@ export default function AboutPage() {
       {/* ── Skills ───────────────────────────────────────────────────────── */}
       <section id="skills" className="about-skills section">
         <div className="section-reveal max-w-200 w-full">
-          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ABOUT_HEADINGS.skills}</h2>
+          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{about.headings.skills}</h2>
           <SkillGrid />
         </div>
       </section>
@@ -141,9 +142,9 @@ export default function AboutPage() {
       {/* ── Interests ────────────────────────────────────────────────────── */}
       <section id="interests" className="about-interests section section-last">
         <div className="section-reveal max-w-200 w-full">
-          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{ABOUT_HEADINGS.interests}</h2>
+          <h2 className="font-pixel text-5xl mb-10 text-accent-bright">{about.headings.interests}</h2>
           <div className={styles.interestsGrid}>
-            {INTERESTS.map((interest) => (
+            {about.interests.map((interest) => (
               <div
                 key={interest.label}
                 className={`${styles.interestCard} vhs-border section-reveal`}
