@@ -23,6 +23,7 @@ type UseGuidedFlowResult = {
   isStepReady: boolean;
   hasOpenedSettingsInFlow: boolean;
   advance: () => Promise<void> | void;
+  skip: () => void;
 };
 
 function getFlowStepIndexFromHash(hash: string, sectionIds: SectionId[]): number {
@@ -107,6 +108,12 @@ export function useGuidedFlow({
   const [hasOpenedSettingsInFlow, setHasOpenedSettingsInFlow] = useState(false);
 
   const currentSectionId = resolvedSectionIds[flowStepIndex] ?? resolvedSectionIds[0] ?? "home";
+
+  // Unlock free scrolling and remember the flow is done so it never replays.
+  const completeFlow = useCallback(() => {
+    setIsScrollUnlocked(true);
+    localStorage.setItem(GUIDED_FLOW_COMPLETED_KEY, "1");
+  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 641px)");
@@ -198,8 +205,7 @@ export function useGuidedFlow({
 
     const isFinalStep = flowStepIndex === resolvedSectionIds.length - 1;
     if (isFinalStep) {
-      setIsScrollUnlocked(true);
-      localStorage.setItem(GUIDED_FLOW_COMPLETED_KEY, "1");
+      completeFlow();
       return;
     }
 
@@ -236,7 +242,16 @@ export function useGuidedFlow({
     }
 
     setIsStepReady(true);
-  }, [flowStepIndex, isGuidedEnabled, isStepReady, onFreeAdvance, onStartStep, resolvedSectionIds, scrollController]);
+  }, [
+    completeFlow,
+    flowStepIndex,
+    isGuidedEnabled,
+    isStepReady,
+    onFreeAdvance,
+    onStartStep,
+    resolvedSectionIds,
+    scrollController,
+  ]);
 
   return {
     sectionIds: resolvedSectionIds,
@@ -247,5 +262,6 @@ export function useGuidedFlow({
     isStepReady,
     hasOpenedSettingsInFlow,
     advance,
+    skip: completeFlow,
   };
 }

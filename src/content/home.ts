@@ -38,6 +38,7 @@ export const HOME_FLOW_BUTTONS = {
   projects: "keep drifting ->",
   blog: "open final gate ->",
   contact: "break the seal ->",
+  skip: "skip intro",
 } as const;
 
 export const HOME_CONTACT = {

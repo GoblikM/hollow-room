@@ -21,6 +21,7 @@ import { useRevealOnScroll } from "@/hooks/useRevealOnScroll";
 import { useTypeHeadingsOnScroll } from "@/hooks/useTypeHeadingsOnScroll";
 import Image from "next/image";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import avatar from "@/assets/avatar.png";
 import { useGuidedFlow } from "@/hooks/useGuidedFlow";
 import { SECTION_IDS, type SectionId } from "@/features/navigation/constants/navigation";
@@ -33,7 +34,7 @@ export default function Home() {
   useTypeHeadingsOnScroll(".section .section-reveal .section-intro", 34);
   useTypeHeadingsOnScroll(".hero-subtitle", 10);
 
-  const { currentSectionId, isGuidedEnabled, isScrollUnlocked, isStepReady, advance } = useGuidedFlow({
+  const { currentSectionId, isGuidedEnabled, isScrollUnlocked, isStepReady, advance, skip } = useGuidedFlow({
     sectionIds: SECTION_IDS as SectionId[],
     scrollController,
     onFreeAdvance: playMusic,
@@ -202,6 +203,18 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      {/* Escape hatch for the guided tour. Portaled to <body> so position:fixed
+          isn't broken by ScrollSmoother's transform on #smooth-content. */}
+      {isGuidedEnabled &&
+        !isScrollUnlocked &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <button type="button" className={styles.skipTour} onClick={skip}>
+            {HOME_FLOW_BUTTONS.skip}
+          </button>,
+          document.body,
+        )}
     </>
   );
 }

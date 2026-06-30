@@ -79,6 +79,44 @@
   gap: 1.25rem;
 }
 
+/* During the guided tour the cards must not be clickable — otherwise a visitor
+   could leave the page mid-flow. The body gets .guided-flow-pending while the
+   tour is locked (see useGuidedFlow). */
+:global(body.guided-flow-pending) .cardGrid {
+  pointer-events: none;
+}
+
+/* Skip button for the guided tour (portaled to <body>, fixed to the viewport). */
+.skipTour {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  z-index: 60;
+  padding: 0.5rem 1.1rem;
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: color-mix(in srgb, var(--color-base) 80%, transparent);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius);
+  cursor: pointer;
+  opacity: 0.7;
+  backdrop-filter: blur(4px);
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.skipTour:hover {
+  opacity: 1;
+  color: var(--color-accent-bright);
+  border-color: var(--color-accent);
+}
+
 /* ─── Contact section ────────────────────────────────────────────────────── */
 
 .contactShell {
