@@ -17,6 +17,8 @@ const EMBED_CSS = `
   #unity-canvas { width: 100% !important; height: 100% !important; }
 `;
 
+const CONTROLS: { action: string; keys: string[] }[] = [{ action: "Move", keys: ["W", "A", "S", "D"] }, { action : "Attack", keys: ["Auto"] }, { action: "Pause", keys: ["Esc"] }];
+
 export default function NightmareSwarm() {
   const frameRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -45,25 +47,54 @@ export default function NightmareSwarm() {
   }
 
   return (
-    <div ref={frameRef} className={`${styles.frame} vhs-border`}>
-      <iframe
-        ref={iframeRef}
-        src={BUILD_URL}
-        title="Nightmare Swarm"
-        className={styles.embed}
-        allow="fullscreen; autoplay"
-        allowFullScreen
-        onLoad={injectEmbedStyles}
-      />
-      <button
-        type="button"
-        onClick={toggleFullscreen}
-        className={styles.fullscreenBtn}
-        aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-        title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-      >
-        {isFullscreen ? "✕" : "⛶"}
-      </button>
+    <div className={styles.wrapper}>
+      <div ref={frameRef} className={`${styles.frame} vhs-border`}>
+        <iframe
+          ref={iframeRef}
+          src={BUILD_URL}
+          title="Nightmare Swarm"
+          className={styles.embed}
+          allow="fullscreen; autoplay"
+          allowFullScreen
+          onLoad={injectEmbedStyles}
+        />
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          className={styles.fullscreenBtn}
+          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+          title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+        >
+          {isFullscreen ? "✕" : "⛶"}
+        </button>
+      </div>
+
+      <section className={styles.controls} aria-label="Controls">
+        <h2 className={`${styles.controlsTitle} font-pixel text-glitch-soft`}>Controls</h2>
+        <ul className={styles.controlsList}>
+          {CONTROLS.map((c) => (
+            <li key={c.action} className={styles.controlRow}>
+              <span className={`${styles.controlAction} font-mono`}>{c.action}</span>
+              <span className={styles.keys}>
+                {c.keys.map((k) => (
+                  <kbd key={k} className={`${styles.key} font-pixel`}>
+                    {k}
+                  </kbd>
+                ))}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <aside className={styles.colophon}>
+        <span className={`${styles.colophonTab} font-pixel`}>Origin</span>
+        <p className={`${styles.colophonText} font-mono`}>
+          Built as coursework for my <strong>Computer Game Development </strong>module at university. It&apos;s an
+          early, rough prototype rather than a finished game — made in Unity to learn the engine and the basics of game
+          feel.
+        </p>
+      </aside>
     </div>
   );
 }

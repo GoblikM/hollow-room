@@ -1,3 +1,13 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
 .frame {
   position: relative;
   width: 100%;
@@ -40,11 +50,106 @@
   border-radius: var(--radius);
   cursor: pointer;
   opacity: 0.55;
-  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .fullscreenBtn:hover {
   opacity: 1;
   color: var(--color-accent-bright);
   border-color: var(--color-accent);
+}
+
+/* ---- Controls ---- */
+.controls {
+  padding: 1.25rem 1.5rem;
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius);
+}
+
+.controlsTitle {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--color-fg);
+}
+
+.controlsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.controlAction {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+.keys {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.key {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.9rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.72rem;
+  color: var(--color-fg);
+  background: var(--color-base);
+  border: 1px solid var(--color-outline);
+  border-bottom-width: 2px;
+  border-radius: var(--radius);
+}
+
+/* ---- Origin colophon (matches the 2048 page) ---- */
+.colophon {
+  position: relative;
+  margin-top: 0.25rem;
+  padding: 2.1rem 1.9rem 1.8rem;
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  border: 1px solid var(--color-outline);
+  border-left: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+.colophonTab {
+  position: absolute;
+  top: -0.72rem;
+  left: 1.25rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-indent: 0.26em;
+  text-transform: uppercase;
+  color: #08060e;
+  background: var(--color-accent-bright);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent-bright) 40%, transparent);
+}
+
+.colophonText {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.colophonText strong {
+  font-weight: 600;
+  color: var(--color-accent-bright);
 }
