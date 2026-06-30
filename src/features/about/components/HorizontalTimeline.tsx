@@ -95,8 +95,10 @@ function DesktopTimeline({
       aria-label="Career timeline"
     >
       <div className={`max-w-200 w-full ${styles.tlWrapper}`}>
-        {/* Header */}
-        <header className={`${styles.tlHeader} section-reveal`}>
+        {/* Header — no section-reveal: this desktop subtree mounts after the
+            reveal pass has run (isDesktop flips post-mount), so it would stay
+            stuck in the blurred initial state. The entries animate on scroll. */}
+        <header className={styles.tlHeader}>
           <h2 className="font-pixel text-5xl text-accent-bright">timeline</h2>
           <p className={`${styles.tlHint} font-mono`}>scroll to advance →</p>
         </header>

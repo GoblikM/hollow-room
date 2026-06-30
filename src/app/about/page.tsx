@@ -21,11 +21,11 @@ const DESKTOP_BREAKPOINT = 768;
 export default function AboutPage() {
   const router = useRouter();
 
-  // Synchronous init avoids a layout flash on first paint.
-  const [isDesktop, setIsDesktop] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth >= DESKTOP_BREAKPOINT;
-  });
+  // Start false so the first client render matches the statically-exported HTML
+  // (server has no window → mobile layout). The real value is set after mount in
+  // the responsive effect below; initialising from window here would hydrate a
+  // desktop tree onto server-rendered mobile HTML and mismatch.
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const { scrollTo, getScrollValues } = useScroll();
 
@@ -42,6 +42,7 @@ export default function AboutPage() {
   // ── Responsive detection ───────────────────────────────────────────────────
   useEffect(() => {
     const mq = window.matchMedia(`(min-width: ${DESKTOP_BREAKPOINT}px)`);
+    setIsDesktop(mq.matches);
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);

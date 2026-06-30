@@ -73,7 +73,7 @@
 .tlEntryNum {
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1;
-  color: var(--color-outline);
+  color: var(--color-accent-dim);
   letter-spacing: -0.02em;
 }
 
@@ -81,7 +81,7 @@
   font-size: 0.6rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-accent-dim);
+  color: var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -108,9 +108,9 @@
 }
 
 .tlEntryDate {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.06em;
-  color: var(--color-muted);
+  color: var(--color-fg);
 }
 
 .tlEntryDivider {
@@ -182,17 +182,18 @@
 }
 
 .tlEntryTag {
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   letter-spacing: 0.04em;
-  padding: 0.1rem 0.4rem;
-  border: 1px solid var(--color-accent-dim);
-  color: var(--color-accent-dim);
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  color: var(--color-fg);
 }
 
 .tlEntryTag::before {
   content: "#";
   margin-right: 0.1rem;
-  color: var(--color-accent);
+  color: var(--color-accent-bright);
 }
 
 .tlFooter {
