@@ -1,5 +1,10 @@
 ## [$npm_package_version] - 2026-06-30
 
+### ⚙️ Miscellaneous Tasks
+
+- Exclude public/ from eslint so Unity build isn't linted
+## [0.3.1] - 2026-06-30
+
 ### 🚀 Features
 
 - Embed Nightmare Swarm WebGL build
