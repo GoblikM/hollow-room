@@ -1,5 +1,10 @@
 ## [$npm_package_version] - 2026-06-30
 
+### 🐛 Bug Fixes
+
+- Correct Nightmare Swarm build asset casing for case-sensitive hosts
+## [0.3.2] - 2026-06-30
+
 ### ⚙️ Miscellaneous Tasks
 
 - Exclude public/ from eslint so Unity build isn't linted
