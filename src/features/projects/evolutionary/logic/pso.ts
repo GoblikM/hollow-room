@@ -80,7 +80,18 @@ export class PSO {
 
   // Krok 2: vyhodnotí fitness všech částic a aktualizuje pBest + gBest.
   evaluate(): void {
-    // TODO
+    for (let i = 0; i < this.config.popSize; i++) {
+      const score = this.config.fn(this.positions[i]);
+
+      if (score < this.pBestScores[i]) {
+        this.pBestScores[i] = score;
+        this.pBestPositions[i] = [...this.positions[i]];
+      }
+      if (score < this.gBestScore) {
+        this.gBestScore = score;
+        this.gBestPosition = [...this.positions[i]];
+      }
+    }
   }
 
   // Krok 3: aktualizuje rychlosti (podle pBest a gBest/souseda).
