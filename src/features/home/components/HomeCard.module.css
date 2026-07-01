@@ -1,0 +1,56 @@
+/* Shared hover treatment for the clickable home cards (games + projects).
+   The glow uses filter: drop-shadow so it stacks on top of each card's own
+   box-shadow (vhs-border's chromatic aberration / pixel-border's hard shadow)
+   instead of replacing it. Only applied when the card is a link. */
+
+.interactiveCard {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.22s ease,
+    filter 0.22s ease,
+    border-color 0.22s ease;
+  will-change: transform;
+}
+
+.interactiveCard:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--color-accent-bright) 78%, transparent);
+  filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--color-accent) 38%, transparent));
+}
+
+/* VHS light sweep that glides across the card on hover. */
+.interactiveCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 42%,
+    color-mix(in srgb, var(--color-accent-bright) 16%, transparent) 50%,
+    transparent 58%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.55s ease;
+}
+
+.interactiveCard:hover::before {
+  transform: translateX(130%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactiveCard,
+  .interactiveCard::before {
+    transition: none;
+  }
+
+  .interactiveCard:hover {
+    transform: none;
+  }
+
+  .interactiveCard:hover::before {
+    transform: translateX(-130%);
+  }
+}
