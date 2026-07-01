@@ -4,16 +4,16 @@ import type { TestFunction } from "./testFunctions";
 export type PSOConfig = {
   fn: TestFunction; // optimalizovaná funkce
   bounds: [number, number]; // [min, max] rozsahu pro každou dimenzi
-  dim: number; // počet dimenzí (pro vizualizaci 2)
+  dimensions: number; // počet dimenzí (pro vizualizaci 2)
   popSize: number; // počet částic
-  w: number; // setrvačnost (konstantní varianta)
-  c1: number; // váha osobního nejlepšího (pBest)
-  c2: number; // váha globálního nejlepšího (gBest)
-  maxIter: number; // počet iterací (pro lineární setrvačnost)
+  inertia: number; // setrvačnost (v literatuře "w") — jak moc si částice drží dosavadní směr
+  cognitiveWeight: number; // "c1" — přitažlivost k vlastnímu nejlepšímu (pBest)
+  socialWeight: number; // "c2" — přitažlivost k nejlepšímu v okolí (gBest/soused)
+  maxIterations: number; // počet iterací (pro lineární setrvačnost)
   topology: "global" | "ring"; // topologie sousedství
-  wLinear: boolean; // měnit w lineárně v čase?
-  wStart: number; // počáteční w (jen když wLinear)
-  wEnd: number; // konečné w (jen když wLinear)
+  inertiaLinear: boolean; // měnit setrvačnost lineárně v čase?
+  inertiaStart: number; // počáteční setrvačnost (jen když inertiaLinear)
+  inertiaEnd: number; // konečná setrvačnost (jen když inertiaLinear)
 };
 
 // --- Pomocné funkce ---
@@ -23,37 +23,37 @@ function randomInRange(min: number, max: number): number {
   return min + Math.random() * (max - min);
 }
 
-// matice size×dim náhodných jedinců — náhrada za generate_population
-function generatePopulation(size: number, dim: number, bounds: [number, number]): number[][] {
+// matice size×dimensions náhodných jedinců — náhrada za generate_population
+function generatePopulation(size: number, dimensions: number, bounds: [number, number]): number[][] {
   const [min, max] = bounds;
-  const pop: number[][] = [];
+  const population: number[][] = [];
   for (let i = 0; i < size; i++) {
     const individual: number[] = [];
-    for (let j = 0; j < dim; j++) {
+    for (let j = 0; j < dimensions; j++) {
       individual.push(randomInRange(min, max));
     }
-    pop.push(individual);
+    population.push(individual);
   }
-  return pop;
+  return population;
 }
 
 // matice rows×cols vyplněná nulami — náhrada za np.zeros
 function zeros(rows: number, cols: number): number[][] {
-  const m: number[][] = [];
+  const matrix: number[][] = [];
   for (let i = 0; i < rows; i++) {
-    m.push(new Array(cols).fill(0));
+    matrix.push(new Array(cols).fill(0));
   }
-  return m;
+  return matrix;
 }
 
-// omezí hodnotu do rozsahu [lo, hi] — náhrada za np.clip (pro jedno číslo)
-function clamp(value: number, lo: number, hi: number): number {
-  return Math.max(lo, Math.min(hi, value));
+// omezí hodnotu do rozsahu [min, max] — náhrada za np.clip (pro jedno číslo)
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
 }
 
 export class PSO {
   config: PSOConfig;
-  w: number; // aktuální setrvačnost (u lineární varianty se mění každou iteraci)
+  inertia: number; // aktuální setrvačnost (u lineární varianty se mění každou iteraci)
 
   positions: number[][]; // aktuální pozice částic (x)
   velocities: number[][]; // aktuální rychlosti (v)
@@ -66,16 +66,38 @@ export class PSO {
 
   constructor(config: PSOConfig) {
     this.config = config;
-    this.w = config.wLinear ? config.wStart : config.w;
+    this.inertia = config.inertiaLinear ? config.inertiaStart : config.inertia;
 
-    this.positions = generatePopulation(config.popSize, config.dim, config.bounds);
-    this.velocities = zeros(config.popSize, config.dim); // v(0) = 0
-    this.pBestPositions = this.positions.map((p) => [...p]); // kopie pozic (ne reference!)
+    this.positions = generatePopulation(config.popSize, config.dimensions, config.bounds);
+    this.velocities = zeros(config.popSize, config.dimensions); // v(0) = 0
+    this.pBestPositions = this.positions.map((position) => [...position]); // kopie pozic (ne reference!)
     this.pBestScores = new Array(config.popSize).fill(Infinity);
-    this.gBestPosition = new Array(config.dim).fill(0);
+    this.gBestPosition = new Array(config.dimensions).fill(0);
     this.gBestScore = Infinity;
     this.history = [];
     this.iteration = 0;
+  }
+
+  // Vrátí pozici, ke které částice i "vzhlíží":
+  //  - global: nejlepší z celého roje (gBest)
+  //  - ring:   nejlepší z jejích sousedů (i-2 .. i+2)
+  getInformant(i: number): number[] {
+    if (this.config.topology === "global") {
+      return this.gBestPosition;
+    }
+
+    // ring: projdi sousedy i-2..i+2 a najdi toho s nejlepším (nejmenším) pBestScore
+    const popSize = this.config.popSize;
+    let bestIndex = i;
+    let bestScore = Infinity;
+    for (let offset = -2; offset <= 2; offset++) {
+      const neighbour = (((i + offset) % popSize) + popSize) % popSize; // ← přetočení záporných indexů
+      if (this.pBestScores[neighbour] < bestScore) {
+        bestScore = this.pBestScores[neighbour];
+        bestIndex = neighbour;
+      }
+    }
+    return this.pBestPositions[bestIndex];
   }
 
   // Krok 2: vyhodnotí fitness všech částic a aktualizuje pBest + gBest.
@@ -96,13 +118,26 @@ export class PSO {
 
   // Krok 3: aktualizuje rychlosti (podle pBest a gBest/souseda).
   updateVelocity(): void {
-    // TODO
+    const maxVelocity = 0.2 * (this.config.bounds[1] - this.config.bounds[0]);
+
+    for (let i = 0; i < this.config.popSize; i++) {
+      const informant = this.getInformant(i);
+      for (let j = 0; j < this.config.dimensions; j++) {
+        const randomCognitive = Math.random();
+        const randomSocial = Math.random();
+
+        const cognitive = this.config.cognitiveWeight * randomCognitive * (this.pBestPositions[i][j] - this.positions[i][j]);
+        const social = this.config.socialWeight * randomSocial * (informant[j] - this.positions[i][j]);
+
+        let velocity = this.inertia * this.velocities[i][j] + cognitive + social;
+        velocity = clamp(velocity, -maxVelocity, maxVelocity);
+        this.velocities[i][j] = velocity;
+      }
+    }
   }
 
   // Krok 4: posune částice a ořízne je do rozsahu.
-  updatePosition(): void {
-    // TODO
-  }
+  updatePosition(): void {}
 
   // Krok 5: jedna iterace algoritmu (nahrazuje smyčku z optimize() v notebooku).
   step(): void {
