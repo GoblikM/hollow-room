@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { EVOLUTIONARY_ALGORITHMS } from "./algorithms";
+import { EVOLUTIONARY_ALGORITHMS } from "./algorithms/registry";
 import styles from "./EvolutionaryProject.module.css";
 
 export default function EvolutionaryProject() {

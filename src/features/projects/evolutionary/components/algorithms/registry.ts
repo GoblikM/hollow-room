@@ -1,9 +1,9 @@
 import type { ComponentType } from "react";
 import { EVOLUTIONARY_ALGORITHM_CONTENT } from "@/content/projects";
-import GeneticAlgorithm from "./algorithms/GeneticAlgorithm";
-import DifferentialEvolution from "./algorithms/DifferentialEvolution";
-import ParticleSwarm from "./algorithms/ParticleSwarm";
-import SimulatedAnnealing from "./algorithms/SimulatedAnnealing";
+import GeneticAlgorithm from "./GeneticAlgorithm";
+import DifferentialEvolution from "./DifferentialEvolution";
+import ParticleSwarm from "./ParticleSwarm";
+import SimulatedAnnealing from "./SimulatedAnnealing";
 
 export type AlgorithmEntry = {
   id: string;

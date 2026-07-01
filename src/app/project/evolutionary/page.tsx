@@ -1,5 +1,5 @@
 import DemoPage from "@/shared/ui/DemoPage";
-import EvolutionaryProject from "@/features/projects/evolutionary/EvolutionaryProject";
+import EvolutionaryProject from "@/features/projects/evolutionary/components/EvolutionaryProject";
 import { PROJECT_PAGE_CONTENT } from "@/content/projects";
 
 export default function Page() {
