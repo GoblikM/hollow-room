@@ -18,7 +18,7 @@ const CONCEPTS: Concept[] = [
     tagline: "Candidates on the map",
     body: (
       <>
-        Each white dot is a <em>particle</em> — one candidate solution drifting over the landscape. Brighter regions are
+        Each small dot is a <em>particle</em> — one candidate solution drifting over the landscape. Brighter regions are
         lower (better); the goal is the glowing minimum. The whole swarm searches at once, so many spots get probed in
         parallel.
       </>
@@ -31,8 +31,8 @@ const CONCEPTS: Concept[] = [
     body: (
       <>
         Every particle remembers the best spot <em>it</em> has personally visited (<strong>pBest</strong>). The swarm
-        also tracks the best spot found by <em>anyone</em> — <strong>gBest</strong>, the red dot. Those two memories are
-        what pull the particles back toward promising ground.
+        also tracks the best spot found by <em>anyone</em> — <strong>gBest</strong>, the larger ringed dot. Those two
+        memories are what pull the particles back toward promising ground.
       </>
     ),
   },
