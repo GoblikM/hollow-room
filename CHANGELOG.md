@@ -1,4 +1,24 @@
-## [$npm_package_version] - 2026-06-30
+## [$npm_package_version] - 2026-07-02
+
+### 🚀 Features
+
+- Add evolutionary test functions
+- Add PSO test functions and engine scaffold.
+- Implement PSO.evaluate to update pBest/gBest
+- Refactor PSO config and velocity update
+- Add HomeSection and interactive card styles
+- *(evolutionary)* Finish PSO engine with updatePosition and step
+- *(evolutionary)* Add PSO visualization with canvas, controls and guide
+
+### 🚜 Refactor
+
+- Reorganize evolutionary feature into components/ and logic/
+- Extract shared Colophon, GuideHeader and Slider into shared/ui
+
+### 📚 Documentation
+
+- *(evolutionary)* Make PsoGuide wording colour-agnostic
+## [0.3.5] - 2026-06-30
 
 ### 🚀 Features
 
