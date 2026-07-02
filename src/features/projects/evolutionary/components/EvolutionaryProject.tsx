@@ -8,6 +8,7 @@ export default function EvolutionaryProject() {
   const [activeId, setActiveId] = useState(EVOLUTIONARY_ALGORITHMS[0].id);
   const active = EVOLUTIONARY_ALGORITHMS.find((algo) => algo.id === activeId) ?? EVOLUTIONARY_ALGORITHMS[0];
   const ActiveDemo = active.Component;
+  const Guide = active.Guide;
 
   return (
     <div className={styles.shell}>
@@ -30,6 +31,8 @@ export default function EvolutionaryProject() {
       <div className={styles.stage}>
         <ActiveDemo />
       </div>
+
+      {Guide && <Guide />}
     </div>
   );
 }
