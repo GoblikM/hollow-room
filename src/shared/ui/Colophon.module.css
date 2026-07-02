@@ -1,0 +1,39 @@
+.colophon {
+  position: relative;
+  margin-top: 0.75rem;
+  padding: 2.1rem 1.9rem 1.8rem;
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  border: 1px solid var(--color-outline);
+  border-left: 2px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+.tab {
+  position: absolute;
+  top: -0.72rem;
+  left: 1.25rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius);
+  font-family: var(--font-pixel);
+  font-size: 0.64rem;
+  letter-spacing: 0.26em;
+  text-indent: 0.26em;
+  text-transform: uppercase;
+  color: #08060e;
+  background: var(--color-accent-bright);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--color-accent-bright) 40%, transparent);
+}
+
+.text {
+  margin: 0;
+  max-width: 44rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.text strong {
+  font-weight: 600;
+  color: var(--color-accent-bright);
+}

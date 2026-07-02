@@ -5,6 +5,7 @@ import Board from "./Board";
 import { maxTile } from "../logic/engine";
 import { SOLVERS } from "../logic/solvers";
 import { MANUAL_SLIDE_MS, SPEEDS, useGame2048 } from "../hooks/useGame2048";
+import Slider from "@/shared/ui/Slider";
 import styles from "./Game2048.module.css";
 
 function Stat({ label, value }: { label: string; value: React.ReactNode }) {
@@ -81,9 +82,7 @@ export default function Game2048() {
           <label className={styles.g2048StatLabel}>
             Speed <span className="text-accent-bright">{SPEEDS[g.speedIndex].label}</span>
           </label>
-          <input
-            className={styles.g2048Range}
-            type="range"
+          <Slider
             min={0}
             max={SPEEDS.length - 1}
             step={1}
@@ -98,9 +97,7 @@ export default function Game2048() {
           <label className={styles.g2048StatLabel}>
             Rollouts / move <span className="text-accent-bright">{g.simulations}</span>
           </label>
-          <input
-            className={styles.g2048Range}
-            type="range"
+          <Slider
             min={5}
             max={60}
             step={5}

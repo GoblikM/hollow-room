@@ -1,0 +1,30 @@
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-pixel);
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright);
+}
+
+.title {
+  font-size: clamp(1.4rem, 4.5vw, 2.1rem);
+  color: var(--color-fg);
+  line-height: 1.1;
+}
+
+.sub {
+  margin: 0 auto;
+  max-width: 38rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}

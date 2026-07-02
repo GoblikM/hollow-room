@@ -1,4 +1,6 @@
 import React from "react";
+import GuideHeader from "@/shared/ui/GuideHeader";
+import Colophon from "@/shared/ui/Colophon";
 import styles from "./ParticleSwarm.module.css";
 
 type Concept = {
@@ -76,14 +78,16 @@ const PARAMS: Param[] = [
 export default function PsoGuide() {
   return (
     <section className={styles.guide} aria-label="How particle swarm optimization works">
-      <header className={styles.guideHead}>
-        <p className={styles.eyebrow}>The idea</p>
-        <h2 className={`${styles.guideTitle} font-pixel text-glitch-soft`}>How the swarm searches</h2>
-        <p className={styles.guideSub}>
-          Particle Swarm Optimization mimics a flock: simple agents, sharing where they&apos;ve had luck, collectively
-          home in on the minimum. Tweak the panel above and watch the behaviour change.
-        </p>
-      </header>
+      <GuideHeader
+        eyebrow="The idea"
+        title="How the swarm searches"
+        subtitle={
+          <>
+            Particle Swarm Optimization mimics a flock: simple agents, sharing where they&apos;ve had luck, collectively
+            home in on the minimum. Tweak the panel above and watch the behaviour change.
+          </>
+        }
+      />
 
       <ol className={styles.ladder}>
         {CONCEPTS.map((c) => (
@@ -110,14 +114,11 @@ export default function PsoGuide() {
         ))}
       </div>
 
-      <aside className={styles.colophon}>
-        <span className={styles.colophonTab}>Origin</span>
-        <p className={styles.colophonText}>
-          Built as coursework for a metaheuristics module at university. The algorithm and its test functions began as a{" "}
-          <strong>Python notebook</strong> — since ported to TypeScript so the whole swarm runs live, right here in your
-          browser.
-        </p>
-      </aside>
+      <Colophon tab="Origin">
+        Built as coursework for a metaheuristics module at university. The algorithm and its test functions began as a{" "}
+        <strong>Python notebook</strong> — since ported to TypeScript so the whole swarm runs live, right here in your
+        browser.
+      </Colophon>
     </section>
   );
 }

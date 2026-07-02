@@ -1,4 +1,6 @@
 import React from "react";
+import GuideHeader from "@/shared/ui/GuideHeader";
+import Colophon from "@/shared/ui/Colophon";
 import styles from "./Game2048.module.css";
 
 type Method = {
@@ -69,14 +71,16 @@ const METHODS: Method[] = [
 export default function SolverGuide() {
   return (
     <section className={styles.g2048Guide} aria-label="How the solvers work">
-      <header className={styles.g2048GuideHead}>
-        <p className={styles.g2048Eyebrow}>The field</p>
-        <h2 className={`${styles.g2048GuideTitle} font-pixel text-glitch-soft`}>How the solvers think</h2>
-        <p className={styles.g2048GuideSub}>
-          Three ways to play the same game — from blind luck to statistical brute force. Pick one in the panel above and
-          watch the gap widen.
-        </p>
-      </header>
+      <GuideHeader
+        eyebrow="The field"
+        title="How the solvers think"
+        subtitle={
+          <>
+            Three ways to play the same game — from blind luck to statistical brute force. Pick one in the panel above
+            and watch the gap widen.
+          </>
+        }
+      />
 
       <ol className={styles.g2048Ladder}>
         {METHODS.map((m) => (
@@ -118,14 +122,11 @@ export default function SolverGuide() {
         ))}
       </ol>
 
-      <aside className={styles.g2048Colophon}>
-        <span className={`${styles.g2048ColophonTab} font-pixel`}>Origin</span>
-        <p className={`${styles.g2048ColophonText} font-mono`}>
-          Built as coursework for my <strong>Soft Computing &amp; Data Mining</strong> module at university. The game
-          logic and all three solvers began life as a Python notebook — since ported to TypeScript so the whole thing
-          runs live, right here in your browser.
-        </p>
-      </aside>
+      <Colophon tab="Origin">
+        Built as coursework for my <strong>Soft Computing &amp; Data Mining</strong> module at university. The game logic
+        and all three solvers began life as a Python notebook — since ported to TypeScript so the whole thing runs live,
+        right here in your browser.
+      </Colophon>
     </section>
   );
 }
