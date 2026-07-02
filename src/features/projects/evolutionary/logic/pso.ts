@@ -126,7 +126,8 @@ export class PSO {
         const randomCognitive = Math.random();
         const randomSocial = Math.random();
 
-        const cognitive = this.config.cognitiveWeight * randomCognitive * (this.pBestPositions[i][j] - this.positions[i][j]);
+        const cognitive =
+          this.config.cognitiveWeight * randomCognitive * (this.pBestPositions[i][j] - this.positions[i][j]);
         const social = this.config.socialWeight * randomSocial * (informant[j] - this.positions[i][j]);
 
         let velocity = this.inertia * this.velocities[i][j] + cognitive + social;
@@ -137,10 +138,29 @@ export class PSO {
   }
 
   // Krok 4: posune částice a ořízne je do rozsahu.
-  updatePosition(): void {}
+  updatePosition(): void {
+    for (let i = 0; i < this.config.popSize; i++) {
+      for (let j = 0; j < this.config.dimensions; j++) {
+        this.positions[i][j] += this.velocities[i][j];
+        this.positions[i][j] = clamp(this.positions[i][j], this.config.bounds[0], this.config.bounds[1]);
+      }
+    }
+  }
 
   // Krok 5: jedna iterace algoritmu (nahrazuje smyčku z optimize() v notebooku).
   step(): void {
-    // TODO
+    this.evaluate();
+    this.history.push(this.gBestScore);
+
+    if (this.config.inertiaLinear) {
+      this.inertia =
+        this.config.inertiaStart -
+        (this.iteration / this.config.maxIterations) * (this.config.inertiaStart - this.config.inertiaEnd);
+    }
+
+    this.updateVelocity();
+    this.updatePosition();
+
+    this.iteration++;
   }
 }
